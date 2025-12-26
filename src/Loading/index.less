@@ -1,0 +1,27 @@
+.loading_layout_box {
+    height: 100%;
+    width: 100%;
+
+    .loading_box {
+        position: relative;
+        top: 0;
+        height: 100%;
+        width: 100%;
+        z-index: 999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: rgba(242, 243, 245, 0.322);
+    }
+
+    .loading_content_box {
+        position: absolute;
+        top: 0;
+        z-index: 1;
+        width: 100%;
+    }
+
+    .loading_box_none {
+        display: none;
+    }
+}

@@ -1,0 +1,201 @@
+.admin_layout_box {
+  .admin_layout_logo_txt {
+    margin-left: 10px;
+    vertical-align: text-bottom;
+    font-size: 16px;
+    text-transform: uppercase;
+    display: inline-block;
+    font-weight: 700;
+    white-space: nowrap;
+    margin-bottom: 0;
+    animation: fadeRightIn___2_LaH .3s cubic-bezier(.645, .045, .355, 1);
+    animation-fill-mode: both;
+    background: linear-gradient(to right, #06bed8, #f305a4);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+  }
+
+  .admin_layout_sider_normal {
+    box-shadow: 0 0 28px 0 rgba(24, 144, 255, .1);
+    z-index: 10;
+  }
+
+  .admin_layout_sider_open {
+    flex: 0 0 256px !important;
+    max-width: 256px !important;
+    min-width: 256px !important;
+    width: 256px !important;
+  }
+
+  .admin_layout_sider_open_broken {
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    z-index: 88;
+
+    // 禁用侧边栏的过渡动画
+    &+.admin_layout_container {
+      transition: none !important;
+
+      .admin_layout_container_header_normal {
+        transition: none !important;
+      }
+    }
+  }
+
+  .admin_layout_logo {
+    z-index: 1;
+    height: 64px;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: center;
+    align-items: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    padding: 0 24px;
+    box-shadow: 0 1px 9px -3px rgba(0, 0, 0, .2);
+  }
+
+  .admin_layout_menu_container {
+    height: calc(100vh - 112px);
+    overflow-x: hidden;
+    -ms-flex: 1 1;
+    flex: 1 1;
+    padding: 24px 0;
+
+    .admin_layout_scrollbar_container {
+      position: relative;
+      height: 100%;
+      overflow: hidden !important;
+      overflow-anchor: none;
+      -ms-overflow-style: none;
+      touch-action: auto;
+      -ms-touch-action: auto;
+    }
+  }
+
+  .admin_layout_switch_theme {
+    width: 100%;
+    height: 48px;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    -ms-flex-align: center;
+    align-items: center;
+    padding: 0 16px;
+    overflow: hidden;
+    transition: all .3s;
+
+    .admin_layout_action_bulb {
+      min-width: 14px;
+      margin-right: 4px;
+      font-size: 14px;
+    }
+  }
+
+  .admin_layout_container_drawer_open {
+    position: fixed;
+    left: 0px;
+    width: 100%;
+  }
+
+  .admin_layout_container {
+    padding-top: 64px;
+    height: 100vh;
+    -ms-flex: 1 1;
+    flex: 1 1;
+    overflow-y: scroll;
+    overflow-x: hidden;
+
+    .ant-layout-content {
+      height: calc(100vh - 69px) !important;
+      position: relative;
+
+      .admin_layout_content_children {
+        position: relative;
+        height: 100%;
+        width: 100%;
+        margin: 5px;
+      }
+    }
+
+    .admin_layout_container_header_normal {
+      position: fixed;
+      top: 0;
+      right: 0;
+      z-index: 9;
+      transition: width .2s;
+      padding: 0;
+      box-shadow: 4px 4px 40px 0 rgba(0, 0, 0, .05);
+      display: -ms-flexbox;
+      display: flex;
+      -ms-flex-pack: justify;
+      justify-content: space-between;
+      height: 64px;
+      -ms-flex-align: center;
+      align-items: center;
+      background-color: #fff;
+    }
+
+    .admin_layout_container_header_open {
+      width: calc(100% - 256px);
+    }
+
+    .admin_layout_container_header_close {
+      width: calc(100% - 80px);
+    }
+
+    .admin_layout_container_header_broken {
+      width: calc(100% - 0px);
+    }
+
+    .admin_layout_sider_switch_button {
+      width: 64px;
+      height: 64px;
+      line-height: 64px;
+      text-align: center;
+      font-size: 18px;
+      cursor: pointer;
+      transition: all .3s ease-out;
+    }
+  }
+
+  .admin_layout_content_drawer {
+    width: 200px !important;
+  }
+
+  /** 滚动条整体样式*/
+  .admin_layout_container::-webkit-scrollbar {
+    width: 10px;
+    /*高宽分别对应横竖滚动条的尺寸*/
+    height: 5px;
+  }
+
+  /** 滚动条里面滑块*/
+  .admin_layout_container::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+    background: #c5c5c5;
+  }
+
+  /** 滚动条里面轨道*/
+  .admin_layout_container::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    background: #FFFFFF;
+  }
+
+  // 移动端禁用所有过渡动画
+  &.admin_layout_mobile {
+
+    .ant-layout,
+    .ant-layout-sider,
+    .admin_layout_container,
+    .admin_layout_container_header_normal {
+      transition: none !important;
+    }
+  }
+}

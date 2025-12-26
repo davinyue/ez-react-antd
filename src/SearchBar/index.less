@@ -1,0 +1,81 @@
+.table_search_bar {
+    min-height: 60px;
+    background: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    display: flex;
+    flex-wrap: wrap;
+
+    .table_search_item {
+        margin: 5px;
+
+        display: flex;
+        align-items: center;
+
+        .ant-form-item {
+            margin-bottom: 0px !important;
+        }
+    }
+
+    .table_search_menu_box {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: right;
+        width: 200px;
+        margin: 5px;
+
+        .table_search_menu_item {
+            margin: 0 5px;
+        }
+    }
+}
+
+// 移动端优化
+@media (max-width: 768px) {
+    .table_search_bar {
+        padding: 12px 8px;
+
+        .table_search_item {
+            width: 100%;
+            margin: 6px 0;
+
+            .ant-form-item {
+                .ant-form-item-label {
+                    label {
+                        font-size: 15px;
+                    }
+                }
+
+                .ant-form-item-control-input {
+                    min-height: 40px;
+
+                    .ant-input,
+                    .ant-select {
+                        font-size: 15px;
+                    }
+                }
+            }
+        }
+
+        .table_search_menu_box {
+            width: 100%;
+            justify-content: flex-end;
+            flex-wrap: wrap;
+            margin: 12px 0 0 0;
+
+            .table_search_menu_item {
+                margin: 6px 6px 6px 0;
+
+                button {
+                    height: 40px;
+                    font-size: 16px;
+                    padding: 0 20px;
+
+                    .anticon {
+                        font-size: 18px;
+                    }
+                }
+            }
+        }
+    }
+}

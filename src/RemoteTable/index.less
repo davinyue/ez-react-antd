@@ -1,0 +1,192 @@
+.romote_table_menu_box {
+    height: 40px;
+    display: flex;
+    align-items: center;
+}
+
+.remote_table_box {
+
+    .ant-table-expand-icon-col,
+    .ant-table-row-expand-icon-cell {
+        width: 30px !important;
+    }
+
+    .ant-table {
+        margin-inline: unset !important;
+    }
+
+    .ant-table-expanded-row-fixed {
+        padding: 8px 0px 8px 8px !important;
+    }
+}
+
+.romote_table_menu {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: right;
+}
+
+.romote_table_title {
+    color: rgba(0, 0, 0, 0.85);
+    font-size: 16px;
+    line-height: 24px;
+    opacity: 0.85;
+}
+
+// 移动端卡片样式
+.remote-table-mobile {
+    .remote-table-card {
+        margin-bottom: 12px;
+
+        .card-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 8px;
+            line-height: 1.5;
+
+            .label {
+                color: rgba(0, 0, 0, 0.45);
+                font-size: 14px;
+                white-space: nowrap;
+                margin-right: 12px;
+            }
+
+            .value {
+                flex: 1;
+                text-align: right;
+                word-break: break-all;
+                font-size: 14px;
+                color: rgba(0, 0, 0, 0.85);
+            }
+        }
+
+        .card-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid #f0f0f0;
+
+            .action-wrapper {
+                display: flex;
+                align-items: center;
+
+                .role_action {
+                    display: flex;
+                    gap: 12px;
+
+                    .anticon {
+                        font-size: 18px;
+                        cursor: pointer;
+                        transition: all 0.3s;
+
+                        &:active {
+                            transform: scale(0.95);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .mobile-pagination {
+        margin-top: 16px;
+        padding: 12px;
+        background: #fafafa;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .pagination-info {
+            color: rgba(0, 0, 0, 0.85);
+            font-size: 16px;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .ant-table {
+            display: none;
+        }
+
+        .ant-pagination {
+            display: flex;
+            align-items: center;
+
+            // 简洁模式样式优化
+            &.ant-pagination-simple {
+                display: flex;
+                align-items: center;
+
+                .ant-pagination-simple-pager {
+                    display: flex;
+                    align-items: center;
+
+                    input {
+                        width: 60px;
+                        height: 40px;
+                        font-size: 18px;
+                        font-weight: 500;
+                        text-align: center;
+                        border-radius: 6px;
+                        line-height: 40px;
+                    }
+
+                    .ant-pagination-slash {
+                        margin: 0 10px;
+                        font-size: 18px;
+                        font-weight: 500;
+                        line-height: 40px;
+                    }
+                }
+
+                .ant-pagination-prev,
+                .ant-pagination-next {
+                    height: 40px;
+                    line-height: 40px;
+                    min-width: 40px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+
+                    button {
+                        height: 40px;
+                        border-radius: 6px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+
+                        .anticon {
+                            font-size: 20px;
+                            line-height: 1;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // 操作按钮颜色
+    .action_preview {
+        color: #1890ff;
+    }
+
+    .action_download {
+        color: #52c41a;
+    }
+
+    .action_his_task {
+        color: #faad14;
+    }
+
+    .action_prediction {
+        color: #722ed1;
+    }
+
+    .action_delete {
+        color: #ff4d4f;
+    }
+}

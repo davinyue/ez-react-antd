@@ -1,0 +1,91 @@
+.davinyu_RemoteTableSelect_box {
+    display: inline-grid;
+    width: 100%;
+}
+
+.davinyu_RemoteTableSelect_wrap {
+    width: 100%;
+    height: auto;
+    outline: 0;
+    padding: 2px 7px 2px 7px;
+    min-height: 32px;
+    height: auto !important;
+    line-height: 1;
+    border: 1px solid #d9d9d9;
+    border-radius: 2px;
+    box-sizing: border-box;
+    transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+
+    &::after {
+        content: "";
+        display: block;
+        height: 0;
+        clear: both;
+    }
+}
+
+.davinyu_RemoteTableSelect_placeholder {
+    font-size: 13px;
+    color: #b9bdd4;
+    line-height: 28px;
+    text-align: left;
+}
+
+.davinyu_RemoteTableSelect_add_menu {
+    margin-top: 5px;
+    text-align: left;
+}
+
+.davinyu_RemoteTableSelect_add_modal {
+    height: 100%;
+    padding: 0;
+    margin: 0;
+
+    .ant-modal {
+        padding-bottom: 0;
+        margin: 0;
+    }
+
+    .ant-modal-content {
+        height: 100%;
+    }
+
+    .ant-modal-body {
+        background-color: #ffffff;
+        padding: 5px 20px !important;
+    }
+
+    .ant-modal-footer {
+        background-color: #ffffff;
+    }
+}
+
+.lochlan_RemoteTableSelect_option {
+    position: relative;
+    width: 100%;
+    color: #fff;
+    line-height: 28px;
+    margin: 2px 0;
+    padding: 0 22px 0 10px;
+    border-radius: 4px;
+    display: flex;
+
+    .lochlan_RemoteTableSelect_option_content {
+        line-height: 24px;
+    }
+
+    .lochlan_RemoteTableSelect_option_action {
+        width: 60px;
+        height: 24px;
+        text-align: right;
+        cursor: pointer;
+        position: absolute;
+        right: 0;
+
+        .lochlan_RemoteTableSelect_option_action_item {
+            font-size: 18px;
+            line-height: 100%;
+            margin-right: 10px;
+        }
+    }
+}
