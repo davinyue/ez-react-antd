@@ -1,14 +1,3 @@
-// import React from 'react';
-// import { Table, Divider, Card } from 'antd';
-// import { ColumnsType } from 'antd/es/table/InternalTable';
-// import { TableRowSelection, ExpandableConfig, Key } from 'antd/es/table/interface';
-// import { connect } from 'react-redux';
-// import { Dispatch } from 'redux';
-// import { PayloadAction } from 'ez-saga';
-// import compare from '@/utils/compare';
-// import Grid from '@/components/Grid';
-// import './index.less';
-
 import React from 'react';
 import { Table, Divider, Card } from 'antd';
 import type { ColumnsType } from 'antd/es/table';

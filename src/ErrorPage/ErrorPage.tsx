@@ -1,4 +1,3 @@
-
 import { Button, Result } from 'antd';
 import withRoute from '../hoc/withRoute';
 
