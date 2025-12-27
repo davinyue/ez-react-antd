@@ -1,15 +1,15 @@
 {
-    "name": "ez-antd",
+    "name": "ez-react-antd",
     "version": "0.1.0",
     "description": "基于 Ant Design 的公共组件库",
-    "main": "./dist/ez-antd.umd.js",
-    "module": "./dist/ez-antd.es.js",
+    "main": "./dist/ez-react-antd.umd.js",
+    "module": "./dist/ez-react-antd.es.js",
     "types": "./dist/index.d.ts",
     "exports": {
         ".": {
             "types": "./dist/index.d.ts",
-            "import": "./dist/ez-antd.es.js",
-            "require": "./dist/ez-antd.umd.js"
+            "import": "./dist/ez-react-antd.es.js",
+            "require": "./dist/ez-react-antd.umd.js"
         },
         "./style.css": "./dist/index.css"
     },
@@ -70,17 +70,15 @@
     "sideEffects": false,
     "repository": {
         "type": "git",
-        "url": "https://github.com/davinyue/ez-antd"
+        "url": "https://github.com/davinyue/ez-react-antd"
     },
-    "homepage": "https://github.com/davinyue/ez-antd",
+    "homepage": "https://github.com/davinyue/ez-react-antd",
     "keywords": [
         "react",
         "antd",
         "components",
         "ui"
     ],
-    "authors": [
-        "davinyue <davinyue@gmail.com> (https://github.com/davinyue)"
-    ],
+    "author": "davinyue <davinyue@gmail.com> (https://github.com/davinyue)",
     "license": "MIT"
 }

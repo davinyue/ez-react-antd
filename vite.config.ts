@@ -31,10 +31,10 @@ export default defineConfig({
             entry: resolve(__dirname, 'src/index.ts'),
             name: 'EzAntd',
             formats: ['es', 'umd'],
-            fileName: (format) => `ez-antd.${format}.js`,
+            fileName: (format) => `ez-react-antd.${format}.js`,
         },
         rollupOptions: {
-            // [external]: 告诉打包工具哪些第三方库不要打包进 ez-antd 中
+            // [external]: 告诉打包工具哪些第三方库不要打包进 ez-react-antd 中
             // 1. 减小包体积 (react, antd 等由宿主环境提供)
             // 2. 避免多实例冲突 (如 react 需要单例)
             // 3. 业务项目必须安装这些依赖

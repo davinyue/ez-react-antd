@@ -1,4 +1,4 @@
-# Ez-Antd
+# Ez-React-Antd
 
 基于 Ant Design 的 React 组件库，提供开箱即用的业务组件。
 
@@ -12,15 +12,15 @@
 
 ## 安装
 
-### 1. 安装 ez-antd
+### 1. 安装 ez-react-antd
 
 ```bash
-npm install ez-antd
+npm install ez-react-antd
 ```
 
 ### 2. 安装必需的 Peer Dependencies
 
-Ez-antd 需要以下依赖，请确保您的项目中已安装：
+Ez-react-antd 需要以下依赖，请确保您的项目中已安装：
 
 ```bash
 npm install react react-dom antd react-redux react-router
@@ -52,7 +52,7 @@ npm install antd-img-crop
 在应用入口文件中配置 `ConfigProvider`：
 
 ```tsx
-import { ConfigProvider } from 'ez-antd';
+import { ConfigProvider } from 'ez-react-antd';
 import axios from 'axios';
 
 function App() {
@@ -72,7 +72,7 @@ function App() {
 ### 2. 使用组件
 
 ```tsx
-import { RemoteTable, AdminLayout } from 'ez-antd';
+import { RemoteTable, AdminLayout } from 'ez-react-antd';
 
 // RemoteTable 示例
 function UserList() {
@@ -172,14 +172,14 @@ npm run lint
 
 ## 本地开发调试
 
-如果需要在本地项目中调试 ez-antd：
+如果需要在本地项目中调试 ez-react-antd：
 
 ```bash
-# 在 ez-antd 目录
+# 在 ez-react-antd 目录
 npm run link:watch
 
 # 在业务项目目录
-npm link ez-antd
+npm link ez-react-antd
 ```
 
 ## License
