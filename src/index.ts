@@ -20,7 +20,8 @@ export { default as NotAuthorizedPage } from './NotAuthorizedPage';
 export { default as Redirect } from './Redirect';
 export { default as withRoute } from './hoc/withRoute';
 export { ConfigProvider, useConfig, ConfigContext } from './ConfigProvider';
-
+export { default as DrawerRemoteTableSelect } from './DrawerRemoteTableSelect';
+export { default as ModalAvatar } from './ModalAvatar';
 // 类型导出
 export type { WidthType, GridProp, UseResponsiveResult } from './Grid';
 export type { LoadingProp } from './Loading';

@@ -9,44 +9,51 @@ import compare from '../utils/compare';
 import Grid from '../Grid';
 import './index.less';
 
+/**
+ * 远程数据表格组件属性接口
+ */
 export interface RemoteTableProp {
-  /** 需要参数才发起请求 */
+  /** 是否需要查询参数才发起请求，默认 false */
   needQueryParam?: boolean;
-  /** 行key */
+  /** 行主键字段名，默认 'id' */
   primaryKey?: string;
-  /** model名称 */
+  /** Redux 模块名称 */
   modelName: string;
-  /** 查询参数 */
+  /** 查询参数对象 */
   queryParam?: { [key: string]: any };
-  /** 查询方法 */
+  /** Redux action 中的查询方法名，默认 'getPageInfo' */
   queryMethod?: string,
-  /** 查询参数名称, 存储到store */
+  /** 查询参数在 Redux store 中的字段名，默认 'queryParam' */
   paramName?: string;
-  /** 数据存储参数名称, 存储到store */
+  /** 分页数据在 Redux store 中的字段名，默认 'pageData' */
   dataStore?: string;
-  /** action派发函数, 由hoc提供 */
+  /** Redux dispatch 函数，由 connect HOC 注入 */
   dispatch?: Dispatch<PayloadAction>;
-  /** loading状态, 由hoc提供 */
+  /** 加载状态，由 connect HOC 注入 */
   loading?: boolean;
-  /** 分页数据, 由hoc提供 */
+  /** 分页数据，由 connect HOC 注入 */
   pageData?: any;
+  /** 子组件，通常是操作按钮 */
   children?: React.ReactNode | React.ReactNode[];
   /** 表格标题 */
   title?: string;
-  /** 表格列 */
+  /** 表格列配置 */
   columns: ColumnsType<any>;
-  /** 表格选中事件 */
+  /** 表格行选择配置 */
   rowSelection?: TableRowSelection<any>;
-  /** 横向滚动条出现减去的宽度 */
+  /** 横向滚动条出现时减去的宽度，默认 0 */
   scrollSub?: number;
-  /** 不显示loading状态 */
+  /** 是否不显示 loading 状态，默认 false */
   notShowLoading?: boolean,
   /** 展开配置 */
   expandable?: ExpandableConfig<any>
-  /** 是否展示表头 */
+  /** 是否显示表头，默认 true */
   showHeader?: boolean
 }
 
+/**
+ * 远程数据表格组件状态接口
+ */
 export interface RemoteTableState {
   /** 浏览器窗口宽度 */
   clientWidth: number;
@@ -54,6 +61,19 @@ export interface RemoteTableState {
   isMobile: boolean;
 }
 
+/**
+ * 远程数据表格组件
+ * 从远程 API 加载分页数据，支持响应式布局
+ * 移动端显示为卡片列表，桌面端显示为表格
+ * 与 Redux 集成，自动管理加载状态和分页数据
+ * 
+ * @example
+ * <RemoteTable 
+ *   modelName="user"
+ *   columns={columns}
+ *   queryParam={{ status: 'active' }}
+ * />
+ */
 class RemoteTable extends React.Component<RemoteTableProp, RemoteTableState> {
   ref: React.RefObject<HTMLDivElement | null>;
 

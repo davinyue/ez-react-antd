@@ -9,18 +9,49 @@ import { LAYOUT_CONFIG, THEME, ThemeType } from './constants';
 
 const { Header, Sider, Content } = Layout;
 
+/**
+ * 后台管理布局组件属性接口
+ * 继承自 HeaderMenuProp，包含头部菜单的所有属性
+ */
 export interface AdminLayoutProp extends HeaderMenuProp {
-  /** 菜单 */
+  /** 侧边栏菜单配置数组 */
   menus: Array<MenuDef>;
+  /** 内容区域的子组件 */
   children?: React.ReactNode;
-  /** 系统名称 */
+  /** 系统名称，显示在侧边栏顶部，默认 'System' */
   appName?: string;
-  /** 系统图标 */
+  /** 系统图标 URL，显示在侧边栏顶部，默认使用内置图标 */
   appIcon?: string;
 }
 
 /**
  * 后台管理布局组件
+ * 提供完整的后台管理系统布局，包括侧边栏菜单、顶部导航、内容区域
+ * 支持响应式设计，自动适配移动端和桌面端
+ * 支持亮色/暗色主题切换
+ * 
+ * @example
+ * // 基本用法
+ * <AdminLayout 
+ *   menus={menuConfig}
+ *   appName="管理系统"
+ *   userInfo={currentUser}
+ *   onLogout={handleLogout}
+ * >
+ *   <YourContent />
+ * </AdminLayout>
+ * 
+ * // 自定义图标和修改密码
+ * <AdminLayout 
+ *   menus={menuConfig}
+ *   appName="ERP系统"
+ *   appIcon="/logo.png"
+ *   userInfo={currentUser}
+ *   onLogout={handleLogout}
+ *   onModifyPassword={handleModifyPassword}
+ * >
+ *   <Dashboard />
+ * </AdminLayout>
  */
 const AdminLayout: React.FC<AdminLayoutProp> = ({
   menus,
@@ -45,19 +76,27 @@ const AdminLayout: React.FC<AdminLayoutProp> = ({
     return <>{children}</>;
   }
 
-  // 切换侧边栏展开/收起
+  /**
+   * 切换侧边栏展开/收起状态
+   */
   const toggleCollapsed = () => {
     setCollapsed(!collapsed);
   };
 
-  // 移动端点击菜单项后自动收起
+  /**
+   * 处理菜单点击事件
+   * 移动端点击菜单项后自动收起侧边栏
+   */
   const handleMenuClick = () => {
     if (isMobile) {
       setCollapsed(true);
     }
   };
 
-  // 获取内容区域类名
+  /**
+   * 获取内容区域的 CSS 类名
+   * @returns 内容区域类名
+   */
   const getContentClass = () => {
     if (isMobile && !collapsed) {
       return 'admin_layout_container admin_layout_container_drawer_open';
@@ -65,7 +104,11 @@ const AdminLayout: React.FC<AdminLayoutProp> = ({
     return 'admin_layout_container';
   };
 
-  // 获取头部类名
+  /**
+   * 获取头部的 CSS 类名
+   * 根据设备类型和侧边栏状态返回不同的类名
+   * @returns 头部类名
+   */
   const getHeaderClass = () => {
     if (isMobile) {
       return 'admin_layout_container_header_normal admin_layout_container_header_broken';
@@ -76,7 +119,11 @@ const AdminLayout: React.FC<AdminLayoutProp> = ({
     return 'admin_layout_container_header_normal admin_layout_container_header_open';
   };
 
-  // 获取侧边栏类名
+  /**
+   * 获取侧边栏的 CSS 类名
+   * 根据展开状态和设备类型返回不同的类名
+   * @returns 侧边栏类名
+   */
   const getSiderClass = () => {
     const baseClass = 'admin_layout_sider_normal';
 

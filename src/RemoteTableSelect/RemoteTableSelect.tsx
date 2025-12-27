@@ -5,25 +5,62 @@ import compare from '../utils/compare';
 import { v1 as uuidV1 } from '../utils/uuid';
 import './index.less';
 
+/**
+ * 远程表格选择组件属性接口
+ * 继承自 RemoteTableProp
+ */
 export interface RemoteTableSelectProp extends RemoteTableProp {
-    /** 超选提示 */
+    /** 占位提示文本 */
     placeholder?: string,
+    /** 最大可选数量，默认无限制 */
     limit?: number,
-    /** 显示的属性名称，如果labelRender被传入，则该配置失效 */
+    /** 显示的属性名，如果 labelRender 被传入则该配置失效，默认 'name' */
     labelKey?: string,
+    /**
+     * 自定义标签渲染函数
+     * @param item 数据项
+     * @returns 显示文本
+     */
     labelRender?: (item: any) => string,
+    /** 是否显示排序按钮，默认 false */
     showSort?: boolean,
+    /** 是否禁用，默认 false */
     disabled?: boolean,
+    /**
+     * 选中值改变事件
+     * @param value 选中的数据数组
+     */
     onChange?: (any: any) => void,
+    /** 当前选中值 */
     value?: any
 }
 
+/**
+ * 远程表格选择组件状态接口
+ */
 export interface RemoteTableSelectState {
+    /** 是否显示选择表格模态框 */
     showTable: boolean,
+    /** 临时选中的行主键数组（未确认） */
     selectedRowTempKeys: Array<any>,
+    /** 已确认选中的行主键数组 */
     selectedRowKeys: Array<any>,
 }
 
+/**
+ * 远程表格选择组件
+ * 在模态框中显示远程表格，支持多选、排序、删除等功能
+ * 选中的项以彩色标签形式显示
+ * 
+ * @example
+ * <RemoteTableSelect 
+ *   modelName="product"
+ *   columns={columns}
+ *   labelKey="name"
+ *   limit={5}
+ *   onChange={(selected) => console.log(selected)}
+ * />
+ */
 class RemoteTableSelect extends React.Component<RemoteTableSelectProp, RemoteTableSelectState> {
     bgc: Array<string>;
     optionColor: { [key: string]: string };
