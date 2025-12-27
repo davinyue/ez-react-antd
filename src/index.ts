@@ -2,7 +2,6 @@
 export { default as Grid, useResponsive } from './Grid';
 export { default as Loading } from './Loading';
 export { default as Drawer } from './Drawer';
-export { default as Auth, AuthProvider, useAuth } from './Auth';
 export { default as RemoteSelect } from './RemoteSelect';
 export { default as RemoteTable } from './RemoteTable';
 export { default as SearchBar } from './SearchBar';
@@ -26,7 +25,6 @@ export { ConfigProvider, useConfig, ConfigContext } from './ConfigProvider';
 export type { WidthType, GridProp, UseResponsiveResult } from './Grid';
 export type { LoadingProp } from './Loading';
 export type { DrawerClassProps } from './Drawer';
-export type { AuthProp, AuthContextType } from './Auth';
 export type { RemoteSelectProp } from './RemoteSelect';
 export type { RemoteTableProp } from './RemoteTable';
 export type { LinkProp } from './Link';
@@ -38,3 +36,7 @@ export type { RemoteModalSelectProp } from './RemoteModalSelect';
 export type { IconSelectProps } from './IconSelect';
 export type { AdminLayoutProp, MenuDef } from './AdminLayout';
 export type { EzAntdConfig } from './ConfigProvider';
+
+// 重新导出 antd 常用类型,确保类型一致性
+export type { ColumnsType, ColumnType } from 'antd/es/table';
+export type { TableRowSelection } from 'antd/es/table/interface';

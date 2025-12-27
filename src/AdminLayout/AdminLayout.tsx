@@ -25,7 +25,7 @@ export interface AdminLayoutProp extends HeaderMenuProp {
 const AdminLayout: React.FC<AdminLayoutProp> = ({
   menus,
   children,
-  appName = 'Ez Admin',
+  appName = 'System',
   appIcon = defaultAppIcon,
   // HeaderMenu Props
   userInfo,
