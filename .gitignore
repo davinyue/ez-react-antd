@@ -105,3 +105,11 @@ lib
 .tern-port
 
 package-lock.json
+*storybook.log
+storybook-static
+
+# Test coverage
+coverage/
+
+# Vitest
+.vitest/
