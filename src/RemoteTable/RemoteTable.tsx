@@ -55,7 +55,7 @@ export interface RemoteTableProp {
  * 远程数据表格组件状态接口
  */
 export interface RemoteTableState {
-  /** 浏览器窗口宽度 */
+  /** 容器宽度 */
   clientWidth: number;
   /** 是否是移动端 */
   isMobile: boolean;
@@ -76,6 +76,7 @@ export interface RemoteTableState {
  */
 class RemoteTable extends React.Component<RemoteTableProp, RemoteTableState> {
   ref: React.RefObject<HTMLDivElement | null>;
+  resizeObserver: ResizeObserver | null = null;
 
   static defaultProps = {
     primaryKey: 'id',
@@ -93,46 +94,40 @@ class RemoteTable extends React.Component<RemoteTableProp, RemoteTableState> {
     this.ref = React.createRef();
     this.loadingData = this.loadingData.bind(this);
     this.handleGridChange = this.handleGridChange.bind(this);
-    this.getWindowWidth = this.getWindowWidth.bind(this);
     this.handlePageChange = this.handlePageChange.bind(this);
     this.handleShowSizeChange = this.handleShowSizeChange.bind(this);
     this.getRowKey = this.getRowKey.bind(this);
     this.showTotal = this.showTotal.bind(this);
 
     this.state = {
-      clientWidth: this.getWindowWidth(),
+      clientWidth: 0,
       isMobile: false,
     };
   }
 
-  getWindowWidth(): number {
-    const width =
-      window.innerWidth ||
-      document.documentElement.clientWidth ||
-      document.body.clientWidth;
-    return width + 1;
-  }
-
   handleGridChange(type: string) {
-    const currentDom = this.ref.current;
     const isMobile = type === 'xs' || type === 'sm';
-
-    if (currentDom) {
-      const { clientWidth } = currentDom;
-      // 只有宽度或移动端状态改变时才更新state
-      if (clientWidth !== this.state.clientWidth || isMobile !== this.state.isMobile) {
-        this.setState({
-          clientWidth: clientWidth,
-          isMobile: isMobile,
-        });
-      }
+    if (isMobile !== this.state.isMobile) {
+      this.setState({ isMobile });
     }
   }
 
   componentDidMount() {
     this.loadingData();
-    // 初始化时获取一次宽度
-    // handleGridChange 现在需要 type 参数,这里不调用,等 Grid onChange 触发
+
+    // 使用 ResizeObserver 监听容器尺寸变化
+    const container = this.ref.current;
+    if (container) {
+      this.resizeObserver = new ResizeObserver((entries) => {
+        for (const entry of entries) {
+          const width = entry.contentRect.width;
+          if (width > 0 && width !== this.state.clientWidth) {
+            this.setState({ clientWidth: width });
+          }
+        }
+      });
+      this.resizeObserver.observe(container);
+    }
   }
 
   componentDidUpdate(prevProps: RemoteTableProp) {
@@ -142,6 +137,14 @@ class RemoteTable extends React.Component<RemoteTableProp, RemoteTableState> {
       modelName !== prevProps.modelName
     ) {
       this.loadingData();
+    }
+  }
+
+  componentWillUnmount() {
+    // 清理 ResizeObserver
+    if (this.resizeObserver) {
+      this.resizeObserver.disconnect();
+      this.resizeObserver = null;
     }
   }
 
