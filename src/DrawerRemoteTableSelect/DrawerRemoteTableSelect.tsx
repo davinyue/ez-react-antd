@@ -211,7 +211,7 @@ class RemoteTableSelect extends React.Component<RemoteTableSelectProp, RemoteTab
     delete tableProps.children;
     return (
       <Drawer
-        title={this.props.title} destroyOnClose
+        title={this.props.title} destroyOnHidden
         open={this.props.open}
         onClose={() => {
           this.setState({ selectedRowTempKeys: selectedRowKeys });
