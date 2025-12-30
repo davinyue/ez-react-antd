@@ -49,11 +49,6 @@ export interface DrawerClassProps extends DrawerProps {
    * @default false
    */
   destroyOnHidden?: boolean;
-  /**
-   * 关闭时隐藏子元素（推荐使用，性能更好）
-   * @default false
-   */
-  destroyOnHidden?: boolean;
   /** 
    * 抽屉的 z-index
    * @default 1000
@@ -101,7 +96,6 @@ class DrawerClass extends React.Component<DrawerClassProps> {
     closeTxt: '关闭',
     placement: 'right',
     width: 378,
-    destroyOnHidden: false,
     destroyOnHidden: false,
     mask: true,
     maskClosable: true,

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Tree, Tooltip, Input, Button } from 'antd';
+import { Tree, Tooltip, Input } from 'antd';
 import compare from '../utils/compare';
 import mergeObj from '../utils/mergeObj';
 import { DeleteOutlined, EditOutlined, PlusSquareOutlined } from '@ant-design/icons';
@@ -33,18 +33,20 @@ export interface RemoteTreeProp {
   // ==================== UI 显示控制 ====================
   /** 是否显示顶部搜索框 */
   showSearch?: boolean;
-  /** 是否显示顶部添加按钮 */
-  showAdd?: boolean;
   /** 是否显示节点的添加子级按钮 */
   showAddSon?: boolean;
   /** 是否显示节点的编辑按钮 */
   showEdit?: boolean;
   /** 是否显示节点的删除按钮 */
   showDelete?: boolean;
-  /** 顶部添加按钮的文本，默认 '新增' */
-  addMenuName?: string;
 
   // ==================== 事件回调 ====================
+  /**
+   * 组件就绪事件
+   * 在组件挂载后调用,传递刷新方法供外部使用
+   * @param refresh 刷新树数据的方法
+   */
+  onReady?: (refresh: () => Promise<void>) => void;
   /**
    * 加载子节点数据时的参数生成函数
    * @param node 当前节点数据
@@ -61,11 +63,6 @@ export interface RemoteTreeProp {
    * @param value 搜索关键字
    */
   onSearch?: (value: any) => void;
-  /**
-   * 点击顶部添加按钮事件
-   * @param callback 成功回调函数，调用时传入新增的节点数据
-   */
-  onClickAdd?: (callback: (sourceData: any) => void) => void;
   /**
    * 点击节点添加子级按钮事件
    * @param node 当前节点的原始数据
@@ -120,9 +117,7 @@ class RemoteTree extends React.Component<RemoteTreeProp, RemoteTreeState> {
     showAddSon: false,
     showDelete: false,
     showSearch: false,
-    showAdd: false,
-    returnSourceData: false,
-    addMenuName: '新增'
+    returnSourceData: false
   };
   static contextType = ConfigContext;
   declare context: EzAntdConfig;
@@ -135,7 +130,6 @@ class RemoteTree extends React.Component<RemoteTreeProp, RemoteTreeState> {
     };
     this.loadSonData = this.loadSonData.bind(this);
     this.handleAddSon = this.handleAddSon.bind(this);
-    this.handleAdd = this.handleAdd.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
     this.handleEdit = this.handleEdit.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
@@ -196,23 +190,6 @@ class RemoteTree extends React.Component<RemoteTreeProp, RemoteTreeState> {
         let treeDatas = this.state.treeDatas;
         this.keyMapNode[treeData.key] = treeData;
         this.keyMapParentKey[treeData.key] = node.key;
-        this.setState({ treeDatas: [...treeDatas] });
-      });
-    }
-  }
-
-  /**
-   * 处理顶部添加按钮点击事件
-   * 在根级别添加新节点
-   */
-  handleAdd() {
-    if (this.props.onClickAdd) {
-      this.props.onClickAdd((sourceData) => {
-        sourceData.isLeaf = true;
-        let treeData = this.createTreeDataBySourceData(sourceData);
-        let treeDatas = this.state.treeDatas;
-        treeDatas.unshift(treeData);
-        this.keyMapNode[treeData.key] = treeData;
         this.setState({ treeDatas: [...treeDatas] });
       });
     }
@@ -369,6 +346,10 @@ class RemoteTree extends React.Component<RemoteTreeProp, RemoteTreeState> {
 
   componentDidMount() {
     this.loadFirstData();
+    // 组件挂载后,将刷新方法传递给外部
+    if (this.props.onReady) {
+      this.props.onReady(this.loadFirstData.bind(this));
+    }
   }
 
   async componentDidUpdate(prevProps: RemoteTreeProp) {
@@ -403,7 +384,7 @@ class RemoteTree extends React.Component<RemoteTreeProp, RemoteTreeState> {
   }
 
   render() {
-    let showTopMenu = this.props.showAdd || this.props.showSearch;
+    let showTopMenu = this.props.showSearch;
     return (
       <>
         {showTopMenu ? (
@@ -416,13 +397,6 @@ class RemoteTree extends React.Component<RemoteTreeProp, RemoteTreeState> {
                 size='middle'
                 onSearch={this.handleSearch}
               />
-            ) : (<></>)}
-            {this.props.showAdd ? (
-              <div className='remote_tree_top_add'>
-                <Button type='primary' block onClick={this.handleAdd}>
-                  {this.props.addMenuName}
-                </Button>
-              </div>
             ) : (<></>)}
           </div>
         ) : (<></>)}
