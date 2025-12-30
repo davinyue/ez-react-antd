@@ -1,6 +1,6 @@
 {
   "name": "ez-react-antd",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "基于 Ant Design 的公共组件库",
   "main": "./dist/ez-react-antd.umd.js",
   "module": "./dist/ez-react-antd.es.js",
