@@ -30,6 +30,7 @@
   .remote_tree_title_box {
     width: 100% !important;
     display: flex;
+    align-items: center;
   }
 
   .remote_tree_title {
@@ -46,20 +47,46 @@
   }
 
   .remote_tree_menu_delete {
-    //margin: 0 10px 0 0;
     margin: 0 0 0 0;
   }
 
-  .action_edit {
+  /** 统一的图标样式 */
+  .tree-icon {
     font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &:hover {
+      transform: scale(1.2);
+    }
   }
 
-  .action_delete {
-    font-size: 16px;
-    color: #ff0000;
+  /** 新增图标 - 绿色 */
+  .tree-icon-add {
+    color: #52c41a;
+
+    &:hover {
+      color: #73d13d;
+    }
   }
 
+  /** 编辑图标 - 蓝色 */
+  .tree-icon-edit {
+    color: #1890ff;
 
+    &:hover {
+      color: #40a9ff;
+    }
+  }
+
+  /** 删除图标 - 红色 */
+  .tree-icon-delete {
+    color: #ff4d4f;
+
+    &:hover {
+      color: #ff7875;
+    }
+  }
 }
 
 .remote_tree_top_menu_box {
@@ -82,10 +109,5 @@
 
   .remote_tree_top_add {
     width: 100%;
-    // .ant-btn {
-    //   border-radius: 5px !important;
-    //   background-color: #59574c !important;
-    //   border-color: #adad90;
-    // }
   }
 }

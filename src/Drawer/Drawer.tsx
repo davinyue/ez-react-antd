@@ -48,7 +48,7 @@ export interface DrawerClassProps extends DrawerProps {
    * 关闭时销毁子元素
    * @default false
    */
-  destroyOnClose?: boolean;
+  destroyOnHidden?: boolean;
   /**
    * 关闭时隐藏子元素（推荐使用，性能更好）
    * @default false
@@ -101,7 +101,7 @@ class DrawerClass extends React.Component<DrawerClassProps> {
     closeTxt: '关闭',
     placement: 'right',
     width: 378,
-    destroyOnClose: false,
+    destroyOnHidden: false,
     destroyOnHidden: false,
     mask: true,
     maskClosable: true,

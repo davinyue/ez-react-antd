@@ -2,10 +2,8 @@ import React from 'react';
 import { Tree, Tooltip, Input, Button } from 'antd';
 import compare from '../utils/compare';
 import mergeObj from '../utils/mergeObj';
-import { DeleteTwoTone, EditTwoTone } from '@ant-design/icons';
+import { DeleteOutlined, EditOutlined, PlusSquareOutlined } from '@ant-design/icons';
 import { v1 as uuidv1 } from '../utils/uuid';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSquarePlus } from '@fortawesome/free-solid-svg-icons';
 import { ConfigContext, EzAntdConfig } from '../ConfigProvider';
 import './index.less';
 
@@ -444,7 +442,10 @@ class RemoteTree extends React.Component<RemoteTreeProp, RemoteTreeState> {
                   this.props.showAddSon ? (
                     <div className='remote_tree_menu_add'>
                       <Tooltip placement='top' title='添加子级'>
-                        <FontAwesomeIcon icon={faSquarePlus} onClick={(event) => this.handleAddSon(event, node)} />
+                        <PlusSquareOutlined
+                          className='tree-icon tree-icon-add'
+                          onClick={(event) => this.handleAddSon(event, node)}
+                        />
                       </Tooltip>
                     </div>)
                     :
@@ -454,8 +455,8 @@ class RemoteTree extends React.Component<RemoteTreeProp, RemoteTreeState> {
                   this.props.showEdit ? (
                     <div className='remote_tree_menu_edit'>
                       <Tooltip placement='top' title='修改'>
-                        <EditTwoTone
-                          className='action_edit'
+                        <EditOutlined
+                          className='tree-icon tree-icon-edit'
                           onClick={(event) => this.handleEdit(event, node)} />
                       </Tooltip>
                     </div>)
@@ -466,7 +467,8 @@ class RemoteTree extends React.Component<RemoteTreeProp, RemoteTreeState> {
                   this.props.showDelete ? (
                     <div className='remote_tree_menu_delete'>
                       <Tooltip placement='top' title='删除'>
-                        <DeleteTwoTone className='action_delete' twoToneColor='#ff0000'
+                        <DeleteOutlined
+                          className='tree-icon tree-icon-delete'
                           onClick={(event) => this.handleDelete(event, node)} />
                       </Tooltip>
                     </div>)
