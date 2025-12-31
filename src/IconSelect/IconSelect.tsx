@@ -224,7 +224,7 @@ class IconSelect extends React.Component<IconSelectProps, IconSelectState> {
               width: this.state.selectWidth,
             }),
           }}
-          menuIsOpen
+          //menuIsOpen, 打开下拉菜单好调整样式
           onChange={(option: OnChangeValue<Option, false>) => {
             let value: string | undefined;
             if (option) {
