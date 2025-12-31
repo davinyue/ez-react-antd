@@ -23,6 +23,7 @@ export { default as withRoute } from './hoc/withRoute';
 export { ConfigProvider, useConfig, ConfigContext } from './ConfigProvider';
 export { default as DrawerRemoteTableSelect } from './DrawerRemoteTableSelect';
 export { default as ModalAvatar } from './ModalAvatar';
+export { default as TableActions } from './TableActions';
 // 类型导出
 export type { WidthType, GridProp, UseResponsiveResult } from './Grid';
 export type { LoadingProp } from './Loading';
@@ -39,6 +40,7 @@ export type { IconSelectProps } from './IconSelect';
 export type { IconShowProps } from './IconSelect/IconShow';
 export type { AdminLayoutProp, MenuDef } from './AdminLayout';
 export type { EzAntdConfig } from './ConfigProvider';
+export type { ActionConfig, ActionType, TableActionsProps } from './TableActions';
 
 // 重新导出 antd 常用类型,确保类型一致性
 export type { ColumnsType, ColumnType } from 'antd/es/table';

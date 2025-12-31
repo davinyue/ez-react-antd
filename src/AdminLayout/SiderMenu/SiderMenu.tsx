@@ -2,6 +2,7 @@ import React, { useState, useMemo, useCallback } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 import { Menu } from 'antd';
 import type { MenuProps } from 'antd';
+import { useConfig } from '../../ConfigProvider';
 
 export interface MenuDef {
   /** 菜单id */
@@ -46,15 +47,43 @@ const SiderMenu: React.FC<SiderMenuProp> = ({
 }) => {
   const location = useLocation();
   const navigate = useNavigate();
+  const { hasPermission, hasRole } = useConfig();
 
   // 用于控制用户手动展开/收起的菜单
   const [userOpenKeys, setUserOpenKeys] = useState<string[] | undefined>(undefined);
+
+  /**
+   * 检查菜单是否有权限显示
+   */
+  const checkMenuPermission = useCallback((menu: MenuDef): boolean => {
+    // 如果 show 明确设置为 false,则不显示
+    if (menu.show === false) {
+      return false;
+    }
+
+    // 检查权限
+    if (menu.permission !== undefined && hasPermission) {
+      if (!hasPermission(menu.permission)) {
+        return false;
+      }
+    }
+
+    // 检查角色
+    if (menu.role !== undefined && hasRole) {
+      if (!hasRole(menu.role)) {
+        return false;
+      }
+    }
+
+    return true;
+  }, [hasPermission, hasRole]);
 
   // 构建菜单项
   const constructMenu = useCallback((menuList: Array<MenuDef>): MenuProps['items'] => {
     const items: MenuProps['items'] = [];
     for (const menu of menuList) {
-      if (menu.show === false) {
+      // 检查菜单权限
+      if (!checkMenuPermission(menu)) {
         continue;
       }
 
@@ -65,17 +94,23 @@ const SiderMenu: React.FC<SiderMenuProp> = ({
           label: menu.title,
         });
       } else {
-        items.push({
-          key: menu.id,
-          icon: menu.icon,
-          label: menu.title,
-          children: constructMenu(menu.childrens),
-        });
+        // 递归构建子菜单
+        const children = constructMenu(menu.childrens);
+
+        // 如果子菜单全部被过滤掉,则父菜单也不显示
+        if (children && children.length > 0) {
+          items.push({
+            key: menu.id,
+            icon: menu.icon,
+            label: menu.title,
+            children: children,
+          });
+        }
       }
     }
 
     return items;
-  }, []);
+  }, [checkMenuPermission]);
 
   // 获取菜单映射 (id -> menu)
   const menuMap = useMemo(() => {

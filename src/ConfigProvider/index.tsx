@@ -112,6 +112,23 @@ export interface EzAntdConfig {
    * @returns Promise 响应
    */
   upload?: (url: string, formData: FormData) => Promise<any>;
+  /**
+   * 判断用户是否已登录
+   * @returns 是否已登录
+   */
+  isAuthenticated?: () => boolean;
+  /**
+   * 判断是否拥有权限
+   * @param permission 权限标识,支持单个权限、权限数组、undefined 或 null
+   * @returns 是否拥有权限
+   */
+  hasPermission?: (permission: string | string[] | undefined | null) => boolean;
+  /**
+   * 判断是否拥有角色
+   * @param role 角色标识,支持单个角色、角色数组、undefined 或 null
+   * @returns 是否拥有角色
+   */
+  hasRole?: (role: string | string[] | undefined | null) => boolean;
 }
 
 /** 默认配置 */
@@ -138,6 +155,18 @@ const defaultConfig: EzAntdConfig = {
     // 默认假设标准 Axios 响应结构: { status: 200, data: { code: 0 } }
     return response?.status === 200 && response?.data?.code === 0;
   },
+  isAuthenticated: () => {
+    console.warn('EzAntd: isAuthenticated method not configured');
+    return false;
+  },
+  hasPermission: (_permission: string | string[] | undefined | null) => {
+    console.warn('EzAntd: hasPermission method not configured');
+    return false;
+  },
+  hasRole: (_role: string | string[] | undefined | null) => {
+    console.warn('EzAntd: hasRole method not configured');
+    return false;
+  },
 };
 
 /** 全局配置 Context */
@@ -158,11 +187,15 @@ export const useConfig = () => useContext(ConfigContext);
  * @example
  * import { ConfigProvider } from 'ez-react-antd';
  * import request from './utils/request';
+ * import { isAuthenticated, hasPermission, hasRole } from './utils/auth';
  * 
  * <ConfigProvider value={{
  *   request: request,
  *   responseIsSuccess: (res) => res.status === 200 && res.data.code === 0,
- *   upload: (url, formData) => request.postRequest(url, formData)
+ *   upload: (url, formData) => request.postRequest(url, formData),
+ *   isAuthenticated: () => isAuthenticated(),
+ *   hasPermission: (permission) => hasPermission(permission),
+ *   hasRole: (role) => hasRole(role)
  * }}>
  *   <App />
  * </ConfigProvider>

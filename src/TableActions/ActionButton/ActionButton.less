@@ -1,0 +1,119 @@
+.action-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 6px;
+  font-size: 16px;
+  transition: all 0.3s ease;
+
+  &:hover:not(.action-button-disabled) {
+    transform: scale(1.15);
+  }
+
+  &:active:not(.action-button-disabled) {
+    transform: scale(0.95);
+  }
+
+  &-disabled {
+    opacity: 0.4;
+    cursor: not-allowed !important;
+  }
+}
+
+// 预设颜色主题 - 更现代的配色方案
+.action-edit {
+  color: #1890ff;
+
+  &:hover {
+    color: #40a9ff;
+  }
+}
+
+.action-delete {
+  color: #ff4d4f;
+
+  &:hover {
+    color: #ff7875;
+  }
+}
+
+.action-view {
+  color: #52c41a;
+
+  &:hover {
+    color: #73d13d;
+  }
+}
+
+.action-permission {
+  color: #faad14;
+
+  &:hover {
+    color: #ffc53d;
+  }
+}
+
+.action-authorisation {
+  color: #722ed1;
+
+  &:hover {
+    color: #9254de;
+  }
+}
+
+.action-session {
+  color: #13c2c2;
+
+  &:hover {
+    color: #36cfc9;
+  }
+}
+
+.action-reset {
+  color: #eb2f96;
+
+  &:hover {
+    color: #f759ab;
+  }
+}
+
+.action-setting {
+  color: #595959;
+
+  &:hover {
+    color: #8c8c8c;
+  }
+}
+
+// 兼容旧的类名
+.action-see-secret {
+  color: #52c41a;
+
+  &:hover {
+    color: #73d13d;
+  }
+}
+
+.action-user {
+  color: #1890ff;
+
+  &:hover {
+    color: #40a9ff;
+  }
+}
+
+.action-app {
+  color: #722ed1;
+
+  &:hover {
+    color: #9254de;
+  }
+}
+
+.action-third-info {
+  color: #13c2c2;
+
+  &:hover {
+    color: #36cfc9;
+  }
+}
