@@ -127,15 +127,19 @@ const AdminLayout: React.FC<AdminLayoutProp> = ({
   const getSiderClass = () => {
     const baseClass = 'admin_layout_sider_normal';
 
-    // 展开状态并且是移动端
+    // 移动端展开状态
     if (!collapsed && isMobile) {
       return `${baseClass} admin_layout_sider_open_broken`;
     }
-    // 展开状态
+    // 移动端收起状态
+    if (collapsed && isMobile) {
+      return 'admin_layout_sider_collapsed_broken';
+    }
+    // PC端展开状态
     if (!collapsed) {
       return `${baseClass} admin_layout_sider_open`;
     }
-    // 收起状态
+    // PC端收起状态
     return baseClass;
   };
 

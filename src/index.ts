@@ -13,6 +13,7 @@ export { default as RemoteTableSelect } from './RemoteTableSelect';
 export { default as RemoteModalSelect } from './RemoteModalSelect';
 export { default as ErrorNotification } from './ErrorNotification';
 export { default as IconSelect } from './IconSelect';
+export { default as IconShow } from './IconSelect/IconShow';
 export { default as AdminLayout } from './AdminLayout';
 export { default as ErrorPage } from './ErrorPage';
 export { default as NoFoundPage } from './NoFoundPage';
@@ -35,6 +36,7 @@ export type { ImageUploadProp } from './ImageUpload';
 export type { RemoteTableSelectProp } from './RemoteTableSelect';
 export type { RemoteModalSelectProp } from './RemoteModalSelect';
 export type { IconSelectProps } from './IconSelect';
+export type { IconShowProps } from './IconSelect/IconShow';
 export type { AdminLayoutProp, MenuDef } from './AdminLayout';
 export type { EzAntdConfig } from './ConfigProvider';
 

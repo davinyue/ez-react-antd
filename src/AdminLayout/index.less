@@ -45,6 +45,15 @@
     }
   }
 
+  // 移动端收起状态 - 滑出屏幕
+  .admin_layout_sider_collapsed_broken {
+    position: fixed !important;
+    top: 0;
+    left: -100%;
+    height: 100vh;
+    z-index: -1;
+  }
+
   .admin_layout_logo {
     z-index: 1;
     height: 64px;
@@ -188,11 +197,10 @@
     background: #FFFFFF;
   }
 
-  // 移动端禁用所有过渡动画
+  // 移动端样式优化
   &.admin_layout_mobile {
 
-    .ant-layout,
-    .ant-layout-sider,
+    // 禁用内容区域的过渡动画(避免闪烁)
     .admin_layout_container,
     .admin_layout_container_header_normal {
       transition: none !important;
