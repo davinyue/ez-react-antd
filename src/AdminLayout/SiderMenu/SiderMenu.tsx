@@ -33,8 +33,6 @@ export interface SiderMenuProp {
   onClickMenu?: (menu: MenuDef) => void;
   /** 侧边是否折叠 */
   collapsed?: boolean;
-  /** 权限校验回调 */
-  authorized?: (menu: MenuDef) => boolean;
 }
 
 /**
@@ -44,8 +42,7 @@ const SiderMenu: React.FC<SiderMenuProp> = ({
   menus = [],
   theme = 'dark',
   onClickMenu,
-  collapsed = false,
-  authorized
+  collapsed = false
 }) => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -56,11 +53,8 @@ const SiderMenu: React.FC<SiderMenuProp> = ({
   // 构建菜单项
   const constructMenu = useCallback((menuList: Array<MenuDef>): MenuProps['items'] => {
     const items: MenuProps['items'] = [];
-
     for (const menu of menuList) {
-      const isAuthorized = authorized ? authorized(menu) : true;
-
-      if (!isAuthorized || menu.show === false) {
+      if (menu.show === false) {
         continue;
       }
 
@@ -81,7 +75,7 @@ const SiderMenu: React.FC<SiderMenuProp> = ({
     }
 
     return items;
-  }, [authorized]);
+  }, []);
 
   // 获取菜单映射 (id -> menu)
   const menuMap = useMemo(() => {
