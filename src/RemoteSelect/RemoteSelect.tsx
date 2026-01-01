@@ -56,6 +56,12 @@ export interface RemoteSelectProp {
   mode?: 'multiple' | 'tags' | undefined;
   /** 是否禁用，默认 false */
   disabled?: boolean | undefined;
+  /**
+   * 自定义label构建函数
+   * @param data 服务器返回的每一条原始数据
+   * @returns 构建后的label字符串
+   */
+  labelBuilder?: (data: any) => string;
 }
 
 /**
@@ -98,6 +104,13 @@ export interface RemoteSelectState {
  *   api="/api/products"
  *   metaDataInValue
  *   onChange={(data) => console.log(data)}
+ * />
+ * 
+ * // 自定义label构建
+ * <RemoteSelect 
+ *   api="/api/permissions"
+ *   labelBuilder={(data) => `${data.code} - ${data.name}`}
+ *   onChange={(value) => console.log(value)}
  * />
  */
 class RemoteSelect extends React.Component<RemoteSelectProp, RemoteSelectState> {
@@ -174,8 +187,12 @@ class RemoteSelect extends React.Component<RemoteSelectProp, RemoteSelectState> 
             let options: Array<any> = [];
             for (let i = 0; i < metaDatas.length; i++) {
               let metaData = metaDatas[i];
+              // 使用labelBuilder构建label,如果没有提供则使用labelKey
+              const label = this.props.labelBuilder
+                ? this.props.labelBuilder(metaData)
+                : metaData[this.props.labelKey!];
               options.push({
-                label: metaData[this.props.labelKey!],
+                label: label,
                 value: metaData[this.props.valueKey!],
               });
               this.keyMapMetaDatas[metaData[this.props.valueKey!]] = metaData;
