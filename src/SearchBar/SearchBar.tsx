@@ -230,6 +230,8 @@ export class SearchBar extends React.Component<SearchBarProps> {
         currentPage: 1,
         ...values,
       },
+      queryParamName: this.props.paramName,
+      dataStore: this.props.dataStore
     });
   }
 
