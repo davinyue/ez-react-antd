@@ -28,8 +28,14 @@ export interface ActionConfig {
   type: ActionType;
   /** 点击事件 */
   onClick: (record: any) => void | Promise<void>;
+  /** 是否显示（优先级最高，默认为 true） */
+  isShow?: boolean;
   /** 权限码（可选） */
-  permission?: string;
+  permission?: string | string[];
+  /** 角色码（可选） */
+  role?: string | string[];
+  /** 是否需要验证登录状态，默认为 true */
+  requireAuth?: boolean;
   /** 是否需要确认（可选） */
   confirm?: boolean | {
     title?: string;
@@ -44,8 +50,6 @@ export interface ActionConfig {
   icon?: React.ReactNode;
   /** 自定义样式类名 */
   className?: string;
-  /** 是否显示（用于条件渲染） */
-  visible?: boolean;
   /** 是否禁用 */
   disabled?: boolean;
 }
@@ -128,6 +132,7 @@ const PRESET_ACTIONS: Record<ActionType, { icon: React.ReactNode; tooltip: strin
  *     {
  *       type: 'delete',
  *       permission: 'user:delete',
+ *       role: 'admin',
  *       confirm: {
  *         title: '确认删除?',
  *         content: '删除后无法恢复'
@@ -138,6 +143,7 @@ const PRESET_ACTIONS: Record<ActionType, { icon: React.ReactNode; tooltip: strin
  *       type: 'custom',
  *       icon: <CustomIcon />,
  *       tooltip: '自定义操作',
+ *       requireAuth: false,
  *       onClick: () => handleCustom()
  *     }
  *   ]}
@@ -149,7 +155,7 @@ const TableActions: React.FC<TableActionsProps> = ({ actions, record, className 
     <div className={`table-actions${className ? ' ' + className : ''}`}>
       {actions.map((action, index) => {
         // 默认显示
-        if (action.visible === false) {
+        if (action.isShow === false) {
           return null;
         }
 
@@ -172,7 +178,10 @@ const TableActions: React.FC<TableActionsProps> = ({ actions, record, className 
             icon={finalIcon}
             tooltip={finalTooltip}
             onClick={action.onClick}
+            isShow={action.isShow}
             permission={action.permission}
+            role={action.role}
+            requireAuth={action.requireAuth}
             confirm={action.confirm}
             className={finalClassName}
             disabled={action.disabled}

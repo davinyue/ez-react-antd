@@ -11,8 +11,14 @@ export interface ActionButtonProps {
   tooltip: string;
   /** 点击事件 */
   onClick: (record: any) => void | Promise<void>;
+  /** 是否显示（优先级最高，默认为 true） */
+  isShow?: boolean;
   /** 权限码（可选，不传则不进行权限控制） */
-  permission?: string;
+  permission?: string | string[];
+  /** 角色码（可选，不传则不进行角色控制） */
+  role?: string | string[];
+  /** 是否需要验证登录状态，默认为 true */
+  requireAuth?: boolean;
   /** 确认配置（可选） */
   confirm?: boolean | {
     title?: string;
@@ -49,13 +55,21 @@ const ActionButton: React.FC<ActionButtonProps> = ({
   icon,
   tooltip,
   onClick,
+  isShow = true,
   permission,
+  role,
+  requireAuth = true,
   confirm,
   className = '',
   disabled = false,
   placement = 'top',
   record
 }) => {
+
+  // 优先判断 isShow
+  if (!isShow) {
+    return null;
+  }
 
   const handleClick = async () => {
     if (disabled) return;
@@ -103,9 +117,17 @@ const ActionButton: React.FC<ActionButtonProps> = ({
     </Tooltip>
   );
 
-  // 如果有权限要求，包裹 Auth 组件
-  if (permission) {
-    return <Auth permission={permission}>{button}</Auth>;
+  // 如果有权限或角色要求，包裹 Auth 组件
+  if (permission !== undefined || role !== undefined || requireAuth !== true) {
+    return (
+      <Auth
+        permission={permission}
+        role={role}
+        requireAuth={requireAuth}
+      >
+        {button}
+      </Auth>
+    );
   }
 
   return button;
