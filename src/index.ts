@@ -20,11 +20,16 @@ export { default as NoFoundPage } from './NoFoundPage';
 export { default as NotAuthorizedPage } from './NotAuthorizedPage';
 export { default as Redirect } from './Redirect';
 export { default as withRoute } from './hoc/withRoute';
-export { ConfigProvider, useConfig, ConfigContext } from './ConfigProvider';
+export { default as withAuth } from './hoc/withAuth';
+export { default as withRouteAuth } from './hoc/withRouteAuth';
+export { default as withRedux } from './hoc/withRedux';
+export { default as withConfig } from './hoc/withConfig';
+export { ConfigProvider, useConfig, useUpdateConfig, ConfigContext, getFirstAccessibleRoute } from './ConfigProvider';
 export { default as DrawerRemoteTableSelect } from './DrawerRemoteTableSelect';
 export { default as ModalAvatar } from './ModalAvatar';
 export { default as TableActions } from './TableActions';
 export { default as Auth } from './Auth';
+export { default as ButtonAuth } from './ButtonAuth';
 
 // 类型导出
 export type { WidthType, GridProp, UseResponsiveResult } from './Grid';
@@ -41,9 +46,14 @@ export type { RemoteModalSelectProp } from './RemoteModalSelect';
 export type { IconSelectProps } from './IconSelect';
 export type { IconShowProps } from './IconSelect/IconShow';
 export type { AdminLayoutProp, MenuDef } from './AdminLayout';
-export type { EzAntdConfig } from './ConfigProvider';
+export type { EzAntdConfig, RoutePermissionMap, ButtonPermissionMap } from './ConfigProvider';
 export type { ActionConfig, ActionType, TableActionsProps } from './TableActions';
 export type { AuthProps } from './Auth';
+export type { ButtonAuthProps } from './ButtonAuth';
+export type { WithRouteProps } from './hoc/withRoute';
+export type { WithAuthProps } from './hoc/withAuth';
+export type { WithReduxProps } from './hoc/withRedux';
+export type { WithConfigProps } from './hoc/withConfig';
 
 // 重新导出 antd 常用类型,确保类型一致性
 export type { ColumnsType, ColumnType } from 'antd/es/table';

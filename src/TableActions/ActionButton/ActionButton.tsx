@@ -2,6 +2,7 @@ import React from 'react';
 import { Tooltip, Modal, message } from 'antd';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 import Auth from '../../Auth';
+import ButtonAuth from '../../ButtonAuth';
 import './ActionButton.less';
 
 export interface ActionButtonProps {
@@ -13,6 +14,8 @@ export interface ActionButtonProps {
   onClick: (record: any) => void | Promise<void>;
   /** 是否显示（优先级最高，默认为 true） */
   isShow?: boolean;
+  /** 按钮权限编码（可选，用于 ButtonAuth 方式的权限验证，优先级高于 permission） */
+  buttonCode?: string;
   /** 权限码（可选，不传则不进行权限控制） */
   permission?: string | string[];
   /** 角色码（可选，不传则不进行角色控制） */
@@ -43,8 +46,17 @@ export interface ActionButtonProps {
  * 
  * @example
  * ```tsx
+ * // 方式 1：使用 buttonCode（推荐）
  * <ActionButton
- *   icon={<EditTwoTone />}
+ *   icon={<EditOutlined />}
+ *   tooltip="编辑"
+ *   buttonCode="user.edit"
+ *   onClick={(record: any) => handleEdit()}
+ * />
+ * 
+ * // 方式 2：使用 permission（传统方式）
+ * <ActionButton
+ *   icon={<EditOutlined />}
  *   tooltip="编辑"
  *   permission="user:edit"
  *   onClick={(record: any) => handleEdit()}
@@ -56,6 +68,7 @@ const ActionButton: React.FC<ActionButtonProps> = ({
   tooltip,
   onClick,
   isShow = true,
+  buttonCode,
   permission,
   role,
   requireAuth = true,
@@ -117,7 +130,16 @@ const ActionButton: React.FC<ActionButtonProps> = ({
     </Tooltip>
   );
 
-  // 如果有权限或角色要求，包裹 Auth 组件
+  // 优先使用 buttonCode（基于配置的权限验证）
+  if (buttonCode) {
+    return (
+      <ButtonAuth code={buttonCode}>
+        {button}
+      </ButtonAuth>
+    );
+  }
+
+  // 如果有权限或角色要求，使用 Auth 组件（传统方式）
   if (permission !== undefined || role !== undefined || requireAuth !== true) {
     return (
       <Auth

@@ -5,6 +5,7 @@ import mergeObj from '../utils/mergeObj';
 import { DeleteOutlined, EditOutlined, PlusSquareOutlined } from '@ant-design/icons';
 import { v1 as uuidv1 } from '../utils/uuid';
 import { ConfigContext, EzAntdConfig } from '../ConfigProvider';
+import ButtonAuth from '../ButtonAuth';
 import './index.less';
 
 const { Search } = Input;
@@ -35,10 +36,16 @@ export interface RemoteTreeProp {
   showSearch?: boolean;
   /** 是否显示节点的添加子级按钮 */
   showAddSon?: boolean;
+  /** 添加子级按钮权限编码（可选，用于 ButtonAuth 方式的权限验证，优先级高于 showAddSon） */
+  addSonMenuCode?: string;
   /** 是否显示节点的编辑按钮 */
   showEdit?: boolean;
+  /** 编辑按钮权限编码（可选，用于 ButtonAuth 方式的权限验证，优先级高于 showEdit） */
+  editMenuCode?: string;
   /** 是否显示节点的删除按钮 */
   showDelete?: boolean;
+  /** 删除按钮权限编码（可选，用于 ButtonAuth 方式的权限验证，优先级高于 showDelete） */
+  deleteMenuCode?: string;
 
   // ==================== 事件回调 ====================
   /**
@@ -413,38 +420,72 @@ class RemoteTree extends React.Component<RemoteTreeProp, RemoteTreeState> {
                   {this.getTitle(node)}
                 </div>
                 {
-                  this.props.showAddSon ? (
+                  /* 优先使用 addSonMenuCode，其次使用 showAddSon */
+                  (this.props.addSonMenuCode || this.props.showAddSon) ? (
                     <div className='remote_tree_menu_add'>
-                      <Tooltip placement='top' title='添加子级'>
-                        <PlusSquareOutlined
-                          className='tree-icon tree-icon-add'
-                          onClick={(event) => this.handleAddSon(event, node)}
-                        />
-                      </Tooltip>
+                      {this.props.addSonMenuCode ? (
+                        <ButtonAuth code={this.props.addSonMenuCode}>
+                          <Tooltip placement='top' title='添加子级'>
+                            <PlusSquareOutlined
+                              className='tree-icon tree-icon-add'
+                              onClick={(event) => this.handleAddSon(event, node)}
+                            />
+                          </Tooltip>
+                        </ButtonAuth>
+                      ) : (
+                        <Tooltip placement='top' title='添加子级'>
+                          <PlusSquareOutlined
+                            className='tree-icon tree-icon-add'
+                            onClick={(event) => this.handleAddSon(event, node)}
+                          />
+                        </Tooltip>
+                      )}
                     </div>)
                     :
                     (<></>)
                 }
                 {
-                  this.props.showEdit ? (
+                  /* 优先使用 editMenuCode，其次使用 showEdit */
+                  (this.props.editMenuCode || this.props.showEdit) ? (
                     <div className='remote_tree_menu_edit'>
-                      <Tooltip placement='top' title='修改'>
-                        <EditOutlined
-                          className='tree-icon tree-icon-edit'
-                          onClick={(event) => this.handleEdit(event, node)} />
-                      </Tooltip>
+                      {this.props.editMenuCode ? (
+                        <ButtonAuth code={this.props.editMenuCode}>
+                          <Tooltip placement='top' title='修改'>
+                            <EditOutlined
+                              className='tree-icon tree-icon-edit'
+                              onClick={(event) => this.handleEdit(event, node)} />
+                          </Tooltip>
+                        </ButtonAuth>
+                      ) : (
+                        <Tooltip placement='top' title='修改'>
+                          <EditOutlined
+                            className='tree-icon tree-icon-edit'
+                            onClick={(event) => this.handleEdit(event, node)} />
+                        </Tooltip>
+                      )}
                     </div>)
                     :
                     (<></>)
                 }
                 {
-                  this.props.showDelete ? (
+                  /* 优先使用 deleteMenuCode，其次使用 showDelete */
+                  (this.props.deleteMenuCode || this.props.showDelete) ? (
                     <div className='remote_tree_menu_delete'>
-                      <Tooltip placement='top' title='删除'>
-                        <DeleteOutlined
-                          className='tree-icon tree-icon-delete'
-                          onClick={(event) => this.handleDelete(event, node)} />
-                      </Tooltip>
+                      {this.props.deleteMenuCode ? (
+                        <ButtonAuth code={this.props.deleteMenuCode}>
+                          <Tooltip placement='top' title='删除'>
+                            <DeleteOutlined
+                              className='tree-icon tree-icon-delete'
+                              onClick={(event) => this.handleDelete(event, node)} />
+                          </Tooltip>
+                        </ButtonAuth>
+                      ) : (
+                        <Tooltip placement='top' title='删除'>
+                          <DeleteOutlined
+                            className='tree-icon tree-icon-delete'
+                            onClick={(event) => this.handleDelete(event, node)} />
+                        </Tooltip>
+                      )}
                     </div>)
                     :
                     (<></>)

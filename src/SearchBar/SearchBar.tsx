@@ -26,6 +26,7 @@ import { Dispatch } from 'redux';
 import { PayloadAction } from '../types';
 import compare from '../utils/compare';
 import Grid, { WidthType } from '../Grid';
+import ButtonAuth from '../ButtonAuth';
 import './index.less';
 
 /** 响应式上下文,用于在组件树中传递移动端状态 */
@@ -136,8 +137,12 @@ interface SearchBarProps {
   };
   /** 是否显示"新增"按钮 */
   showAddMenu?: boolean;
+  /** 新增按钮权限编码（可选，用于 ButtonAuth 方式的权限验证，优先级高于 showAddMenu） */
+  addMenuCode?: string;
   /** 是否显示"删除"按钮 */
   showDeleteMenu?: boolean;
+  /** 删除按钮权限编码（可选，用于 ButtonAuth 方式的权限验证，优先级高于 showDeleteMenu） */
+  deleteMenuCode?: string;
   /** "新增"按钮的文本,默认为"新增" */
   addMenuName?: string;
   /** "删除"按钮的文本,默认为"删除" */
@@ -264,7 +269,7 @@ export class SearchBar extends React.Component<SearchBarProps> {
   }
 
   render() {
-    const { showAddMenu, addMenuName, showDeleteMenu, onClickAdd, onClickDelete, deleteMenuName } = this.props;
+    const { showAddMenu, addMenuCode, addMenuName, showDeleteMenu, deleteMenuCode, onClickAdd, onClickDelete, deleteMenuName } = this.props;
     const { isMobile } = this.state;
 
     return (
@@ -280,16 +285,32 @@ export class SearchBar extends React.Component<SearchBarProps> {
             {this.props.children}
             {this.state.showMore ? this.props.moreItem : null}
             <div className='table_search_menu_box'>
-              {showAddMenu && (
+              {/* 优先使用 addMenuCode，其次使用 showAddMenu */}
+              {(addMenuCode || showAddMenu) && (
                 <div className='table_search_menu_item'>
-                  <Button icon={<PlusOutlined />} type='primary' disabled={this.props.disabled}
-                    onClick={onClickAdd}>{addMenuName}</Button>
+                  {addMenuCode ? (
+                    <ButtonAuth code={addMenuCode}>
+                      <Button icon={<PlusOutlined />} type='primary' disabled={this.props.disabled}
+                        onClick={onClickAdd}>{addMenuName}</Button>
+                    </ButtonAuth>
+                  ) : (
+                    <Button icon={<PlusOutlined />} type='primary' disabled={this.props.disabled}
+                      onClick={onClickAdd}>{addMenuName}</Button>
+                  )}
                 </div>
               )}
-              {showDeleteMenu && (
+              {/* 优先使用 deleteMenuCode，其次使用 showDeleteMenu */}
+              {(deleteMenuCode || showDeleteMenu) && (
                 <div className='table_search_menu_item'>
-                  <Button danger icon={<DeleteOutlined />} type='primary' disabled={this.props.disabled}
-                    onClick={onClickDelete}>{deleteMenuName}</Button>
+                  {deleteMenuCode ? (
+                    <ButtonAuth code={deleteMenuCode}>
+                      <Button danger icon={<DeleteOutlined />} type='primary' disabled={this.props.disabled}
+                        onClick={onClickDelete}>{deleteMenuName}</Button>
+                    </ButtonAuth>
+                  ) : (
+                    <Button danger icon={<DeleteOutlined />} type='primary' disabled={this.props.disabled}
+                      onClick={onClickDelete}>{deleteMenuName}</Button>
+                  )}
                 </div>
               )}
               <div className='table_search_menu_item'>
