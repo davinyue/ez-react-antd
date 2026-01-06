@@ -135,13 +135,13 @@ interface SearchBarProps {
   queryParam?: {
     [key: string]: any;
   };
-  /** 是否显示"新增"按钮 */
+  /** 是否显示"新增"按钮（主开关，为 true 时才渲染按钮） */
   showAddMenu?: boolean;
-  /** 新增按钮权限编码（可选，用于 ButtonAuth 方式的权限验证，优先级高于 showAddMenu） */
+  /** 新增按钮权限编码（可选，有值时使用 ButtonAuth 进行权限验证） */
   addMenuCode?: string;
-  /** 是否显示"删除"按钮 */
+  /** 是否显示"删除"按钮（主开关，为 true 时才渲染按钮） */
   showDeleteMenu?: boolean;
-  /** 删除按钮权限编码（可选，用于 ButtonAuth 方式的权限验证，优先级高于 showDeleteMenu） */
+  /** 删除按钮权限编码（可选，有值时使用 ButtonAuth 进行权限验证） */
   deleteMenuCode?: string;
   /** "新增"按钮的文本,默认为"新增" */
   addMenuName?: string;
@@ -285,8 +285,8 @@ export class SearchBar extends React.Component<SearchBarProps> {
             {this.props.children}
             {this.state.showMore ? this.props.moreItem : null}
             <div className='table_search_menu_box'>
-              {/* 优先使用 addMenuCode，其次使用 showAddMenu */}
-              {(addMenuCode || showAddMenu) && (
+              {/* 当 showAddMenu 为 true 时才渲染新增按钮，如果 addMenuCode 有值则使用 ButtonAuth 嵌套 */}
+              {showAddMenu && (
                 <div className='table_search_menu_item'>
                   {addMenuCode ? (
                     <ButtonAuth code={addMenuCode}>
@@ -299,8 +299,8 @@ export class SearchBar extends React.Component<SearchBarProps> {
                   )}
                 </div>
               )}
-              {/* 优先使用 deleteMenuCode，其次使用 showDeleteMenu */}
-              {(deleteMenuCode || showDeleteMenu) && (
+              {/* 当 showDeleteMenu 为 true 时才渲染删除按钮，如果 deleteMenuCode 有值则使用 ButtonAuth 嵌套 */}
+              {showDeleteMenu && (
                 <div className='table_search_menu_item'>
                   {deleteMenuCode ? (
                     <ButtonAuth code={deleteMenuCode}>
