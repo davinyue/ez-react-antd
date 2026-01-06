@@ -91,20 +91,78 @@ export interface Request {
 
 
 /**
+ * 路由权限配置对象
+ */
+export interface RoutePermissionConfig {
+  /**
+   * 是否需要登录
+   * - true: 需要登录才能访问（默认值）
+   * - false: 不需要登录，公开访问
+   */
+  requiresAuthentication: boolean;
+  /**
+   * 所需权限 ID
+   * - string: 必须拥有该权限
+   * - string[]: 拥有其中任意一个权限即可
+   * - undefined: 不需要权限验证（但可能需要登录，取决于 requiresAuthentication）
+   */
+  permissionIds?: string | string[];
+}
+
+/**
  * 路由权限映射配置
  * 用于配置路由路径与所需权限的映射关系
  */
 export interface RoutePermissionMap {
   /**
-   * 路由路径到权限的映射
+   * 路由路径到权限配置的映射
+   * 
    * @example
    * {
-   *   '/admin': 'admin.view',
-   *   '/users': ['user.view', 'user.manage'],
-   *   '/public': undefined  // 不需要权限
+   *   '/login': {
+   *     requiresAuthentication: false            // 公开访问，不需要登录
+   *   },
+   *   '/public': {
+   *     requiresAuthentication: false,           // 公开访问
+   *     permissionIds: undefined
+   *   },
+   *   '/dashboard': {
+   *     requiresAuthentication: true,            // 需要登录，不需要权限
+   *     permissionIds: undefined
+   *   },
+   *   '/admin': {
+   *     requiresAuthentication: true,            // 需要登录 + 需要权限
+   *     permissionIds: 'admin.view'
+   *   },
+   *   '/admin/users': {
+   *     requiresAuthentication: true,            // 需要登录 + 需要任一权限
+   *     permissionIds: ['user.view', 'user.manage']
+   *   }
+   *   // 未配置的路由默认需要登录但不需要权限
    * }
    */
-  [path: string]: string | string[] | undefined;
+  [path: string]: undefined | RoutePermissionConfig;
+}
+
+
+
+/**
+ * 按钮权限配置对象
+ */
+export interface ButtonPermissionConfig {
+  /**
+   * 是否需要登录
+   * - true: 需要登录才能显示（默认值）
+   * - false: 不需要登录，公开显示
+   */
+  requiresAuthentication: boolean;
+  /**
+   * 所需权限 ID
+   * - string: 必须拥有该权限
+   * - string[]: 拥有其中任意一个权限即可
+   * - undefined: 不需要权限验证（但可能需要登录，取决于 requiresAuthentication）
+   */
+  permissionIds?: string | string[];
 }
 
 /**
@@ -113,15 +171,28 @@ export interface RoutePermissionMap {
  */
 export interface ButtonPermissionMap {
   /**
-   * 按钮编码到权限的映射
+   * 按钮编码到权限配置的映射
+   * 
    * @example
    * {
-   *   'user.create': 'user.create',
-   *   'user.delete': ['user.delete', 'user.manage'],
-   *   'user.export': undefined  // 不需要权限
+   *   'user.create': {
+   *     requiresAuthentication: true,
+   *     permissionIds: 'user.create'
+   *   },
+   *   'user.delete': {
+   *     requiresAuthentication: true,
+   *     permissionIds: ['user.delete', 'user.manage']  // 任一权限即可
+   *   },
+   *   'user.export': {
+   *     requiresAuthentication: true  // 需要登录，不需要权限
+   *   },
+   *   'public.view': {
+   *     requiresAuthentication: false  // 公开显示
+   *   }
+   *   // 未配置的按钮默认需要登录但不需要权限
    * }
    */
-  [code: string]: string | string[] | undefined;
+  [code: string]: undefined | ButtonPermissionConfig;
 }
 
 /**

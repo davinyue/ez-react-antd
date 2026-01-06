@@ -25,7 +25,7 @@ export interface ActionButtonProps {
   /** 确认配置（可选） */
   confirm?: boolean | {
     title?: string;
-    content?: string;
+    content?: React.ReactNode;
     okText?: string;
     cancelText?: string;
     okType?: 'primary' | 'danger';

@@ -23,8 +23,18 @@ export { default as withRoute } from './hoc/withRoute';
 export { default as withAuth } from './hoc/withAuth';
 export { default as withRouteAuth } from './hoc/withRouteAuth';
 export { default as withRedux } from './hoc/withRedux';
-export { default as withConfig } from './hoc/withConfig';
-export { ConfigProvider, useConfig, useUpdateConfig, ConfigContext, getFirstAccessibleRoute } from './ConfigProvider';
+export { default as withEzAntdConfig } from './hoc/withEzAntdConfig';
+export {
+    ConfigProvider,
+    useConfig,
+    useUpdateConfig,
+    ConfigContext,
+    getFirstAccessibleRoute,
+    getRoutePermission,
+    getButtonPermission,
+    hasButtonPermission,
+    hasRoutePermission
+} from './ConfigProvider';
 export { default as DrawerRemoteTableSelect } from './DrawerRemoteTableSelect';
 export { default as ModalAvatar } from './ModalAvatar';
 export { default as TableActions } from './TableActions';
@@ -53,7 +63,7 @@ export type { ButtonAuthProps } from './ButtonAuth';
 export type { WithRouteProps } from './hoc/withRoute';
 export type { WithAuthProps } from './hoc/withAuth';
 export type { WithReduxProps } from './hoc/withRedux';
-export type { WithConfigProps } from './hoc/withConfig';
+export type { WithEzAntdConfigProps } from './hoc/withEzAntdConfig';
 
 // 重新导出 antd 常用类型,确保类型一致性
 export type { ColumnsType, ColumnType } from 'antd/es/table';

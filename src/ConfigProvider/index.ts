@@ -22,4 +22,10 @@ export {
 } from './ConfigProvider';
 
 // 导出工具函数
-export { getRoutePermission, getButtonPermission, getFirstAccessibleRoute } from './utils';
+export {
+  getRoutePermission,
+  getButtonPermission,
+  getFirstAccessibleRoute,
+  hasButtonPermission,
+  hasRoutePermission
+} from './utils';
