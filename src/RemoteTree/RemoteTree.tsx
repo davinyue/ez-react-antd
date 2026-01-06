@@ -34,17 +34,17 @@ export interface RemoteTreeProp {
   // ==================== UI 显示控制 ====================
   /** 是否显示顶部搜索框 */
   showSearch?: boolean;
-  /** 是否显示节点的添加子级按钮 */
+  /** 是否显示节点的添加子级按钮（主开关，为 true 时才渲染按钮） */
   showAddSon?: boolean;
-  /** 添加子级按钮权限编码（可选，用于 ButtonAuth 方式的权限验证，优先级高于 showAddSon） */
+  /** 添加子级按钮权限编码（可选，有值时使用 ButtonAuth 进行权限验证） */
   addSonMenuCode?: string;
-  /** 是否显示节点的编辑按钮 */
+  /** 是否显示节点的编辑按钮（主开关，为 true 时才渲染按钮） */
   showEdit?: boolean;
-  /** 编辑按钮权限编码（可选，用于 ButtonAuth 方式的权限验证，优先级高于 showEdit） */
+  /** 编辑按钮权限编码（可选，有值时使用 ButtonAuth 进行权限验证） */
   editMenuCode?: string;
-  /** 是否显示节点的删除按钮 */
+  /** 是否显示节点的删除按钮（主开关，为 true 时才渲染按钮） */
   showDelete?: boolean;
-  /** 删除按钮权限编码（可选，用于 ButtonAuth 方式的权限验证，优先级高于 showDelete） */
+  /** 删除按钮权限编码（可选，有值时使用 ButtonAuth 进行权限验证） */
   deleteMenuCode?: string;
 
   // ==================== 事件回调 ====================
@@ -420,8 +420,8 @@ class RemoteTree extends React.Component<RemoteTreeProp, RemoteTreeState> {
                   {this.getTitle(node)}
                 </div>
                 {
-                  /* 优先使用 addSonMenuCode，其次使用 showAddSon */
-                  (this.props.addSonMenuCode || this.props.showAddSon) ? (
+                  /* 当 showAddSon 为 true 时才渲染添加子级按钮，如果 addSonMenuCode 有值则使用 ButtonAuth 嵌套 */
+                  this.props.showAddSon ? (
                     <div className='remote_tree_menu_add'>
                       {this.props.addSonMenuCode ? (
                         <ButtonAuth code={this.props.addSonMenuCode}>
@@ -442,11 +442,11 @@ class RemoteTree extends React.Component<RemoteTreeProp, RemoteTreeState> {
                       )}
                     </div>)
                     :
-                    (<></>)
+                    null
                 }
                 {
-                  /* 优先使用 editMenuCode，其次使用 showEdit */
-                  (this.props.editMenuCode || this.props.showEdit) ? (
+                  /* 当 showEdit 为 true 时才渲染编辑按钮，如果 editMenuCode 有值则使用 ButtonAuth 嵌套 */
+                  this.props.showEdit ? (
                     <div className='remote_tree_menu_edit'>
                       {this.props.editMenuCode ? (
                         <ButtonAuth code={this.props.editMenuCode}>
@@ -465,11 +465,11 @@ class RemoteTree extends React.Component<RemoteTreeProp, RemoteTreeState> {
                       )}
                     </div>)
                     :
-                    (<></>)
+                    null
                 }
                 {
-                  /* 优先使用 deleteMenuCode，其次使用 showDelete */
-                  (this.props.deleteMenuCode || this.props.showDelete) ? (
+                  /* 当 showDelete 为 true 时才渲染删除按钮，如果 deleteMenuCode 有值则使用 ButtonAuth 嵌套 */
+                  this.props.showDelete ? (
                     <div className='remote_tree_menu_delete'>
                       {this.props.deleteMenuCode ? (
                         <ButtonAuth code={this.props.deleteMenuCode}>
@@ -488,7 +488,7 @@ class RemoteTree extends React.Component<RemoteTreeProp, RemoteTreeState> {
                       )}
                     </div>)
                     :
-                    (<></>)
+                    null
                 }
               </div>
             );
