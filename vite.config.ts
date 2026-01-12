@@ -44,6 +44,7 @@ export default defineConfig({
       external: [
         'react',
         'react-dom',
+        'redux',
         'antd',
         'react-redux',
         'react-router',
