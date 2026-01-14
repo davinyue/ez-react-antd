@@ -59,9 +59,9 @@ export interface RemoteSelectProp {
   /**
    * 自定义label构建函数
    * @param data 服务器返回的每一条原始数据
-   * @returns 构建后的label字符串
+   * @returns 构建后的label字符串或React元素
    */
-  labelBuilder?: (data: any) => string;
+  labelBuilder?: (data: any) => React.ReactNode;
 }
 
 /**
@@ -109,7 +109,7 @@ export interface RemoteSelectState {
  * // 自定义label构建
  * <RemoteSelect 
  *   api="/api/permissions"
- *   labelBuilder={(data) => `${data.code} - ${data.name}`}
+ *   labelBuilder={(data) => <div><div>{data.code}</div><div>{data.name}</div></div>}
  *   onChange={(value) => console.log(value)}
  * />
  */
