@@ -12,8 +12,36 @@
 
   /** 展开收起图标 */
   .ant-tree-switcher {
+    height: 40px !important; // 明确高度
     line-height: 40px !important;
     font-size: 18px;
+    display: flex !important; // 恢复 flex 布局用于居中内容
+    align-items: center;
+    justify-content: center;
+    position: relative; // 为 absolute 子元素提供定位上下文
+  }
+
+  // 统一处理 before 伪元素 (阴影背景)
+  .ant-tree-switcher::before,
+  .ant-tree-switcher_open::before {
+    position: absolute !important;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 30px !important; // 降低高度
+    width: 30px !important; // 设置宽度使其为正方形
+    line-height: 30px !important;
+    font-size: 18px;
+    border-radius: 4px; // 稍微加点圆角更美观
+    z-index: 0; // 确保在图标下方
+  }
+
+  // 确保图标在背景之上
+  .ant-tree-switcher .anticon,
+  .ant-tree-switcher svg {
+    position: relative;
+    z-index: 1;
+    vertical-align: 0; // 重置对齐
   }
 
   /** title */
