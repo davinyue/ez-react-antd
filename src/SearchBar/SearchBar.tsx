@@ -169,7 +169,7 @@ interface SearchBarProps {
  */
 export class SearchBar extends React.Component<SearchBarProps> {
   /** 表单实例引用,用于获取/设置表单值 */
-  formRef: React.RefObject<FormInstance | null>;
+  formRef: React.RefObject<FormInstance>;
   /** 静态属性:搜索项子组件 */
   static Item: typeof SearchBarItem = SearchBarItem;
   /** 默认属性值 */
