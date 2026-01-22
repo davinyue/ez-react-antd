@@ -31,23 +31,44 @@
     width: 100% !important;
     display: flex;
     align-items: center;
+
+    // 当鼠标悬停在行上时，显示操作按钮
+    &:hover {
+
+      .remote_tree_menu_add,
+      .remote_tree_menu_edit,
+      .remote_tree_menu_delete {
+        opacity: 1;
+        pointer-events: auto;
+      }
+    }
   }
 
   .remote_tree_title {
     flex: 1;
   }
 
+  // 默认隐藏操作按钮 (使用 opacity 避免布局抖动)
   .remote_tree_menu_add {
     margin: 0 10px 0 0;
     font-size: 16px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
   }
 
   .remote_tree_menu_edit {
     margin: 0 10px 0 0;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
   }
 
   .remote_tree_menu_delete {
     margin: 0 0 0 0;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
   }
 
   /** 统一的图标样式 */
