@@ -1,206 +1,215 @@
 .table_search_bar {
-    min-height: 60px;
-    background: #ffffff;
-    padding: 4px 8px;
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-    margin-bottom: 24px;
+  min-height: 60px;
+  background: #ffffff;
+  padding: 4px 8px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  margin-bottom: 24px;
+  display: flex;
+  flex-wrap: wrap;
+
+  .table_search_item {
+    margin: 5px;
+
     display: flex;
-    flex-wrap: wrap;
+    align-items: center;
 
-    .table_search_item {
-        margin: 5px;
-
-        display: flex;
-        align-items: center;
-
-        .ant-form-item {
-            margin-bottom: 0px !important;
-        }
+    .ant-form-item {
+      margin-bottom: 0px !important;
     }
+  }
 
-    .table_search_menu_box {
-        flex: 1;
-        display: flex;
-        align-items: center;
-        justify-content: right;
-        width: 200px;
-        margin: 5px;
+  .table_search_menu_box {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: right;
+    width: 200px;
+    margin: 5px;
 
-        .table_search_menu_item {
-            margin: 0 5px;
+    .table_search_menu_item {
+      margin: 0 5px;
 
-            // 主要操作按钮（新增、删除）- 蓝色渐变
-            .ant-btn-primary {
-                background: linear-gradient(135deg, #3A7FE8 0%, #4B8FEF 100%);
-                border: none;
-                border-radius: 12px;
-                padding: 4px 20px;
-                height: 36px;
-                font-weight: 500;
-                box-shadow: 0 2px 6px rgba(74, 144, 255, 0.3);
-                transition: all 0.3s ease;
-
-                &:hover {
-                    background: linear-gradient(135deg, #3A80EF 0%, #4B8FEF 100%);
-                    box-shadow: 0 4px 12px rgba(74, 144, 255, 0.4);
-                    transform: translateY(-1px);
-                }
-
-                &:active {
-                    transform: translateY(0);
-                }
-
-                &[disabled],
-                &.ant-btn-disabled {
-                    background: #f5f5f5;
-                    border-color: #d9d9d9;
-                    color: rgba(0, 0, 0, 0.25);
-                    box-shadow: none;
-                    cursor: not-allowed;
-
-                    &:hover {
-                        background: #f5f5f5;
-                        color: rgba(0, 0, 0, 0.25);
-                        transform: none;
-                        box-shadow: none;
-                    }
-                }
-
-                &.ant-btn-dangerous {
-                    background: linear-gradient(135deg, #FF6B6B 0%, #FF8787 100%);
-                    box-shadow: 0 2px 6px rgba(255, 107, 107, 0.3);
-
-                    &:hover {
-                        background: linear-gradient(135deg, #EF5B5B 0%, #EF7777 100%);
-                        box-shadow: 0 4px 12px rgba(255, 107, 107, 0.4);
-                    }
-
-                    &[disabled],
-                    &.ant-btn-disabled {
-                        background: #f5f5f5;
-                        color: rgba(0, 0, 0, 0.25);
-                        box-shadow: none;
-
-                        &:hover {
-                            background: #f5f5f5;
-                            color: rgba(0, 0, 0, 0.25);
-                        }
-                    }
-                }
-            }
-
-            // 搜索按钮 - 紫色渐变
-            .ant-btn-primary[type="submit"] {
-                background: linear-gradient(135deg, #7B68EE 0%, #9B7FFF 100%);
-                box-shadow: 0 2px 6px rgba(123, 104, 238, 0.3);
-
-                &:hover {
-                    background: linear-gradient(135deg, #6B58DE 0%, #8B6FEF 100%);
-                    box-shadow: 0 4px 12px rgba(123, 104, 238, 0.4);
-                }
-
-                &[disabled],
-                &.ant-btn-disabled {
-                    background: #f5f5f5;
-                    border-color: #d9d9d9;
-                    color: rgba(0, 0, 0, 0.25);
-                    box-shadow: none;
-                    cursor: not-allowed;
-
-                    &:hover {
-                        background: #f5f5f5;
-                        color: rgba(0, 0, 0, 0.25);
-                        transform: none;
-                        box-shadow: none;
-                    }
-                }
-            }
-
-            // 重置按钮 - 灰色
-            .ant-btn:not(.ant-btn-primary) {
-                background: #E8EAED;
-                color: #5F6368;
-                border: none;
-                border-radius: 8px;
-                padding: 4px 20px;
-                height: 36px;
-                font-weight: 500;
-                transition: all 0.3s ease;
-
-                &:hover {
-                    background: #D8DADD;
-                    color: #4F5358;
-                    transform: translateY(-1px);
-                }
-
-                &:active {
-                    transform: translateY(0);
-                }
-
-                &[disabled],
-                &.ant-btn-disabled {
-                    background: #f5f5f5;
-                    color: rgba(0, 0, 0, 0.25);
-                    cursor: not-allowed;
-
-                    &:hover {
-                        background: #f5f5f5;
-                        color: rgba(0, 0, 0, 0.25);
-                        transform: none;
-                    }
-                }
-            }
+      // 动态渐变动画定义
+      @keyframes gradientAnimation {
+        0% {
+          background-position: 0% 50%;
         }
+
+        50% {
+          background-position: 100% 50%;
+        }
+
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+
+      // 主要操作按钮（新增）- 蓝色动态渐变
+      .ant-btn-primary {
+        background: linear-gradient(-45deg, #3A7FE8, #4B8FEF, #00c6ff, #0072ff);
+        background-size: 400% 400%;
+        animation: gradientAnimation 15s ease infinite;
+        border: none;
+        border-radius: 12px;
+        padding: 4px 20px;
+        height: 36px;
+        font-weight: 500;
+        box-shadow: 0 4px 15px rgba(74, 144, 255, 0.4);
+        transition: all 0.3s ease;
+
+        &:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 6px 20px rgba(74, 144, 255, 0.6);
+        }
+
+        &:active {
+          transform: translateY(0);
+        }
+
+        &[disabled],
+        &.ant-btn-disabled {
+          background: #f5f5f5;
+          border-color: #d9d9d9;
+          color: rgba(0, 0, 0, 0.25);
+          box-shadow: none;
+          cursor: not-allowed;
+          animation: none;
+
+          &:hover {
+            background: #f5f5f5;
+            color: rgba(0, 0, 0, 0.25);
+            transform: none;
+            box-shadow: none;
+          }
+        }
+
+        &.ant-btn-dangerous {
+          background: linear-gradient(-45deg, #FF6B6B, #FF8787, #ff9a9e, #fad0c4);
+          background-size: 400% 400%;
+          animation: gradientAnimation 15s ease infinite;
+          box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+
+          &:hover {
+            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.6);
+          }
+
+          &[disabled],
+          &.ant-btn-disabled {
+            background: #f5f5f5;
+            color: rgba(0, 0, 0, 0.25);
+            box-shadow: none;
+            animation: none;
+          }
+        }
+      }
+
+      // 搜索按钮 - 紫色动态渐变
+      .ant-btn-primary[type="submit"] {
+        background: linear-gradient(-45deg, #7B68EE, #9B7FFF, #a18cd1, #fbc2eb);
+        background-size: 400% 400%;
+        animation: gradientAnimation 15s ease infinite;
+        box-shadow: 0 4px 15px rgba(123, 104, 238, 0.4);
+
+        &:hover {
+          box-shadow: 0 6px 20px rgba(123, 104, 238, 0.6);
+        }
+
+        &[disabled],
+        &.ant-btn-disabled {
+          background: #f5f5f5;
+          border-color: #d9d9d9;
+          color: rgba(0, 0, 0, 0.25);
+          box-shadow: none;
+          cursor: not-allowed;
+          animation: none;
+        }
+      }
+
+      // 重置按钮 - 灰色
+      .ant-btn:not(.ant-btn-primary) {
+        background: #E8EAED;
+        color: #5F6368;
+        border: none;
+        border-radius: 8px;
+        padding: 4px 20px;
+        height: 36px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+
+        &:hover {
+          background: #D8DADD;
+          color: #4F5358;
+          transform: translateY(-1px);
+        }
+
+        &:active {
+          transform: translateY(0);
+        }
+
+        &[disabled],
+        &.ant-btn-disabled {
+          background: #f5f5f5;
+          color: rgba(0, 0, 0, 0.25);
+          cursor: not-allowed;
+
+          &:hover {
+            background: #f5f5f5;
+            color: rgba(0, 0, 0, 0.25);
+            transform: none;
+          }
+        }
+      }
     }
+  }
 }
 
 // 移动端优化
 @media (max-width: 768px) {
-    .table_search_bar {
-        padding: 4px 8px;
+  .table_search_bar {
+    padding: 4px 8px;
 
-        .table_search_item {
-            width: 100%;
-            margin: 6px 0;
+    .table_search_item {
+      width: 100%;
+      margin: 6px 0;
 
-            .ant-form-item {
-                .ant-form-item-label {
-                    label {
-                        font-size: 15px;
-                    }
-                }
-
-                .ant-form-item-control-input {
-                    min-height: 40px;
-
-                    .ant-input,
-                    .ant-select {
-                        font-size: 15px;
-                    }
-                }
-            }
+      .ant-form-item {
+        .ant-form-item-label {
+          label {
+            font-size: 15px;
+          }
         }
 
-        .table_search_menu_box {
-            width: 100%;
-            justify-content: flex-end;
-            flex-wrap: wrap;
-            margin: 12px 0 0 0;
+        .ant-form-item-control-input {
+          min-height: 40px;
 
-            .table_search_menu_item {
-                margin: 6px 6px 6px 0;
-
-                button {
-                    height: 40px;
-                    font-size: 16px;
-                    padding: 0 20px;
-
-                    .anticon {
-                        font-size: 18px;
-                    }
-                }
-            }
+          .ant-input,
+          .ant-select {
+            font-size: 15px;
+          }
         }
+      }
     }
+
+    .table_search_menu_box {
+      width: 100%;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+      margin: 12px 0 0 0;
+
+      .table_search_menu_item {
+        margin: 6px 6px 6px 0;
+
+        button {
+          height: 40px;
+          font-size: 16px;
+          padding: 0 20px;
+
+          .anticon {
+            font-size: 18px;
+          }
+        }
+      }
+    }
+  }
 }
