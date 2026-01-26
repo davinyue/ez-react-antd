@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table, Divider, Card } from 'antd';
+import { Table, Divider, Card, Pagination } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import type { TableRowSelection, ExpandableConfig, Key } from 'antd/es/table/interface';
 import { connect } from 'react-redux';
@@ -75,7 +75,7 @@ export interface RemoteTableState {
  * />
  */
 class RemoteTable extends React.Component<RemoteTableProp, RemoteTableState> {
-  ref: React.RefObject<HTMLDivElement | null>;
+  ref: React.RefObject<HTMLDivElement>;
   resizeObserver: ResizeObserver | null = null;
 
   static defaultProps = {
@@ -316,15 +316,19 @@ class RemoteTable extends React.Component<RemoteTableProp, RemoteTableState> {
                 <div className="pagination-info">
                   共 {pagination.total} 条
                 </div>
-                <Table
-                  dataSource={[]}
-                  columns={[]}
-                  showHeader={false}
-                  pagination={{
-                    ...paginationConfig,
-                    simple: true,
-                    size: 'default',
-                    showSizeChanger: false,
+                <Pagination
+                  {...paginationConfig}
+                  simple
+                  size='default'
+                  showSizeChanger={false}
+                  itemRender={(page, type, originalElement) => {
+                    if (type === 'prev') {
+                      return <a className="ant-pagination-item-link">上一页</a>;
+                    }
+                    if (type === 'next') {
+                      return <a className="ant-pagination-item-link">下一页</a>;
+                    }
+                    return originalElement;
                   }}
                 />
               </div>
