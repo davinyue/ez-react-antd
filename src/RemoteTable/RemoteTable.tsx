@@ -321,7 +321,7 @@ class RemoteTable extends React.Component<RemoteTableProp, RemoteTableState> {
                   simple
                   size='default'
                   showSizeChanger={false}
-                  itemRender={(page, type, originalElement) => {
+                  itemRender={(_page, type, originalElement) => {
                     if (type === 'prev') {
                       return <a className="ant-pagination-item-link">上一页</a>;
                     }
