@@ -147,9 +147,9 @@ export interface RoutePermissionMap {
 
 
 /**
- * 按钮权限配置对象
+ * 功能点权限配置对象
  */
-export interface ButtonPermissionConfig {
+export interface FeaturePointPermissionConfig {
   /**
    * 是否需要登录
    * - true: 需要登录才能显示（默认值）
@@ -166,12 +166,12 @@ export interface ButtonPermissionConfig {
 }
 
 /**
- * 按钮权限映射配置
- * 用于配置按钮编码与所需权限的映射关系
+ * 功能点权限映射配置
+ * 用于配置功能点编码与所需权限的映射关系
  */
-export interface ButtonPermissionMap {
+export interface FeaturePointPermissionMap {
   /**
-   * 按钮编码到权限配置的映射
+   * 功能点编码到权限配置的映射
    * 
    * @example
    * {
@@ -189,10 +189,10 @@ export interface ButtonPermissionMap {
    *   'public.view': {
    *     requiresAuthentication: false  // 公开显示
    *   }
-   *   // 未配置的按钮默认需要登录但不需要权限
+   *   // 未配置的功能点默认需要登录但不需要权限
    * }
    */
-  [code: string]: undefined | ButtonPermissionConfig;
+  [code: string]: undefined | FeaturePointPermissionConfig;
 }
 
 /**
@@ -246,18 +246,18 @@ export interface EzAntdConfig {
    */
   getRoutePermissions?: () => RoutePermissionMap;
   /**
-   * 获取按钮权限映射配置（函数形式）
-   * 动态获取按钮编码与所需权限的映射关系
+   * 获取功能点权限映射配置（函数形式）
+   * 动态获取功能点编码与所需权限的映射关系
    * 使用函数形式可以避免页面刷新后配置丢失
    * 
-   * @returns 按钮权限映射对象
+   * @returns 功能点权限映射对象
    * @example
-   * getButtonPermissions: () => {
-   *   const cached = sessionStorage.getItem('buttonPermissions');
+   * getFeaturePointPermissions: () => {
+   *   const cached = sessionStorage.getItem('featurePointPermissions');
    *   return cached ? JSON.parse(cached) : {};
    * }
    */
-  getButtonPermissions?: () => ButtonPermissionMap;
+  getFeaturePointPermissions?: () => FeaturePointPermissionMap;
   /**
    * 登录页面路径
    * 未登录时重定向到此路径

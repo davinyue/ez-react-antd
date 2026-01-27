@@ -31,15 +31,15 @@ export {
     ConfigContext,
     getFirstAccessibleRoute,
     getRoutePermission,
-    getButtonPermission,
-    hasButtonPermission,
+    getFeaturePointPermission,
+    hasFeaturePointPermission,
     hasRoutePermission
 } from './ConfigProvider';
 export { default as DrawerRemoteTableSelect } from './DrawerRemoteTableSelect';
 export { default as ModalAvatar } from './ModalAvatar';
 export { default as TableActions } from './TableActions';
 export { default as Auth } from './Auth';
-export { default as ButtonAuth } from './ButtonAuth';
+export { default as FeaturePoint } from './FeaturePoint';
 
 // 类型导出
 export type { WidthType, GridProp, UseResponsiveResult } from './Grid';
@@ -56,10 +56,10 @@ export type { RemoteModalSelectProp } from './RemoteModalSelect';
 export type { IconSelectProps } from './IconSelect';
 export type { IconShowProps } from './IconSelect/IconShow';
 export type { AdminLayoutProp, MenuDef } from './AdminLayout';
-export type { EzAntdConfig, RoutePermissionMap, ButtonPermissionMap } from './ConfigProvider';
+export type { EzAntdConfig, RoutePermissionMap, FeaturePointPermissionMap } from './ConfigProvider';
 export type { ActionConfig, ActionType, TableActionsProps } from './TableActions';
 export type { AuthProps } from './Auth';
-export type { ButtonAuthProps } from './ButtonAuth';
+export type { FeaturePointProps } from './FeaturePoint';
 export type { WithRouteProps } from './hoc/withRoute';
 export type { WithAuthProps } from './hoc/withAuth';
 export type { WithReduxProps } from './hoc/withRedux';

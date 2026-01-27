@@ -26,7 +26,7 @@ import { Dispatch } from 'redux';
 import { PayloadAction } from '../types';
 import compare from '../utils/compare';
 import Grid, { WidthType } from '../Grid';
-import ButtonAuth from '../ButtonAuth';
+import FeaturePoint from '../FeaturePoint';
 import './index.less';
 
 /** 响应式上下文,用于在组件树中传递移动端状态 */
@@ -137,11 +137,11 @@ interface SearchBarProps {
   };
   /** 是否显示"新增"按钮（主开关，为 true 时才渲染按钮） */
   showAddMenu?: boolean;
-  /** 新增按钮权限编码（可选，有值时使用 ButtonAuth 进行权限验证） */
+  /** 新增按钮权限编码（可选，有值时使用 FeaturePoint 进行权限验证） */
   addMenuCode?: string;
   /** 是否显示"删除"按钮（主开关，为 true 时才渲染按钮） */
   showDeleteMenu?: boolean;
-  /** 删除按钮权限编码（可选，有值时使用 ButtonAuth 进行权限验证） */
+  /** 删除按钮权限编码（可选，有值时使用 FeaturePoint 进行权限验证） */
   deleteMenuCode?: string;
   /** "新增"按钮的文本,默认为"新增" */
   addMenuName?: string;
@@ -285,28 +285,28 @@ export class SearchBar extends React.Component<SearchBarProps> {
             {this.props.children}
             {this.state.showMore ? this.props.moreItem : null}
             <div className='table_search_menu_box'>
-              {/* 当 showAddMenu 为 true 时才渲染新增按钮，如果 addMenuCode 有值则使用 ButtonAuth 嵌套 */}
+              {/* 当 showAddMenu 为 true 时才渲染新增按钮，如果 addMenuCode 有值则使用 FeaturePoint 嵌套 */}
               {showAddMenu && (
                 <div className='table_search_menu_item'>
                   {addMenuCode ? (
-                    <ButtonAuth code={addMenuCode}>
+                    <FeaturePoint code={addMenuCode}>
                       <Button icon={<PlusOutlined />} type='primary' disabled={this.props.disabled}
                         onClick={onClickAdd}>{addMenuName}</Button>
-                    </ButtonAuth>
+                    </FeaturePoint>
                   ) : (
                     <Button icon={<PlusOutlined />} type='primary' disabled={this.props.disabled}
                       onClick={onClickAdd}>{addMenuName}</Button>
                   )}
                 </div>
               )}
-              {/* 当 showDeleteMenu 为 true 时才渲染删除按钮，如果 deleteMenuCode 有值则使用 ButtonAuth 嵌套 */}
+              {/* 当 showDeleteMenu 为 true 时才渲染删除按钮，如果 deleteMenuCode 有值则使用 FeaturePoint 嵌套 */}
               {showDeleteMenu && (
                 <div className='table_search_menu_item'>
                   {deleteMenuCode ? (
-                    <ButtonAuth code={deleteMenuCode}>
+                    <FeaturePoint code={deleteMenuCode}>
                       <Button danger icon={<DeleteOutlined />} type='primary' disabled={this.props.disabled}
                         onClick={onClickDelete}>{deleteMenuName}</Button>
-                    </ButtonAuth>
+                    </FeaturePoint>
                   ) : (
                     <Button danger icon={<DeleteOutlined />} type='primary' disabled={this.props.disabled}
                       onClick={onClickDelete}>{deleteMenuName}</Button>

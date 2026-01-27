@@ -2,7 +2,7 @@ import React from 'react';
 import { Tooltip, Modal, message } from 'antd';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 import Auth from '../../Auth';
-import ButtonAuth from '../../ButtonAuth';
+import FeaturePoint from '../../FeaturePoint';
 import './ActionButton.less';
 
 export interface ActionButtonProps {
@@ -14,8 +14,8 @@ export interface ActionButtonProps {
   onClick: (record: any) => void | Promise<void>;
   /** 是否显示（优先级最高，默认为 true） */
   isShow?: boolean;
-  /** 按钮权限编码（可选，用于 ButtonAuth 方式的权限验证，优先级高于 permission） */
-  buttonCode?: string;
+  /** 按钮权限编码（可选，用于 FeaturePoint 方式的权限验证，优先级高于 permission） */
+  featurePointCode?: string;
   /** 权限码（可选，不传则不进行权限控制） */
   permission?: string | string[];
   /** 角色码（可选，不传则不进行角色控制） */
@@ -68,7 +68,7 @@ const ActionButton: React.FC<ActionButtonProps> = ({
   tooltip,
   onClick,
   isShow = true,
-  buttonCode,
+  featurePointCode,
   permission,
   role,
   requireAuth = true,
@@ -130,12 +130,12 @@ const ActionButton: React.FC<ActionButtonProps> = ({
     </Tooltip>
   );
 
-  // 优先使用 buttonCode（基于配置的权限验证）
-  if (buttonCode) {
+  // 优先使用 featurePointCode（基于配置的权限验证）
+  if (featurePointCode) {
     return (
-      <ButtonAuth code={buttonCode}>
+      <FeaturePoint code={featurePointCode}>
         {button}
-      </ButtonAuth>
+      </FeaturePoint>
     );
   }
 

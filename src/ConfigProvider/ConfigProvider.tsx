@@ -63,8 +63,8 @@ export const useUpdateConfig = () => useContext(UpdateConfigContext);
  *     const cached = sessionStorage.getItem('routePermissions');
  *     return cached ? JSON.parse(cached) : {};
  *   },
- *   getButtonPermissions: () => {
- *     const cached = sessionStorage.getItem('buttonPermissions');
+ *   getFeaturePermissions: () => {
+ *     const cached = sessionStorage.getItem('featurePermissions');
  *     return cached ? JSON.parse(cached) : {};
  *   },
  * }}>

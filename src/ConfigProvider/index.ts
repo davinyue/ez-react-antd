@@ -6,7 +6,7 @@ export type {
   Request,
   EzAntdConfig,
   RoutePermissionMap,
-  ButtonPermissionMap,
+  FeaturePointPermissionMap,
 } from './types';
 
 // 导出默认配置
@@ -24,8 +24,8 @@ export {
 // 导出工具函数
 export {
   getRoutePermission,
-  getButtonPermission,
+  getFeaturePointPermission,
   getFirstAccessibleRoute,
-  hasButtonPermission,
+  hasFeaturePointPermission,
   hasRoutePermission
 } from './utils';

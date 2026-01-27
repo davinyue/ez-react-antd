@@ -110,12 +110,12 @@ const PRESET_ACTIONS: Record<ActionType, { icon: React.ReactNode; tooltip: strin
  *   actions={[
  *     {
  *       type: 'edit',
- *       buttonCode: 'user.edit',  // 从 buttonPermissions 配置中查询权限
+ *       featurePointCode: 'user.edit',  // 从 buttonPermissions 配置中查询权限
  *       onClick: () => handleEdit()
  *     },
  *     {
  *       type: 'delete',
- *       buttonCode: 'user.delete',
+ *       featurePointCode: 'user.delete',
  *       confirm: {
  *         title: '确认删除?',
  *         content: '删除后无法恢复'
@@ -149,7 +149,7 @@ const PRESET_ACTIONS: Record<ActionType, { icon: React.ReactNode; tooltip: strin
  *   actions={[
  *     {
  *       type: 'edit',
- *       buttonCode: 'user.edit',  // 优先使用 buttonCode
+ *       featurePointCode: 'user.edit',  // 优先使用 buttonCode
  *       onClick: () => handleEdit()
  *     },
  *     {

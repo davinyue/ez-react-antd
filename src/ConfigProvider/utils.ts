@@ -1,4 +1,4 @@
-import type { RoutePermissionMap, RoutePermissionConfig, ButtonPermissionMap, ButtonPermissionConfig, EzAntdConfig } from './types';
+import type { RoutePermissionMap, RoutePermissionConfig, FeaturePointPermissionMap, FeaturePointPermissionConfig, EzAntdConfig } from './types';
 
 /**
  * 根据路由路径获取权限配置
@@ -51,29 +51,29 @@ export function getRoutePermission(
 }
 
 /**
- * 根据按钮编码获取权限配置
+ * 根据功能点编码获取权限配置
  * 
- * @param code 按钮编码
- * @param buttonPermissions 按钮权限映射配置
- * @returns 按钮权限配置对象
+ * @param code 功能点编码
+ * @param featurePointPermissions 功能点权限映射配置
+ * @returns 功能点权限配置对象
  * 
  * @example
- * const config = getButtonPermission('user.create', {
+ * const config = getFeaturePointPermission('user.create', {
  *   'user.create': { requiresAuthentication: true, permissionIds: 'user.create' },
  *   'user.delete': { requiresAuthentication: true, permissionIds: ['user.delete', 'user.manage'] }
  * });
  * // 返回: { requiresAuthentication: true, permissionIds: 'user.create' }
  */
-export function getButtonPermission(
+export function getFeaturePointPermission(
   code: string,
-  buttonPermissions?: ButtonPermissionMap
-): ButtonPermissionConfig | undefined {
-  if (!buttonPermissions) {
+  featurePointPermissions?: FeaturePointPermissionMap
+): FeaturePointPermissionConfig | undefined {
+  if (!featurePointPermissions) {
     return undefined;
   }
 
   // 直接返回映射的权限配置
-  return buttonPermissions[code];
+  return featurePointPermissions[code];
 }
 
 /**
@@ -121,53 +121,53 @@ export function getFirstAccessibleRoute(
 }
 
 /**
- * 判断用户是否有权限展示某个按钮
+ * 判断用户是否有权限展示某个功能点
  * 
- * @param code 按钮编码
+ * @param code 功能点编码
  * @param config 全局配置对象
- * @returns 是否有权限展示该按钮
+ * @returns 是否有权限展示该功能点
  * 
  * @example
- * // 未配置的按钮（默认需要登录但不需要权限）
- * const canShow = hasButtonPermission('some.button', config);
+ * // 未配置的功能点（默认需要登录但不需要权限）
+ * const canShow = hasFeaturePointPermission('some.featurePoint', config);
  * // 返回: true（如果已登录）
  * 
  * @example
- * // 公开按钮（不需要登录）
- * const canShow = hasButtonPermission('public.view', config);
+ * // 公开功能点（不需要登录）
+ * const canShow = hasFeaturePointPermission('public.view', config);
  * // 返回: true
  * 
  * @example
  * // 需要登录但不需要权限
- * const canShow = hasButtonPermission('user.profile', config);
+ * const canShow = hasFeaturePointPermission('user.profile', config);
  * // 返回: true（如果已登录）
  * 
  * @example
  * // 需要登录且需要权限
- * const canShow = hasButtonPermission('user.create', config);
+ * const canShow = hasFeaturePointPermission('user.create', config);
  * // 返回: true（如果已登录且拥有所需权限）
  * 
  * @example
  * // 配置了多个权限（满足任一即可）
- * // buttonPermissions: { 'user.delete': { permissionIds: ['user.delete', 'user.manage'] } }
- * const canDelete = hasButtonPermission('user.delete', config);
+ * // featurePointPermissions: { 'user.delete': { permissionIds: ['user.delete', 'user.manage'] } }
+ * const canDelete = hasFeaturePointPermission('user.delete', config);
  * // 返回: true（如果用户拥有 'user.delete' 或 'user.manage' 任一权限）
  */
-export function hasButtonPermission(
+export function hasFeaturePointPermission(
   code: string,
   config: EzAntdConfig
 ): boolean {
-  // 获取按钮权限配置
-  const buttonPermissions = config.getButtonPermissions?.() || {};
-  const buttonConfig = getButtonPermission(code, buttonPermissions);
+  // 获取功能点权限配置
+  const featurePointPermissions = config.getFeaturePointPermissions?.() || {};
+  const featurePointConfig = getFeaturePointPermission(code, featurePointPermissions);
 
   // 如果没有配置，默认需要登录但不需要权限
-  if (buttonConfig === undefined) {
+  if (featurePointConfig === undefined) {
     return config.isAuthenticated?.() ?? false;
   }
 
   // 如果 requiresAuthentication 为 false，不需要登录，直接返回 true
-  if (buttonConfig.requiresAuthentication === false) {
+  if (featurePointConfig.requiresAuthentication === false) {
     return true;
   }
 
@@ -178,7 +178,7 @@ export function hasButtonPermission(
   }
 
   // 已登录，检查权限
-  const { permissionIds } = buttonConfig;
+  const { permissionIds } = featurePointConfig;
 
   // 如果没有配置权限要求，只需要登录即可
   if (permissionIds === undefined) {
