@@ -46,11 +46,11 @@ export interface ActionButtonProps {
  * 
  * @example
  * ```tsx
- * // 方式 1：使用 buttonCode（推荐）
+ * // 方式 1：使用 featurePointCode（推荐）
  * <ActionButton
  *   icon={<EditOutlined />}
  *   tooltip="编辑"
- *   buttonCode="user.edit"
+ *   featurePointCode="user.edit"
  *   onClick={(record: any) => handleEdit()}
  * />
  * 
