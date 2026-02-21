@@ -30,9 +30,14 @@ export interface WithReduxProps {
  * // 组件会自动获得 user, count, dispatch 属性的类型提示
  * ```
  */
+const defaultState = {} as any;
+const defaultSelector = () => defaultState;
+
 export default function withRedux<TState extends object = {}, TRootState = any>(
   stateMapProps?: ((state: TRootState) => TState) | null
 ) {
+  const selector = typeof stateMapProps === 'function' ? stateMapProps : defaultSelector;
+
   /**
    * 将 Redux 的 state 映射到组件
    * @param SourceComponent - 原始组件
@@ -41,10 +46,7 @@ export default function withRedux<TState extends object = {}, TRootState = any>(
     SourceComponent: React.ComponentType<P>
   ): React.ComponentType<Omit<P, keyof (TState & WithReduxProps)>> {
     return function WithReduxComponent(props: Omit<P, keyof (TState & WithReduxProps)>) {
-      let reduxState = {} as TState;
-      if (stateMapProps && stateMapProps instanceof Function) {
-        reduxState = useSelector(stateMapProps);
-      }
+      let reduxState = useSelector(selector) as TState;
       if (!reduxState) {
         reduxState = {} as TState;
       }
