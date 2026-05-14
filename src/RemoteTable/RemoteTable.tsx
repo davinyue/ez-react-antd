@@ -206,6 +206,44 @@ class RemoteTable extends React.Component<RemoteTableProp, RemoteTableState> {
     return `${range[0]}-${range[1]}/${total}`;
   }
 
+  getColumnWidth(width: any): number {
+    if (typeof width === 'number' && Number.isFinite(width)) {
+      return width;
+    }
+    if (typeof width === 'string') {
+      const trimmedWidth = width.trim();
+      if (/^\d+(\.\d+)?(px)?$/.test(trimmedWidth)) {
+        return parseFloat(trimmedWidth);
+      }
+    }
+    return 0;
+  }
+
+  getColumnsWidth(columns: ColumnsType<any>): number {
+    return columns.reduce((total: number, column: any) => {
+      if (column.children && column.children.length > 0) {
+        return total + this.getColumnsWidth(column.children);
+      }
+      return total + this.getColumnWidth(column.width);
+    }, 0);
+  }
+
+  getTableScroll() {
+    const { columns, rowSelection, expandable, scrollSub } = this.props;
+    const { clientWidth } = this.state;
+    if (clientWidth === 0) {
+      return undefined;
+    }
+
+    const extraWidth = (rowSelection ? 32 : 0) + (expandable ? 32 : 0);
+    const columnsWidth = this.getColumnsWidth(columns) + extraWidth;
+    const availableWidth = clientWidth - (scrollSub || 0);
+    if (columnsWidth > availableWidth) {
+      return { x: columnsWidth };
+    }
+    return undefined;
+  }
+
   /**
    * 渲染移动端卡片
    */
@@ -258,7 +296,6 @@ class RemoteTable extends React.Component<RemoteTableProp, RemoteTableState> {
   render() {
     const {
       pageData = {},
-      scrollSub,
       title,
       children,
       expandable,
@@ -269,7 +306,7 @@ class RemoteTable extends React.Component<RemoteTableProp, RemoteTableState> {
       showHeader
     } = this.props;
 
-    const { clientWidth, isMobile } = this.state;
+    const { isMobile } = this.state;
 
     const pagination = {
       total: pageData.total || 0,
@@ -343,7 +380,7 @@ class RemoteTable extends React.Component<RemoteTableProp, RemoteTableState> {
             size='small'
             rowSelection={rowSelection}
             loading={!notShowLoading && loading}
-            scroll={clientWidth === 0 ? undefined : { x: clientWidth - 0.1 - (scrollSub || 0) }}
+            scroll={this.getTableScroll()}
             showHeader={showHeader}
             rowKey={this.getRowKey}
             pagination={paginationConfig}
