@@ -5,6 +5,24 @@ import { resolve } from 'path';
 
 import { libInjectCss } from 'vite-plugin-lib-inject-css';
 
+const externalPackages = [
+  'react',
+  'react-dom',
+  'redux',
+  'antd',
+  'react-redux',
+  'react-router',
+  '@fortawesome/fontawesome-svg-core',
+  '@fortawesome/free-regular-svg-icons',
+  '@fortawesome/free-solid-svg-icons',
+  '@fortawesome/react-fontawesome',
+  'antd-img-crop',
+  'react-select',
+  'react-window'
+];
+
+const isExternal = (id: string) => externalPackages.some((pkg) => id === pkg || id.startsWith(`${pkg}/`));
+
 export default defineConfig({
   plugins: [
     react({
@@ -14,7 +32,7 @@ export default defineConfig({
     libInjectCss(),
     dts({
       insertTypesEntry: true,
-      outDir: 'dist',
+      outDirs: 'dist',
       exclude: [
         'src/**/*.test.ts',
         'src/**/*.test.tsx',
@@ -51,21 +69,7 @@ export default defineConfig({
       // 1. 减小包体积 (react, antd 等由宿主环境提供)
       // 2. 避免多实例冲突 (如 react 需要单例)
       // 3. 业务项目必须安装这些依赖
-      external: [
-        'react',
-        'react-dom',
-        'redux',
-        'antd',
-        'react-redux',
-        'react-router',
-        '@fortawesome/fontawesome-svg-core',
-        '@fortawesome/free-regular-svg-icons',
-        '@fortawesome/free-solid-svg-icons',
-        '@fortawesome/react-fontawesome',
-        'antd-img-crop',
-        'react-select',
-        'react-window'
-      ],
+      external: isExternal,
       // 移除 output.globals 配置，因为不再构建 UMD 格式
     },
   },
