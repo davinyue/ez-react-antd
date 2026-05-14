@@ -1,7 +1,5 @@
 import React from 'react';
-import { Table, Divider, Card, Pagination } from 'antd';
-import type { ColumnsType } from 'antd/es/table';
-import type { TableRowSelection, ExpandableConfig, Key } from 'antd/es/table/interface';
+import { Table, Divider, Card, Pagination, type TableColumnsType, type TableProps } from 'antd';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { PayloadAction } from '../types';
@@ -38,15 +36,15 @@ export interface RemoteTableProp {
   /** 表格标题 */
   title?: string;
   /** 表格列配置 */
-  columns: ColumnsType<any>;
+  columns: TableColumnsType<any>;
   /** 表格行选择配置 */
-  rowSelection?: TableRowSelection<any>;
+  rowSelection?: TableProps<any>['rowSelection'];
   /** 横向滚动条出现时减去的宽度，默认 0 */
   scrollSub?: number;
   /** 是否不显示 loading 状态，默认 false */
   notShowLoading?: boolean,
   /** 展开配置 */
-  expandable?: ExpandableConfig<any>
+  expandable?: TableProps<any>['expandable']
   /** 是否显示表头，默认 true */
   showHeader?: boolean
 }
@@ -66,16 +64,16 @@ export interface RemoteTableState {
  * 从远程 API 加载分页数据，支持响应式布局
  * 移动端显示为卡片列表，桌面端显示为表格
  * 与 Redux 集成，自动管理加载状态和分页数据
- * 
+ *
  * @example
- * <RemoteTable 
+ * <RemoteTable
  *   modelName="user"
  *   columns={columns}
  *   queryParam={{ status: 'active' }}
  * />
  */
 class RemoteTable extends React.Component<RemoteTableProp, RemoteTableState> {
-  ref: React.RefObject<HTMLDivElement>;
+  ref: React.RefObject<HTMLDivElement | null>;
   resizeObserver: ResizeObserver | null = null;
 
   static defaultProps = {
@@ -197,9 +195,9 @@ class RemoteTable extends React.Component<RemoteTableProp, RemoteTableState> {
     }
   }
 
-  getRowKey(record: any): Key {
+  getRowKey(record: any): React.Key {
     const { primaryKey } = this.props;
-    return record[primaryKey!] as Key;
+    return record[primaryKey!] as React.Key;
   }
 
   showTotal(total: number, range: [number, number]) {
@@ -219,7 +217,7 @@ class RemoteTable extends React.Component<RemoteTableProp, RemoteTableState> {
     return 0;
   }
 
-  getColumnsWidth(columns: ColumnsType<any>): number {
+  getColumnsWidth(columns: TableColumnsType<any>): number {
     return columns.reduce((total: number, column: any) => {
       if (column.children && column.children.length > 0) {
         return total + this.getColumnsWidth(column.children);
@@ -315,7 +313,6 @@ class RemoteTable extends React.Component<RemoteTableProp, RemoteTableState> {
     };
 
     const paginationConfig = {
-      position: ['bottomRight'] as any,
       current: pagination.current,
       pageSize: pagination.pageSize,
       pageSizeOptions: ['16', '25', '32', '64', '128'],
@@ -327,6 +324,10 @@ class RemoteTable extends React.Component<RemoteTableProp, RemoteTableState> {
       onChange: this.handlePageChange,
       onShowSizeChange: this.handleShowSizeChange,
     };
+    const tablePaginationConfig: TableProps<any>['pagination'] = {
+      ...paginationConfig,
+      placement: ['bottomEnd'],
+    };
 
     return (
       <div ref={this.ref} className='remote_table_box'>
@@ -336,7 +337,7 @@ class RemoteTable extends React.Component<RemoteTableProp, RemoteTableState> {
             <div className='romote_table_title'>{title}</div>
             <div className='romote_table_menu'>
               {children}
-              <Divider type='vertical' />
+              <Divider orientation='vertical' />
             </div>
           </div>
         )}
@@ -356,7 +357,6 @@ class RemoteTable extends React.Component<RemoteTableProp, RemoteTableState> {
                 <Pagination
                   {...paginationConfig}
                   simple
-                  size='default'
                   showSizeChanger={false}
                   itemRender={(_page, type, originalElement) => {
                     if (type === 'prev') {
@@ -383,7 +383,7 @@ class RemoteTable extends React.Component<RemoteTableProp, RemoteTableState> {
             scroll={this.getTableScroll()}
             showHeader={showHeader}
             rowKey={this.getRowKey}
-            pagination={paginationConfig}
+            pagination={tablePaginationConfig}
           />
         )}
       </div>

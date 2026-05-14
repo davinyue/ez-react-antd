@@ -1,4 +1,6 @@
 // 导出所有组件
+import type { TableProps as AntdTableProps } from 'antd';
+
 export { default as Grid, useResponsive } from './Grid';
 export { default as Loading } from './Loading';
 export { default as Drawer } from './Drawer';
@@ -66,5 +68,5 @@ export type { WithReduxProps } from './hoc/withRedux';
 export type { WithEzAntdConfigProps } from './hoc/withEzAntdConfig';
 
 // 重新导出 antd 常用类型,确保类型一致性
-export type { ColumnsType, ColumnType } from 'antd/es/table';
-export type { TableRowSelection } from 'antd/es/table/interface';
+export type { TableColumnsType as ColumnsType, TableColumnType as ColumnType, TableProps } from 'antd';
+export type TableRowSelection<T = any> = NonNullable<AntdTableProps<T>['rowSelection']>;

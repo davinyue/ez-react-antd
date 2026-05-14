@@ -1,5 +1,5 @@
 import React from 'react';
-import { Upload } from 'antd';
+import { Upload, type UploadFile } from 'antd';
 import ImgCrop from 'antd-img-crop';
 import { v1 as uuidV1 } from '../utils/uuid';
 import { getTimestampStr } from '../utils/date';
@@ -7,8 +7,7 @@ import { ConfigContext } from '../ConfigProvider';
 import compare from '../utils/compare';
 // import 'antd/es/modal/style'; // v5 不需要显式引入样式
 // import 'antd/es/slider/style';
-import type { UploadFile, RcFile } from 'antd/es/upload/interface';
-import type { UploadRequestOption } from 'rc-upload/lib/interface';
+import type { RcFile, UploadRequestOption } from '@rc-component/upload/es/interface';
 
 /**
  * 图片上传组件属性接口

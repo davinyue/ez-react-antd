@@ -3,11 +3,19 @@ import { RollbackOutlined } from '@ant-design/icons';
 import React from 'react';
 import './index.less';
 
+type DrawerMaskConfig = {
+  enabled?: boolean;
+  blur?: boolean;
+  closable?: boolean;
+};
+
+type DrawerMask = boolean | DrawerMaskConfig;
+
 /**
  * 抽屉组件属性接口
  * 继承自 Ant Design 的 DrawerProps
  */
-export interface DrawerClassProps extends DrawerProps {
+export interface DrawerClassProps extends Omit<DrawerProps, 'width' | 'height' | 'mask' | 'maskClosable'> {
   /** 关闭按钮文本，默认 '关闭' */
   closeTxt?: string;
   /** 抽屉标题 */
@@ -18,43 +26,43 @@ export interface DrawerClassProps extends DrawerProps {
    * 关闭回调函数
    * @param e 鼠标或键盘事件
    */
-  onClose?: (e: React.MouseEvent | React.KeyboardEvent) => void;
-  /** 
+  onClose?: DrawerProps['onClose'];
+  /**
    * 抽屉宽度
    * 可以是数字（像素）或字符串（如 '50%'）
    */
   width?: number | string;
-  /** 
+  /**
    * 抽屉高度（仅在 placement 为 top 或 bottom 时有效）
    * 可以是数字（像素）或字符串（如 '50%'）
    */
   height?: number | string;
-  /** 
+  /**
    * 抽屉位置
    * @default 'right'
    */
   placement?: 'top' | 'right' | 'bottom' | 'left';
-  /** 
+  /**
    * 是否显示遮罩
    * @default true
    */
-  mask?: boolean;
-  /** 
+  mask?: DrawerMask;
+  /**
    * 点击遮罩是否允许关闭
    * @default true
    */
   maskClosable?: boolean;
-  /** 
+  /**
    * 关闭时销毁子元素
    * @default false
    */
   destroyOnHidden?: boolean;
-  /** 
+  /**
    * 抽屉的 z-index
    * @default 1000
    */
   zIndex?: number;
-  /** 
+  /**
    * 可用于设置 Drawer 各部分的样式
    */
   styles?: {
@@ -64,7 +72,7 @@ export interface DrawerClassProps extends DrawerProps {
     mask?: React.CSSProperties;
     wrapper?: React.CSSProperties;
   };
-  /** 
+  /**
    * 底部内容
    */
   footer?: React.ReactNode;
@@ -73,9 +81,9 @@ export interface DrawerClassProps extends DrawerProps {
 /**
  * 抽屉组件
  * 基于 Ant Design Drawer 封装，自定义关闭按钮样式
- * 
+ *
  * @example
- * <Drawer 
+ * <Drawer
  *   open={visible}
  *   title="详情"
  *   onClose={handleClose}
@@ -102,14 +110,48 @@ class DrawerClass extends React.Component<DrawerClassProps> {
     zIndex: 1000,
   };
 
+  getDrawerSize() {
+    const { size, width, height, placement } = this.props;
+    if (size !== undefined) {
+      return size;
+    }
+    if (placement === 'top' || placement === 'bottom') {
+      return height;
+    }
+    return width;
+  }
+
+  getDrawerMask(): DrawerProps['mask'] {
+    const { mask, maskClosable } = this.props;
+    if (typeof mask === 'object' && mask !== null) {
+      return {
+        ...mask,
+        closable: mask.closable ?? maskClosable,
+      } as DrawerProps['mask'];
+    }
+    return {
+      enabled: mask,
+      closable: maskClosable,
+    } as DrawerProps['mask'];
+  }
+
   render() {
     const {
       closeTxt,
       title,
       children,
       styles,
-      ...restProps
     } = this.props;
+    const restProps: Partial<DrawerClassProps> = { ...this.props };
+    delete restProps.closeTxt;
+    delete restProps.title;
+    delete restProps.children;
+    delete restProps.styles;
+    delete restProps.width;
+    delete restProps.height;
+    delete restProps.size;
+    delete restProps.mask;
+    delete restProps.maskClosable;
 
     // 合并默认样式和用户自定义样式
     const mergedStyles = {
@@ -132,11 +174,13 @@ class DrawerClass extends React.Component<DrawerClassProps> {
       <Drawer
         className="drawer_box"
         {...restProps}
+        size={this.getDrawerSize()}
+        mask={this.getDrawerMask()}
         styles={mergedStyles}
         closeIcon={false}
         title={
           <div>
-            <Button icon={<RollbackOutlined />} onClick={this.props.onClose}>
+            <Button icon={<RollbackOutlined />} onClick={(e) => this.props.onClose?.(e)}>
               {closeTxt}
             </Button>
             <span className="drawer_title">{title}</span>

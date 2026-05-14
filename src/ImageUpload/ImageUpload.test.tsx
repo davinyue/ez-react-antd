@@ -77,7 +77,7 @@ describe('ImageUpload', () => {
     );
 
     // Find and click remove button
-    const removeButton = screen.getByLabelText('Remove file');
+    const removeButton = screen.getByTitle('Remove file');
     await user.click(removeButton);
 
     await waitFor(() => {

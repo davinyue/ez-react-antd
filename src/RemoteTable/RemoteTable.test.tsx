@@ -7,6 +7,7 @@ import type { TableProps } from 'antd';
 import RemoteTable from './RemoteTable';
 
 let tableProps: TableProps<any> | undefined;
+let dividerProps: any;
 let resizeCallback: ResizeObserverCallback;
 
 vi.mock('antd', () => ({
@@ -14,7 +15,10 @@ vi.mock('antd', () => ({
     tableProps = props;
     return <div data-testid="remote-table" />;
   },
-  Divider: () => <div />,
+  Divider: (props: any) => {
+    dividerProps = props;
+    return <div />;
+  },
   Card: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
   Pagination: () => <div />,
 }));
@@ -23,7 +27,7 @@ vi.mock('../Grid', () => ({
   default: () => null,
 }));
 
-function renderRemoteTable(columns: TableProps<any>['columns']) {
+function renderRemoteTable(columns: TableProps<any>['columns'], children?: React.ReactNode) {
   const store = createStore((state = {
     demo: {
       loading: false,
@@ -38,7 +42,9 @@ function renderRemoteTable(columns: TableProps<any>['columns']) {
 
   render(
     <Provider store={store}>
-      <RemoteTable modelName="demo" columns={columns || []} />
+      <RemoteTable modelName="demo" columns={columns || []}>
+        {children}
+      </RemoteTable>
     </Provider>
   );
 }
@@ -46,6 +52,7 @@ function renderRemoteTable(columns: TableProps<any>['columns']) {
 describe('RemoteTable', () => {
   beforeEach(() => {
     tableProps = undefined;
+    dividerProps = undefined;
     resizeCallback = undefined as unknown as ResizeObserverCallback;
     global.ResizeObserver = class {
       constructor(callback: ResizeObserverCallback) {
@@ -89,6 +96,27 @@ describe('RemoteTable', () => {
 
     await waitFor(() => {
       expect(tableProps?.scroll).toEqual({ x: 900 });
+    });
+  });
+
+  it('uses Ant Design 6 table pagination placement and divider orientation props', async () => {
+    renderRemoteTable([
+      { title: '名称', dataIndex: 'name', width: 120 },
+    ], <button>新增</button>);
+
+    act(() => {
+      resizeCallback([
+        { contentRect: { width: 800 } } as ResizeObserverEntry,
+      ], {} as ResizeObserver);
+    });
+
+    await waitFor(() => {
+      expect(tableProps?.pagination).toMatchObject({
+        placement: ['bottomEnd'],
+      });
+      expect(tableProps?.pagination).not.toHaveProperty('position');
+      expect(dividerProps?.orientation).toBe('vertical');
+      expect(dividerProps).not.toHaveProperty('type');
     });
   });
 });

@@ -31,7 +31,7 @@ export interface ErrorNotificationProp {
  * @example
  * // 基本用法（配合 notification 使用）
  * notification.error({
- *   message: '操作失败',
+ *   title: '操作失败',
  *   description: <ErrorNotification data={{ msg: '网络连接超时' }} />
  * });
  * 
@@ -40,7 +40,7 @@ export interface ErrorNotificationProp {
  *   data: { code: 500, msg: '服务器内部错误' }
  * });
  * notification.error({
- *   message: '错误代码: 500',
+ *   title: '错误代码: 500',
  *   description: description
  * });
  */

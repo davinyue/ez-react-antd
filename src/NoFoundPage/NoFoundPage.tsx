@@ -1,10 +1,9 @@
-import { Button, Result } from 'antd';
-import { ResultStatusType } from 'antd/es/result';
+import { Button, Result, type ResultProps } from 'antd';
 import withRoute from '../hoc/withRoute';
 
 export interface NoFoundPageProp {
   /** 错误状态码，默认为 404 */
-  status?: ResultStatusType;
+  status?: ResultProps['status'];
   /** 错误标题 */
   title?: string;
   /** 错误描述信息 */

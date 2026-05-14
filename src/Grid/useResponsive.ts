@@ -69,7 +69,7 @@ export function useResponsive(debounceDelay = 150): UseResponsiveResult {
 
   useEffect(() => {
     // 创建防抖的 resize 处理器
-    let timeoutId: NodeJS.Timeout;
+    let timeoutId: ReturnType<typeof setTimeout>;
     const handleResize = () => {
       clearTimeout(timeoutId);
       timeoutId = setTimeout(() => {

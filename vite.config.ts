@@ -15,6 +15,13 @@ export default defineConfig({
     dts({
       insertTypesEntry: true,
       outDir: 'dist',
+      exclude: [
+        'src/**/*.test.ts',
+        'src/**/*.test.tsx',
+        'src/**/*.stories.ts',
+        'src/**/*.stories.tsx',
+        'src/test/**'
+      ],
       compilerOptions: {
         // 确保注释被保留到 .d.ts 文件中
         removeComments: false,
@@ -36,7 +43,10 @@ export default defineConfig({
       formats: ['es'], // 只构建 ES 模块，移除 UMD
       fileName: (format) => `ez-react-antd.${format}.js`,
     },
-    rollupOptions: {
+    rolldownOptions: {
+      checks: {
+        pluginTimings: false,
+      },
       // [external]: 告诉打包工具哪些第三方库不要打包进 ez-react-antd 中
       // 1. 减小包体积 (react, antd 等由宿主环境提供)
       // 2. 避免多实例冲突 (如 react 需要单例)

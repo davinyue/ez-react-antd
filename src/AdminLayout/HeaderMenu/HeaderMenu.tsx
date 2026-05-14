@@ -58,7 +58,7 @@ const HeaderMenu: React.FC<HeaderMenuProp> = ({
         <Dropdown
           menu={{ items: menuItems, onClick: handleMenuClick }}
           placement='bottomLeft'
-          overlayClassName={isMobile ? 'admin_layout_header_menu_dropdown_xs' : ''}
+          classNames={isMobile ? { root: 'admin_layout_header_menu_dropdown_xs' } : undefined}
         >
           <Avatar src={getUserAvatar()} />
         </Dropdown>
