@@ -52,7 +52,7 @@ RemoteTable 仅在表格列实际需要横向溢出时启用横向滚动。
 
 已定位到 RemoteTable 桌面端无条件传入 `scroll.x` 是多余横向滚动条的主要触发点。已改为按列宽与容器宽度判断是否启用横向滚动，并补充单元测试覆盖无需滚动和需要滚动两种场景。
 
-已通过 Chrome DevTools Protocol 查看 `ez-portal-platform-fe` 页面 `http://172.19.168.30:82/?menuid=67d13fd01326e1293ab36343`。页面 iframe `/admin/menu/list` 中主表格实际 `scrollWidth` 与 `clientWidth` 相等，没有真实横向溢出，但底部仍显示横向滚动条，符合本次修复的问题现象。
+已通过 Chrome DevTools Protocol 查看 `ez-portal-platform-fe` 页面 `http://172.19.168.30:82/?menuId=67d13fd01326e1293ab36343`。页面 iframe `/admin/menu/list` 中主表格实际 `scrollWidth` 与 `clientWidth` 相等，没有真实横向溢出，但底部仍显示横向滚动条，符合本次修复的问题现象。
 
 ## 风险与阻塞
 
