@@ -78,40 +78,6 @@ const SiderMenu: React.FC<SiderMenuProp> = ({
     return true;
   }, [hasPermission, hasRole]);
 
-  // 构建菜单项
-  const constructMenu = useCallback((menuList: Array<MenuDef>): MenuProps['items'] => {
-    const items: MenuProps['items'] = [];
-    for (const menu of menuList) {
-      // 检查菜单权限
-      if (!checkMenuPermission(menu)) {
-        continue;
-      }
-
-      if (!menu.childrens || menu.childrens.length < 1) {
-        items.push({
-          key: menu.id,
-          icon: menu.icon,
-          label: menu.title,
-        });
-      } else {
-        // 递归构建子菜单
-        const children = constructMenu(menu.childrens);
-
-        // 如果子菜单全部被过滤掉,则父菜单也不显示
-        if (children && children.length > 0) {
-          items.push({
-            key: menu.id,
-            icon: menu.icon,
-            label: menu.title,
-            children: children,
-          });
-        }
-      }
-    }
-
-    return items;
-  }, [checkMenuPermission]);
-
   // 获取菜单映射 (id -> menu)
   const menuMap = useMemo(() => {
     const map = new Map<string, MenuDef>();
@@ -174,7 +140,42 @@ const SiderMenu: React.FC<SiderMenuProp> = ({
   }, [currentMenu]);
 
   // 菜单项
-  const menuItems = useMemo(() => constructMenu(menus), [menus, constructMenu]);
+  const menuItems = useMemo(() => {
+    function constructMenu(menuList: Array<MenuDef>): MenuProps['items'] {
+      const items: MenuProps['items'] = [];
+      for (const menu of menuList) {
+        // 检查菜单权限
+        if (!checkMenuPermission(menu)) {
+          continue;
+        }
+
+        if (!menu.childrens || menu.childrens.length < 1) {
+          items.push({
+            key: menu.id,
+            icon: menu.icon,
+            label: menu.title,
+          });
+        } else {
+          // 递归构建子菜单
+          const children = constructMenu(menu.childrens);
+
+          // 如果子菜单全部被过滤掉,则父菜单也不显示
+          if (children && children.length > 0) {
+            items.push({
+              key: menu.id,
+              icon: menu.icon,
+              label: menu.title,
+              children,
+            });
+          }
+        }
+      }
+
+      return items;
+    }
+
+    return constructMenu(menus);
+  }, [menus, checkMenuPermission]);
 
   // 点击菜单项
   const handleMenuClick = (item: { key: string }) => {
