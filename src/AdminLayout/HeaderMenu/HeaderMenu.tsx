@@ -31,9 +31,20 @@ const HeaderMenu: React.FC<HeaderMenuProp> = ({
 
   // 获取用户头像
   const getUserAvatar = () => {
-    if (userInfo.avatar && fileDownloadUrl) {
-      return `${fileDownloadUrl}?id=${userInfo.avatar}`;
+    const avatar = userInfo.avatar;
+
+    if (!avatar) {
+      return defaultUserAvatar;
     }
+
+    if (/^(https?:\/\/|\/)/i.test(avatar)) {
+      return avatar;
+    }
+
+    if (fileDownloadUrl) {
+      return `${fileDownloadUrl}?id=${avatar}`;
+    }
+
     return defaultUserAvatar;
   };
 
