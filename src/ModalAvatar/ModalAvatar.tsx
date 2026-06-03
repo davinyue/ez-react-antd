@@ -21,7 +21,7 @@ interface ModalAvatarState {
 /**
  * 模态框头像组件
  * 点击头像可在模态框中预览大图
- * 
+ *
  * @example
  * <ModalAvatar src="/avatar.jpg" />
  */
@@ -39,7 +39,7 @@ class ModalAvatar extends React.Component<ModalAvatarProp, ModalAvatarState> {
    * 如果有图片地址则显示预览弹窗
    */
   handleClick() {
-    let { src } = this.props;
+    const { src } = this.props;
     if (src) {
       this.setState({
         showModal: true

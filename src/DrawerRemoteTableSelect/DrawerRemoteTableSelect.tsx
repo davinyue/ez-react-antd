@@ -84,10 +84,10 @@ class RemoteTableSelect extends React.Component<RemoteTableSelectProp, RemoteTab
    * @param changeRows 变化的行数据数组
    */
   _handleChange(selected: boolean, changeRows: any[]) {
-    let selectedRowTempKeys = JSON.parse(JSON.stringify(this.state.selectedRowTempKeys));
+    const selectedRowTempKeys = JSON.parse(JSON.stringify(this.state.selectedRowTempKeys));
     for (let i = 0; i < changeRows.length; i++) {
-      let changeRow = changeRows[i];
-      let key: string = changeRow[this.props.primaryKey!];
+      const changeRow = changeRows[i];
+      const key: string = changeRow[this.props.primaryKey!];
       if (selected) {
         this.keyMapRow[key] = changeRow;
         let ex = false;
@@ -174,14 +174,14 @@ class RemoteTableSelect extends React.Component<RemoteTableSelectProp, RemoteTab
     } else if (!(value instanceof Array)) {
       value = [value];
     }
-    let selectedRowKeys: Array<string> = [];
-    let keyMapRow: { [key: string]: any } = {};
+    const selectedRowKeys: Array<string> = [];
+    const keyMapRow: { [key: string]: any } = {};
     for (let i = 0; i < value.length; i++) {
-      let item = value[i];
+      const item = value[i];
       if (!item) {
         continue;
       }
-      let primaryKey = item[this.props.primaryKey!];
+      const primaryKey = item[this.props.primaryKey!];
       selectedRowKeys.push(primaryKey);
       keyMapRow[primaryKey] = item;
     }
@@ -197,17 +197,17 @@ class RemoteTableSelect extends React.Component<RemoteTableSelectProp, RemoteTab
   }
 
   componentDidUpdate(prevProps: RemoteTableSelectProp) {
-    let value = this.props.value;
+    const value = this.props.value;
     if (!compare(prevProps.value, value)) {
       this.handleDefafultValue();
     }
   }
 
   render() {
-    let selectedRowKeys = this.state.selectedRowKeys;
-    let selectedRowTempKeys = this.state.selectedRowTempKeys;
-    let { limit } = this.props;
-    let tableProps = { ...this.props };
+    const selectedRowKeys = this.state.selectedRowKeys;
+    const selectedRowTempKeys = this.state.selectedRowTempKeys;
+    const { limit } = this.props;
+    const tableProps = { ...this.props };
     delete tableProps.children;
     return (
       <Drawer

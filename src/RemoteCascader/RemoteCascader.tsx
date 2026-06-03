@@ -56,18 +56,18 @@ export interface RemoteCascaderState {
  * 远程级联选择组件
  * 从远程 API 加载级联数据，支持动态加载子节点
  * 适用于地区选择、部门选择等层级结构数据
- * 
+ *
  * @example
  * // 基本用法
- * <RemoteCascader 
+ * <RemoteCascader
  *   api="/api/regions"
  *   labelKey="name"
  *   valueKey="code"
  *   onChange={(values) => console.log(values)}
  * />
- * 
+ *
  * // 带初始值
- * <RemoteCascader 
+ * <RemoteCascader
  *   api="/api/departments"
  *   initValue={['dept1', 'dept2']}
  *   onLoadSonData={(option) => ({ parentId: option.value })}
@@ -110,13 +110,13 @@ class RemoteCascader extends React.Component<RemoteCascaderProp, RemoteCascaderS
       }
 
       try {
-        let response = await request.getRequest(this.props.api, pram);
+        const response = await request.getRequest(this.props.api, pram);
         if (responseIsSuccess(response)) {
-          let sonOptionMetaDatas = response?.data?.data;
-          let sonOptions: Array<any> = [];
+          const sonOptionMetaDatas = response?.data?.data;
+          const sonOptions: Array<any> = [];
           for (let i = 0; i < sonOptionMetaDatas.length; i++) {
-            let sonOptionMetaData = sonOptionMetaDatas[i];
-            let sonOption = {
+            const sonOptionMetaData = sonOptionMetaDatas[i];
+            const sonOption = {
               label: sonOptionMetaData[this.props.labelKey!],
               value: sonOptionMetaData[this.props.valueKey!],
               isLeaf: sonOptionMetaData.isLeaf,
@@ -124,7 +124,7 @@ class RemoteCascader extends React.Component<RemoteCascaderProp, RemoteCascaderS
               children: undefined // 重要: 初始化children undefined以支持动态加载
             };
             if (!sonOption.isLeaf) {
-              // 如果不是叶子节点，保持 children undefined 或空数组? 
+              // 如果不是叶子节点，保持 children undefined 或空数组?
               // Antd Cascader loadData 依赖 isLeaf=false
             }
 
@@ -144,7 +144,8 @@ class RemoteCascader extends React.Component<RemoteCascaderProp, RemoteCascaderS
   }
 
   async loadFirstData() {
-    let { api, needQueryParam, queryParam, initValue } = this.props;
+    const { api, needQueryParam } = this.props;
+    let { queryParam, initValue } = this.props;
     const { request, responseIsSuccess } = this.context;
 
     if (initValue && !(initValue instanceof Array)) {
@@ -164,13 +165,13 @@ class RemoteCascader extends React.Component<RemoteCascaderProp, RemoteCascaderS
 
       if (request && responseIsSuccess) {
         try {
-          let response = await request.getRequest(api, queryParam);
+          const response = await request.getRequest(api, queryParam);
           if (responseIsSuccess(response)) {
-            let options: Array<any> = [];
+            const options: Array<any> = [];
             const dataList = response?.data?.data;
             for (let i = 0; i < dataList.length; i++) {
-              let element = dataList[i];
-              let option = {
+              const element = dataList[i];
+              const option = {
                 label: element[this.props.labelKey!],
                 value: element[this.props.valueKey!],
                 isLeaf: element.isLeaf,
@@ -217,9 +218,9 @@ class RemoteCascader extends React.Component<RemoteCascaderProp, RemoteCascaderS
     }
 
     try {
-      let response = await request.getRequest(this.props.api, sonQueryParam);
+      const response = await request.getRequest(this.props.api, sonQueryParam);
       if (responseIsSuccess(response)) {
-        let sonOptions: Array<any> = [];
+        const sonOptions: Array<any> = [];
         const dataList = response?.data?.data;
         dataList.forEach((element: any) => {
           sonOptions.push({
@@ -232,7 +233,7 @@ class RemoteCascader extends React.Component<RemoteCascaderProp, RemoteCascaderS
         });
         targetOption.children = sonOptions;
         targetOption.loading = false;
-        let newOptions = this.state.options;
+        const newOptions = this.state.options;
         this.setState({ options: [...newOptions] });
       }
     } catch (e) {

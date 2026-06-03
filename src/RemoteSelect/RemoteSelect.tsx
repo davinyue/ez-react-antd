@@ -82,32 +82,32 @@ export interface RemoteSelectState {
  * 远程下拉选择组件
  * 从远程 API 加载选项数据的下拉选择框
  * 支持搜索、多选、动态加载等功能
- * 
+ *
  * @example
  * // 基本用法
- * <RemoteSelect 
+ * <RemoteSelect
  *   api="/api/users"
  *   labelKey="name"
  *   valueKey="id"
  *   onChange={(value) => console.log(value)}
  * />
- * 
+ *
  * // 带查询参数
- * <RemoteSelect 
+ * <RemoteSelect
  *   api="/api/departments"
  *   queryParam={{ companyId: 1 }}
  *   placeholder="选择部门"
  * />
- * 
+ *
  * // 返回原始数据
- * <RemoteSelect 
+ * <RemoteSelect
  *   api="/api/products"
  *   metaDataInValue
  *   onChange={(data) => console.log(data)}
  * />
- * 
+ *
  * // 自定义label构建
- * <RemoteSelect 
+ * <RemoteSelect
  *   api="/api/permissions"
  *   labelBuilder={(data) => <div><div>{data.code}</div><div>{data.name}</div></div>}
  *   onChange={(value) => console.log(value)}
@@ -158,7 +158,7 @@ class RemoteSelect extends React.Component<RemoteSelectProp, RemoteSelectState> 
    * @param queryParam 查询参数
    */
   async loadSelectOptions(queryParam?: any) {
-    let { api, needQueryParam } = this.props;
+    const { api, needQueryParam } = this.props;
     if (!queryParam && needQueryParam) {
       return;
     }
@@ -177,16 +177,16 @@ class RemoteSelect extends React.Component<RemoteSelectProp, RemoteSelectState> 
           return;
         }
 
-        let response = await request.getRequest(api, queryParam);
+        const response = await request.getRequest(api, queryParam);
 
         if (responseIsSuccess && responseIsSuccess(response)) {
           this.keyMapMetaDatas = {};
-          let metaDatas = response?.data?.data;
+          const metaDatas = response?.data?.data;
 
           if (metaDatas instanceof Array) {
-            let options: Array<any> = [];
+            const options: Array<any> = [];
             for (let i = 0; i < metaDatas.length; i++) {
-              let metaData = metaDatas[i];
+              const metaData = metaDatas[i];
               // 使用labelBuilder构建label,如果没有提供则使用labelKey
               const label = this.props.labelBuilder
                 ? this.props.labelBuilder(metaData)
@@ -226,7 +226,7 @@ class RemoteSelect extends React.Component<RemoteSelectProp, RemoteSelectState> 
     this.setState({ defaultValue: value, valueIsChange: true });
     if (this.props.onChange) {
       if (this.props.metaDataInValue) {
-        let metaData = this.keyMapMetaDatas[value];
+        const metaData = this.keyMapMetaDatas[value];
         this.props.onChange(metaData);
       } else {
         this.props.onChange(value);
@@ -235,8 +235,9 @@ class RemoteSelect extends React.Component<RemoteSelectProp, RemoteSelectState> 
   }
 
   render() {
-    let { selectedFirst, defaultValue, value } = this.props;
-    let { options, valueIsChange } = this.state;
+    const { selectedFirst } = this.props;
+    let { defaultValue, value } = this.props;
+    const { options, valueIsChange } = this.state;
     if (!defaultValue && selectedFirst && options && options.length > 0) {
       defaultValue = options[0].value;
     }

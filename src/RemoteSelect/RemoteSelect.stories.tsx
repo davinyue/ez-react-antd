@@ -1,10 +1,11 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import RemoteSelect from './RemoteSelect';
 import { ConfigContext } from '../ConfigProvider';
 
 // Mock request implementation for Storybook
 const mockRequest = {
   getRequest: async (api: string, _params?: any) => {
+    void _params;
     // Simulate API delay
     await new Promise((resolve) => setTimeout(resolve, 500));
 

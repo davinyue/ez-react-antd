@@ -18,19 +18,19 @@ export interface WithAuthProps {
 /**
  * withAuth HOC
  * 为组件添加鉴权功能，自动检查用户登录状态、权限和角色
- * 
+ *
  * @param SourceComponent - 要包装的组件
  * @returns 包装后的组件，会新增 permission 和 role 两个可选属性
- * 
+ *
  * @example
  * ```tsx
  * const AdminPage = withAuth(AdminPageComponent);
- * 
+ *
  * // 使用时会有 permission 和 role 的类型提示
  * <AdminPage permission="admin.view" role="admin" />
  * ```
  */
-export default function withAuth<P extends object = {}>(
+export default function withAuth<P extends object = object>(
   SourceComponent: React.ComponentType<P> | React.LazyExoticComponent<React.ComponentType<P>>
 ): React.ComponentType<P & WithAuthProps> {
   return function WithAuthComponent(props: P & WithAuthProps) {

@@ -83,10 +83,10 @@ class RemoteModalSelect extends React.Component<RemoteModalSelectProp, RemoteMod
     }
 
     _handleChange(selected: boolean, changeRows: any[]) {
-        let selectedRowTempKeys = JSON.parse(JSON.stringify(this.state.selectedRowTempKeys));
+        const selectedRowTempKeys = JSON.parse(JSON.stringify(this.state.selectedRowTempKeys));
         for (let i = 0; i < changeRows.length; i++) {
-            let changeRow = changeRows[i];
-            let key = changeRow[this.props.primaryKey!];
+            const changeRow = changeRows[i];
+            const key = changeRow[this.props.primaryKey!];
             if (selected) {
                 this.keyMapRow[key] = changeRow;
                 let ex = false;
@@ -121,8 +121,8 @@ class RemoteModalSelect extends React.Component<RemoteModalSelectProp, RemoteMod
 
     /** 通知选择项改变 */
     noticeSelectChange(selectedRowKeys: Array<string>) {
-        let selected: Array<any> = [];
-        // eslint-disable-next-line no-unused-vars
+        const selected: Array<any> = [];
+
         selectedRowKeys.forEach((selectedRowKey) => {
             selected.push(this.keyMapRow[selectedRowKey]);
         });
@@ -137,7 +137,7 @@ class RemoteModalSelect extends React.Component<RemoteModalSelectProp, RemoteMod
     getOptionColor(optionId: string) {
         let color = this.optionColor[optionId];
         if (!color) {
-            let index = Math.ceil(Math.random() * 10) - 1;
+            const index = Math.ceil(Math.random() * 10) - 1;
             color = this.bgc[index];
             this.optionColor[optionId] = color;
         }
@@ -159,8 +159,8 @@ class RemoteModalSelect extends React.Component<RemoteModalSelectProp, RemoteMod
     }
 
     handleDelete(e: any) {
-        let id = e.target.getAttribute('id');
-        let selectedRowKeys = this.state.selectedRowKeys;
+        const id = e.target.getAttribute('id');
+        const selectedRowKeys = this.state.selectedRowKeys;
         for (let i = 0; i < selectedRowKeys.length; i++) {
             if (selectedRowKeys[i] === id) {
                 selectedRowKeys.splice(i, 1);
@@ -184,14 +184,14 @@ class RemoteModalSelect extends React.Component<RemoteModalSelectProp, RemoteMod
         } else if (!(value instanceof Array)) {
             value = [value];
         }
-        let selectedRowKeys: Array<any> = [];
-        let keyMapRow: any = {};
+        const selectedRowKeys: Array<any> = [];
+        const keyMapRow: any = {};
         for (let i = 0; i < value.length; i++) {
-            let item = value[i];
+            const item = value[i];
             if (!item) {
                 continue;
             }
-            let primaryKey = item[this.props.primaryKey!];
+            const primaryKey = item[this.props.primaryKey!];
             selectedRowKeys.push(primaryKey);
             keyMapRow[primaryKey] = item;
         }
@@ -207,16 +207,16 @@ class RemoteModalSelect extends React.Component<RemoteModalSelectProp, RemoteMod
     }
 
     componentDidUpdate(prevProps: RemoteModalSelectProp) {
-        let value = this.props.value;
+        const value = this.props.value;
         if (!compare(prevProps.value, value)) {
             this.handleDefafultValue();
         }
     }
 
     render() {
-        let selectedRowKeys = this.state.selectedRowKeys;
-        let selectedRowTempKeys = this.state.selectedRowTempKeys;
-        let { disabled, limit } = this.props;
+        const selectedRowKeys = this.state.selectedRowKeys;
+        const selectedRowTempKeys = this.state.selectedRowTempKeys;
+        const { disabled, limit } = this.props;
         return (
             <>
                 <div className='davinyu_RemoteTableSelect_box'>

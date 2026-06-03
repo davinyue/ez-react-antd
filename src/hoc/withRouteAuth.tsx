@@ -9,16 +9,16 @@ import { useConfig, hasRoutePermission, getRoutePermission } from '../ConfigProv
  * withRouteAuth HOC
  * 为路由组件添加基于路径的鉴权功能
  * 自动从 ConfigProvider 的 getRoutePermissions 配置中查询当前路由所需权限
- * 
+ *
  * 权限验证规则：
  * - 未配置 - 默认需要登录但不需要权限
  * - requiresAuthentication: false - 公开访问，不需要登录
  * - requiresAuthentication: true + permissionIds: undefined - 需要登录，不需要权限
  * - requiresAuthentication: true + permissionIds: string/array - 需要登录且需要权限
- * 
+ *
  * @param SourceComponent - 要包装的组件
  * @returns 包装后的组件，会自动根据路由路径进行权限验证
- * 
+ *
  * @example
  * ```tsx
  * // 1. 配置路由权限映射（函数形式）
@@ -48,12 +48,12 @@ import { useConfig, hasRoutePermission, getRoutePermission } from '../ConfigProv
  * }}>
  *   <App />
  * </ConfigProvider>
- * 
+ *
  * // 2. 使用 withRouteAuth 包装组件
  * const AdminPage = withRouteAuth(AdminPageComponent);
  * const UsersPage = withRouteAuth(UsersPageComponent);
  * const LoginPage = withRouteAuth(LoginPageComponent);  // 公开路由也可以包装
- * 
+ *
  * // 3. 在路由中使用
  * <Routes>
  *   <Route path="/login" element={<LoginPage />} />
@@ -62,7 +62,7 @@ import { useConfig, hasRoutePermission, getRoutePermission } from '../ConfigProv
  * </Routes>
  * ```
  */
-export default function withRouteAuth<P extends object = {}>(
+export default function withRouteAuth<P extends object = object>(
   SourceComponent: React.ComponentType<P> | React.LazyExoticComponent<React.ComponentType<P>>
 ): React.ComponentType<P> {
   return function WithRouteAuthComponent(props: P) {

@@ -7,18 +7,30 @@ import type { EzAntdConfig, RequestParam, RequestConfig } from './types';
 export const defaultConfig: EzAntdConfig = {
   request: {
     getRequest: async (_url: string, _params?: RequestParam, _config?: RequestConfig) => {
+      void _url;
+      void _params;
+      void _config;
       console.warn('EzAntd: request method not configured');
       return Promise.resolve({ data: {}, status: 200, statusText: 'OK' });
     },
     postRequest: async (_url: string, _data: RequestParam, _config?: RequestConfig) => {
+      void _url;
+      void _data;
+      void _config;
       console.warn('EzAntd: request method not configured');
       return Promise.resolve({ data: {}, status: 200, statusText: 'OK' });
     },
     putRequest: async (_url: string, _data: RequestParam, _config?: RequestConfig) => {
+      void _url;
+      void _data;
+      void _config;
       console.warn('EzAntd: request method not configured');
       return Promise.resolve({ data: {}, status: 200, statusText: 'OK' });
     },
     deleteRequest: async (_url: string, _params?: RequestParam, _config?: RequestConfig) => {
+      void _url;
+      void _params;
+      void _config;
       console.warn('EzAntd: request method not configured');
       return Promise.resolve({ data: {}, status: 200, statusText: 'OK' });
     },
@@ -32,10 +44,12 @@ export const defaultConfig: EzAntdConfig = {
     return false;
   },
   hasPermission: (_permission: string | string[] | undefined | null) => {
+    void _permission;
     console.warn('EzAntd: hasPermission method not configured');
     return false;
   },
   hasRole: (_role: string | string[] | undefined | null) => {
+    void _role;
     console.warn('EzAntd: hasRole method not configured');
     return false;
   },

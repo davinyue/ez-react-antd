@@ -1,13 +1,13 @@
 /**
  * SearchBar 搜索栏组件
- * 
+ *
  * 提供表格数据搜索功能的组件,支持:
  * - 响应式布局(移动端/桌面端自适应)
  * - 展开/收起更多搜索条件
  * - 新增/删除操作按钮
  * - 与 Redux 的自动状态同步
  * - 搜索、重置功能
- * 
+ *
  * @example
  * ```tsx
  * <SearchBar modelName="user">
@@ -60,7 +60,7 @@ interface SearchBarItemState {
 
 /**
  * SearchBar.Item 搜索项组件
- * 
+ *
  * 用于在 SearchBar 中定义单个搜索条件,支持响应式宽度调整。
  * 在移动端会自动调整为 100% 宽度,桌面端为固定 250px 宽度。
  */
@@ -159,7 +159,7 @@ interface SearchBarProps {
 
 /**
  * SearchBar 搜索栏组件
- * 
+ *
  * 提供表格数据搜索功能,集成了:
  * - 响应式布局(移动端/桌面端自适应)
  * - 展开/收起更多搜索条件
@@ -361,7 +361,8 @@ export class SearchBar extends React.Component<SearchBarProps> {
  * @returns 映射后的 props 对象
  */
 function stateMapProps(state: any, props: SearchBarProps) {
-  let { modelName, paramName } = props;
+  const { modelName } = props;
+  let { paramName } = props;
   if (!paramName) {
     paramName = SearchBar.defaultProps.paramName || 'queryParam';
   }

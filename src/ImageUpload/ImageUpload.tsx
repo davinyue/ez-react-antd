@@ -54,30 +54,30 @@ interface ImageUploadState {
  * 图片上传组件
  * 支持图片裁剪、上传到服务器或转换为 base64
  * 基于 antd Upload 和 antd-img-crop
- * 
+ *
  * @example
  * // 基本用法（上传到服务器）
- * <ImageUpload 
+ * <ImageUpload
  *   value={imageUrl}
  *   onChange={(url) => setImageUrl(url)}
  *   uploadUrl="/api/upload"
  * />
- * 
+ *
  * // 使用 base64（不上传到服务器）
- * <ImageUpload 
+ * <ImageUpload
  *   value={base64}
  *   onChange={(base64) => setBase64(base64)}
  *   enabledUpload={false}
  * />
- * 
+ *
  * // 圆形裁剪（适合头像）
- * <ImageUpload 
+ * <ImageUpload
  *   cropShape="round"
  *   aspect={1}
  *   value={avatarUrl}
  *   onChange={(url) => setAvatarUrl(url)}
  * />
- * 
+ *
  * @see https://github.com/nanxiaobei/antd-img-crop/blob/master/README.zh-CN.md
  */
 class ImageUpload extends React.Component<ImageUploadProp, ImageUploadState> {
@@ -119,7 +119,7 @@ class ImageUpload extends React.Component<ImageUploadProp, ImageUploadState> {
    */
   getFileNameFromUrl(url: string) {
     if (!url) return '';
-    let name = url.substring(
+    const name = url.substring(
       url.lastIndexOf('/') + 1,
       url.length
     );
@@ -131,8 +131,8 @@ class ImageUpload extends React.Component<ImageUploadProp, ImageUploadState> {
    * 根据 value 属性创建初始文件列表
    */
   initFileList() {
-    let value = this.props.value;
-    let fileList: Array<UploadFile<any>> = [];
+    const value = this.props.value;
+    const fileList: Array<UploadFile<any>> = [];
     if (value) {
       fileList.push({
         name: this.getFileNameFromUrl(value),
@@ -170,7 +170,7 @@ class ImageUpload extends React.Component<ImageUploadProp, ImageUploadState> {
   getTempFileName(file: RcFile | File) {
     let fileName = getTimestampStr();
     fileName = fileName + '_' + uuidV1();
-    let subfix = file.name.substring(
+    const subfix = file.name.substring(
       file.name.lastIndexOf('.'),
       file.name.length
     );
@@ -183,7 +183,7 @@ class ImageUpload extends React.Component<ImageUploadProp, ImageUploadState> {
    * @param file 要移除的文件
    */
   handleRemove(file: UploadFile) {
-    let fileList = this.state.fileList;
+    const fileList = this.state.fileList;
     for (let i = 0; i < fileList.length; i++) {
       if (fileList[i] === file) {
         fileList.splice(i, 1);
@@ -221,9 +221,9 @@ class ImageUpload extends React.Component<ImageUploadProp, ImageUploadState> {
    * @param param Upload 组件的上传参数
    */
   async handleUpload(param: UploadRequestOption<any>) {
-    let file = param.file as RcFile;
+    const file = param.file as RcFile;
     let fileUrl: string | undefined;
-    let fileName = this.getTempFileName(file);
+    const fileName = this.getTempFileName(file);
     const { upload, responseIsSuccess } = this.context;
 
     if (!this.props.enabledUpload) {
@@ -231,7 +231,7 @@ class ImageUpload extends React.Component<ImageUploadProp, ImageUploadState> {
     } else {
       // 使用 ConfigProvider 的 upload 方法
       if (upload && this.props.uploadUrl) {
-        let formData = new FormData();
+        const formData = new FormData();
         formData.append('fileContent', file);
         formData.append('op', 'upload');
         formData.append('insertOnly', '0');
@@ -244,7 +244,7 @@ class ImageUpload extends React.Component<ImageUploadProp, ImageUploadState> {
         targetUrl += fileName;
 
         try {
-          let response = await upload(targetUrl, formData);
+          const response = await upload(targetUrl, formData);
 
           // 使用新的 responseIsSuccess API
           if (responseIsSuccess && responseIsSuccess(response)) {
@@ -281,7 +281,7 @@ class ImageUpload extends React.Component<ImageUploadProp, ImageUploadState> {
       param.onSuccess(fileUrl);
     }
 
-    let fileList = this.state.fileList;
+    const fileList = this.state.fileList;
     fileList.push({
       uid: file.uid,
       name: fileName,

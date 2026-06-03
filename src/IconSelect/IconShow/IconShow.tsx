@@ -25,11 +25,11 @@ const defaultStyle: CSSProperties = {
 };
 
 function IconShow(props: IconShowProps) {
-  let style = { ...defaultStyle, ...props.style };
+  const style = { ...defaultStyle, ...props.style };
   let icon = <></>;
-  let { iconValue = '' } = props;
+  const { iconValue = '' } = props;
   if (iconValue.startsWith('fs$')) {
-    let iconName = iconValue.split('$')[1];
+    const iconName = iconValue.split('$')[1];
     if ((FsIcon as any)[iconName]) {
       icon = (
         <span className='anticon'>
@@ -39,7 +39,7 @@ function IconShow(props: IconShowProps) {
     }
   }
   else if (iconValue.startsWith('fr$')) {
-    let iconName = iconValue.split('$')[1];
+    const iconName = iconValue.split('$')[1];
     if ((FrIcon as any)[iconName]) {
       icon = (
         <span className='anticon'>
@@ -48,7 +48,7 @@ function IconShow(props: IconShowProps) {
       );
     }
   } else if (iconValue.startsWith('antd$')) {
-    let iconName = iconValue.split('$')[1];
+    const iconName = iconValue.split('$')[1];
     if ((AntdIcon as any)[iconName]) {
       icon = React.createElement((AntdIcon as any)[iconName], { style: style });
     }

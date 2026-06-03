@@ -54,7 +54,7 @@ class VirtualizedMenuList extends React.Component<any> {
     if (inputValue) {
       options = options.filter((option) => (option as Option).value.toLowerCase().indexOf(inputValue.toLowerCase()) !== -1);
     }
-    let values = getValue();
+    const values = getValue();
     let value: Option | undefined;
     if (values && values.length > 0) {
       value = values[0];
@@ -102,7 +102,7 @@ class VirtualizedMenuList extends React.Component<any> {
 }
 
 const CustomSingleValue = ({ data }: { data: any }) => {
-  let tip = (data as Option).source + '.' + (data as Option).sourceKey;
+  const tip = (data as Option).source + '.' + (data as Option).sourceKey;
   return (
     <div className={`${classNamePrefix}__single-value`}>
       <IconShow iconValue={(data as Option).value} />
@@ -128,11 +128,11 @@ class IconSelect extends React.Component<IconSelectProps, IconSelectState> {
 
   buildIconSelectOptions() {
     this.optionMap = new Map();
-    let ret: Option[] = [];
-    for (let key in AntdIcon) {
+    const ret: Option[] = [];
+    for (const key in AntdIcon) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       if ((AntdIcon as any)[key].render instanceof Function) {
-        let option: Option = {
+        const option: Option = {
           value: 'antd' + '$' + key,
           source: 'Antd',
           sourceKey: key
@@ -141,10 +141,10 @@ class IconSelect extends React.Component<IconSelectProps, IconSelectState> {
         this.optionMap!.set(option.value, option);
       }
     }
-    for (let key in FsIcon) {
+    for (const key in FsIcon) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       if (this.isIconDefinition((FsIcon as any)[key])) {
-        let option: Option = {
+        const option: Option = {
           value: 'fs' + '$' + key,
           source: 'FreeSolid',
           sourceKey: key
@@ -153,10 +153,10 @@ class IconSelect extends React.Component<IconSelectProps, IconSelectState> {
         this.optionMap!.set(option.value, option);
       }
     }
-    for (let key in FrIcon) {
+    for (const key in FrIcon) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       if (this.isIconDefinition((FrIcon as any)[key])) {
-        let option: Option = {
+        const option: Option = {
           value: 'fr' + '$' + key,
           source: 'FreeRegular',
           sourceKey: key
@@ -178,7 +178,7 @@ class IconSelect extends React.Component<IconSelectProps, IconSelectState> {
   }
 
   updateWidth() {
-    let selectIns = this.selectRef.current;
+    const selectIns = this.selectRef.current;
     if (selectIns) {
       this.setState({ selectWidth: selectIns.offsetWidth });
     }

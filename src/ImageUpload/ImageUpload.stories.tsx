@@ -1,10 +1,12 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
 import ImageUpload from './ImageUpload';
 import { ConfigContext } from '../ConfigProvider';
 
 // Mock upload function for Storybook
 const mockUpload = async (_url: string, _formData: FormData) => {
+  void _url;
+  void _formData;
   // Simulate upload delay
   await new Promise((resolve) => setTimeout(resolve, 1000));
 

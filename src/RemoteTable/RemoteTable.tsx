@@ -409,7 +409,8 @@ class RemoteTable extends React.Component<RemoteTableProp, RemoteTableState> {
 }
 
 function stateMapProps(state: any, props: RemoteTableProp) {
-  let { modelName, dataStore } = props;
+  const { modelName } = props;
+  let { dataStore } = props;
   if (!dataStore) {
     dataStore = RemoteTable.defaultProps.dataStore;
   }

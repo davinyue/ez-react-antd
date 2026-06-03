@@ -157,10 +157,10 @@ class RemoteTree extends React.Component<RemoteTreeProp, RemoteTreeState> {
    * @param keys 选中的节点 key 数组
    */
   handleOnSelect(keys: any[]) {
-    let ret: Array<any> = [];
+    const ret: Array<any> = [];
     keys.forEach(key => {
-      let sourceData = this.keyMapSourceData[key];
-      let returnData = sourceData[this.props.valueKey!];
+      const sourceData = this.keyMapSourceData[key];
+      const returnData = sourceData[this.props.valueKey!];
       if (this.props.returnSourceData) {
         ret.push(sourceData);
       } else {
@@ -189,12 +189,12 @@ class RemoteTree extends React.Component<RemoteTreeProp, RemoteTreeState> {
       this.props.onClickAddSon(this.keyMapSourceData[node.key], (sourceData: any) => {
         node.isLeaf = false;
         sourceData.isLeaf = true;
-        let treeData = this.createTreeDataBySourceData(sourceData);
+        const treeData = this.createTreeDataBySourceData(sourceData);
         if (!node.children) {
           node.children = [];
         }
         node.children.unshift(treeData);
-        let treeDatas = this.state.treeDatas;
+        const treeDatas = this.state.treeDatas;
         this.keyMapNode[treeData.key] = treeData;
         this.keyMapParentKey[treeData.key] = node.key;
         this.setState({ treeDatas: [...treeDatas] });
@@ -211,8 +211,8 @@ class RemoteTree extends React.Component<RemoteTreeProp, RemoteTreeState> {
     event.stopPropagation();
     if (this.props.onClickDelete) {
       this.props.onClickDelete(this.keyMapSourceData[node.key], () => {
-        let parentKey = this.keyMapParentKey[node.key];
-        let parentNode = this.keyMapNode[parentKey];
+        const parentKey = this.keyMapParentKey[node.key];
+        const parentNode = this.keyMapNode[parentKey];
         let rootArray = this.state.treeDatas;
         if (parentNode) {
           rootArray = parentNode.children;
@@ -229,7 +229,7 @@ class RemoteTree extends React.Component<RemoteTreeProp, RemoteTreeState> {
             delete parentNode.children;
           }
         }
-        let newTreeDatas = this.state.treeDatas;
+        const newTreeDatas = this.state.treeDatas;
         this.setState({ treeDatas: [...newTreeDatas] });
       });
     }
@@ -245,7 +245,7 @@ class RemoteTree extends React.Component<RemoteTreeProp, RemoteTreeState> {
     if (this.props.onClickEdit) {
       this.props.onClickEdit(this.keyMapSourceData[node.key], (newNode: any) => {
         this.keyMapSourceData[node.key] = newNode;
-        let newTreeDatas = this.state.treeDatas;
+        const newTreeDatas = this.state.treeDatas;
         this.setState({ treeDatas: [...newTreeDatas] });
       });
     }
@@ -257,7 +257,7 @@ class RemoteTree extends React.Component<RemoteTreeProp, RemoteTreeState> {
    * @returns 树节点对象，包含 title、key、isLeaf 等属性
    */
   createTreeDataBySourceData(sourceData: any) {
-    let treeData = {
+    const treeData = {
       title: sourceData[this.props.labelKey!],
       key: uuidv1(),
       isLeaf: sourceData.isLeaf
@@ -275,7 +275,8 @@ class RemoteTree extends React.Component<RemoteTreeProp, RemoteTreeState> {
     this.keyMapNode = {};
     this.keyMapParentKey = {};
     this.keyMapSourceData = {};
-    let { api, needQueryParam, queryParam } = this.props;
+    const { api, needQueryParam } = this.props;
+    let { queryParam } = this.props;
     if (!(!api || (needQueryParam && !queryParam))) {
       this.setState({
         loading: true
@@ -285,13 +286,13 @@ class RemoteTree extends React.Component<RemoteTreeProp, RemoteTreeState> {
       }
       let newParam = mergeObj({}, queryParam);
       newParam = mergeObj(newParam, this.props.defaultParam!);
-      let response = await request!.getRequest(api, newParam);
+      const response = await request!.getRequest(api, newParam);
       if (responseIsSuccess!(response)) {
-        let treeDatas: Array<any> = [];
+        const treeDatas: Array<any> = [];
         if (response.data && response.data.data) {
           for (let i = 0; i < response.data.data.length; i++) {
-            let element = response.data.data[i];
-            let option = this.createTreeDataBySourceData(element);
+            const element = response.data.data[i];
+            const option = this.createTreeDataBySourceData(element);
             treeDatas.push(option);
             this.keyMapNode[option.key] = option;
           }
@@ -317,13 +318,13 @@ class RemoteTree extends React.Component<RemoteTreeProp, RemoteTreeState> {
     }
     if (request && responseIsSuccess) {
       try {
-        let response = await request.getRequest(this.props.api, sonQueryParam);
+        const response = await request.getRequest(this.props.api, sonQueryParam);
         if (responseIsSuccess(response)) {
           //子项目
-          let sonOptions: Array<any> = [];
+          const sonOptions: Array<any> = [];
           if (response.data && response.data.data) {
             response.data.data.forEach((element: any) => {
-              let option = this.createTreeDataBySourceData(element);
+              const option = this.createTreeDataBySourceData(element);
               sonOptions.push(option);
               this.keyMapNode[option.key] = option;
               node.isLeaf = false;
@@ -337,9 +338,9 @@ class RemoteTree extends React.Component<RemoteTreeProp, RemoteTreeState> {
             delete node.children;
           }
           node.loading = false;
-          let nodeMeta = this.keyMapNode[node.key];
+          const nodeMeta = this.keyMapNode[node.key];
           nodeMeta.children = node.children;
-          let newTreeDatas = this.state.treeDatas;
+          const newTreeDatas = this.state.treeDatas;
           this.setState({ treeDatas: [...newTreeDatas] });
         }
       } catch (e) {
@@ -391,7 +392,7 @@ class RemoteTree extends React.Component<RemoteTreeProp, RemoteTreeState> {
   }
 
   render() {
-    let showTopMenu = this.props.showSearch;
+    const showTopMenu = this.props.showSearch;
     return (
       <>
         {showTopMenu ? (

@@ -101,7 +101,7 @@ const PRESET_ACTIONS: Record<ActionType, { icon: React.ReactNode; tooltip: strin
 /**
  * 表格操作列组件
  * 统一管理表格操作按钮，支持预设类型和自定义配置
- * 
+ *
  * @example
  * ```tsx
  * // 方式 1：使用 buttonCode（推荐，基于配置的权限验证）
@@ -124,7 +124,7 @@ const PRESET_ACTIONS: Record<ActionType, { icon: React.ReactNode; tooltip: strin
  *     }
  *   ]}
  * />
- * 
+ *
  * // 方式 2：使用 permission（传统方式，手动指定权限）
  * <TableActions
  *   record={record}
@@ -142,7 +142,7 @@ const PRESET_ACTIONS: Record<ActionType, { icon: React.ReactNode; tooltip: strin
  *     }
  *   ]}
  * />
- * 
+ *
  * // 方式 3：混合使用
  * <TableActions
  *   record={record}
@@ -180,8 +180,11 @@ const TableActions: React.FC<TableActionsProps> = ({ actions, record, className 
           return null;
         }
 
-        // 解构 action，移除 type 属性
-        const { type, icon, tooltip, className: actionClassName, ...restProps } = action;
+        // 解构 action，移除组件内部已消费的属性
+        const { type, icon: _icon, tooltip: _tooltip, className: _actionClassName, ...restProps } = action;
+        void _icon;
+        void _tooltip;
+        void _actionClassName;
 
         return (
           <ActionButton

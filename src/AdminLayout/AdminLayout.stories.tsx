@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { BrowserRouter } from 'react-router';
 import AdminLayout from './index'; // 从 index 导入
 import {
@@ -91,7 +91,7 @@ type Story = StoryObj<typeof AdminLayout>;
 
 /**
  * 基本示例
- * 
+ *
  * 展示 AdminLayout 的基本用法
  */
 export const Basic: Story = {
