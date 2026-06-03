@@ -130,7 +130,6 @@ class IconSelect extends React.Component<IconSelectProps, IconSelectState> {
     this.optionMap = new Map();
     const ret: Option[] = [];
     for (const key in AntdIcon) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       if ((AntdIcon as any)[key].render instanceof Function) {
         const option: Option = {
           value: 'antd' + '$' + key,
@@ -142,7 +141,6 @@ class IconSelect extends React.Component<IconSelectProps, IconSelectState> {
       }
     }
     for (const key in FsIcon) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       if (this.isIconDefinition((FsIcon as any)[key])) {
         const option: Option = {
           value: 'fs' + '$' + key,
@@ -154,7 +152,6 @@ class IconSelect extends React.Component<IconSelectProps, IconSelectState> {
       }
     }
     for (const key in FrIcon) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       if (this.isIconDefinition((FrIcon as any)[key])) {
         const option: Option = {
           value: 'fr' + '$' + key,
