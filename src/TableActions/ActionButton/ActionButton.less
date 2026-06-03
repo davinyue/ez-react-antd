@@ -2,16 +2,24 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  margin: 0 6px;
+  width: 30px;
+  height: 30px;
+  margin: 0 4px;
+  background: #fff;
+  border: 1px solid #e9eef5;
+  border-radius: 6px;
   font-size: 16px;
+  line-height: 30px;
   transition: all 0.3s ease;
 
   &:hover:not(.action-button-disabled) {
-    transform: scale(1.15);
+    background: #f5f9ff;
+    border-color: #cddcf0;
   }
 
   &:active:not(.action-button-disabled) {
-    transform: scale(0.95);
+    background: #eef5ff;
+    border-color: #b9cbe6;
   }
 
   &-disabled {
