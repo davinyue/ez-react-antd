@@ -47,6 +47,8 @@ export interface RemoteTableProp {
   expandable?: TableProps<any>['expandable']
   /** 是否显示表头，默认 true */
   showHeader?: boolean
+  /** 表格文案配置 */
+  locale?: TableProps<any>['locale']
 }
 
 /**
@@ -291,6 +293,17 @@ class RemoteTable extends React.Component<RemoteTableProp, RemoteTableState> {
     );
   }
 
+  renderMobileEmpty() {
+    const { locale } = this.props;
+    const emptyText = locale?.emptyText || '暂无数据';
+    const emptyTextContent = typeof emptyText === 'function' ? emptyText() : emptyText;
+    return (
+      <div className="remote-table-mobile-empty">
+        {emptyTextContent}
+      </div>
+    );
+  }
+
   render() {
     const {
       pageData = {},
@@ -301,7 +314,8 @@ class RemoteTable extends React.Component<RemoteTableProp, RemoteTableState> {
       rowSelection,
       notShowLoading,
       loading,
-      showHeader
+      showHeader,
+      locale
     } = this.props;
 
     const { isMobile } = this.state;
@@ -345,9 +359,11 @@ class RemoteTable extends React.Component<RemoteTableProp, RemoteTableState> {
         {/* 移动端:卡片列表 */}
         {isMobile ? (
           <div className="remote-table-mobile">
-            {(pageData.data || []).map((record: any, index: number) =>
-              this.renderMobileCard(record, index)
-            )}
+            {(pageData.data || []).length > 0 ?
+              (pageData.data || []).map((record: any, index: number) =>
+                this.renderMobileCard(record, index)
+              ) :
+              this.renderMobileEmpty()}
             {/* 移动端分页 */}
             {pagination.total > 0 && (
               <div className="mobile-pagination">
@@ -382,6 +398,7 @@ class RemoteTable extends React.Component<RemoteTableProp, RemoteTableState> {
             loading={!notShowLoading && loading}
             scroll={this.getTableScroll()}
             showHeader={showHeader}
+            locale={locale}
             rowKey={this.getRowKey}
             pagination={tablePaginationConfig}
           />

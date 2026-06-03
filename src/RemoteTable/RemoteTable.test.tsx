@@ -27,7 +27,11 @@ vi.mock('../Grid', () => ({
   default: () => null,
 }));
 
-function renderRemoteTable(columns: TableProps<any>['columns'], children?: React.ReactNode) {
+function renderRemoteTable(
+  columns: TableProps<any>['columns'],
+  children?: React.ReactNode,
+  props?: Partial<React.ComponentProps<typeof RemoteTable>>
+) {
   const store = createStore((state = {
     demo: {
       loading: false,
@@ -42,7 +46,7 @@ function renderRemoteTable(columns: TableProps<any>['columns'], children?: React
 
   render(
     <Provider store={store}>
-      <RemoteTable modelName="demo" columns={columns || []}>
+      <RemoteTable modelName="demo" columns={columns || []} {...props}>
         {children}
       </RemoteTable>
     </Provider>
@@ -117,6 +121,22 @@ describe('RemoteTable', () => {
       expect(tableProps?.pagination).not.toHaveProperty('position');
       expect(dividerProps?.orientation).toBe('vertical');
       expect(dividerProps).not.toHaveProperty('type');
+    });
+  });
+
+  it('passes locale options to Ant Design table', async () => {
+    renderRemoteTable([
+      { title: '名称', dataIndex: 'name', width: 120 },
+    ], undefined, {
+      locale: {
+        emptyText: '暂无机构用户',
+      },
+    });
+
+    await waitFor(() => {
+      expect(tableProps?.locale).toEqual({
+        emptyText: '暂无机构用户',
+      });
     });
   });
 });
