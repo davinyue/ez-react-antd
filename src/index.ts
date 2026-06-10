@@ -57,7 +57,7 @@ export type { RemoteTableSelectProp } from './RemoteTableSelect';
 export type { RemoteModalSelectProp } from './RemoteModalSelect';
 export type { IconSelectProps } from './IconSelect';
 export type { IconShowProps } from './IconSelect/IconShow';
-export type { AdminLayoutProp, MenuDef } from './AdminLayout';
+export type { AdminLayoutProp, MenuDef, HeaderUserMenuItem } from './AdminLayout';
 export type { EzAntdConfig, RoutePermissionMap, FeaturePointPermissionMap } from './ConfigProvider';
 export type { ActionConfig, ActionType, TableActionsProps } from './TableActions';
 export type { AuthProps } from './Auth';

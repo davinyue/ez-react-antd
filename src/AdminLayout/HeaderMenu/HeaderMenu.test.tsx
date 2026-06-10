@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render } from '@testing-library/react';
-import type { AvatarProps, DropdownProps } from 'antd';
+import type { AvatarProps, DropdownProps, MenuProps } from 'antd';
 import HeaderMenu from './HeaderMenu';
 
 let dropdownProps: DropdownProps | undefined;
@@ -58,5 +58,45 @@ describe('HeaderMenu', () => {
       'data-src',
       '/api/file/download?id=avatar-file-id'
     );
+  });
+
+  it('appends logout item after custom user menu items', () => {
+    render(
+      <HeaderMenu
+        userInfo={{ userName: 'admin' }}
+        userMenuItems={[
+          { key: 'profile', label: '个人资料' },
+          { key: 'security', label: '安全中心' },
+        ]}
+      />
+    );
+
+    expect(dropdownProps?.menu?.items).toEqual([
+      { key: 'profile', label: '个人资料' },
+      { key: 'security', label: '安全中心' },
+      { type: 'divider' },
+      expect.objectContaining({ key: 'logout', label: '退出' }),
+    ]);
+  });
+
+  it('routes custom menu clicks and logout clicks to their own handlers', async () => {
+    const onUserMenuClick = vi.fn();
+    const onLogout = vi.fn();
+    render(
+      <HeaderMenu
+        userInfo={{ userName: 'admin' }}
+        userMenuItems={[
+          { key: 'changePassword', label: '修改密码' },
+        ]}
+        onUserMenuClick={onUserMenuClick}
+        onLogout={onLogout}
+      />
+    );
+
+    await dropdownProps?.menu?.onClick?.({ key: 'changePassword' } as Parameters<NonNullable<MenuProps['onClick']>>[0]);
+    await dropdownProps?.menu?.onClick?.({ key: 'logout' } as Parameters<NonNullable<MenuProps['onClick']>>[0]);
+
+    expect(onUserMenuClick).toHaveBeenCalledWith(expect.objectContaining({ key: 'changePassword' }));
+    expect(onLogout).toHaveBeenCalledTimes(1);
   });
 });

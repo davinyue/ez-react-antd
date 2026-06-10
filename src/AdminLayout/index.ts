@@ -5,3 +5,4 @@ import './index.less';
 export default AdminLayout;
 export type { MenuDef };
 export type { AdminLayoutProp } from './AdminLayout';
+export type { HeaderUserMenuItem } from './HeaderMenu';

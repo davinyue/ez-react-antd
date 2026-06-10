@@ -1,8 +1,11 @@
 import React from 'react';
 import { Dropdown, Avatar } from 'antd';
+import type { MenuProps } from 'antd';
 import { LogoutOutlined } from '@ant-design/icons';
 import { useResponsive } from '../../Grid';
 import defaultUserAvatar from '../../assets/default_user_avatar.svg';
+
+export type HeaderUserMenuItem = NonNullable<MenuProps['items']>[number];
 
 export interface HeaderMenuProp {
   userInfo?: { userName?: string, avatar?: string };
@@ -10,6 +13,10 @@ export interface HeaderMenuProp {
   /** 文件下载前缀 URL, 用于拼接头像 ID */
   fileDownloadUrl?: string;
   onModifyPassword?: () => void;
+  /** 自定义用户下拉菜单项, 会展示在默认退出菜单之前 */
+  userMenuItems?: MenuProps['items'];
+  /** 自定义用户下拉菜单点击事件 */
+  onUserMenuClick?: MenuProps['onClick'];
 }
 
 /**
@@ -18,15 +25,19 @@ export interface HeaderMenuProp {
 const HeaderMenu: React.FC<HeaderMenuProp> = ({
   userInfo = {},
   onLogout,
-  fileDownloadUrl
+  fileDownloadUrl,
+  userMenuItems,
+  onUserMenuClick
 }) => {
   const { isMobile } = useResponsive();
 
   // 处理菜单点击
-  const handleMenuClick = async (menuItem: { key: string }) => {
+  const handleMenuClick: MenuProps['onClick'] = (menuItem) => {
     if (menuItem.key === 'logout') {
       onLogout?.();
+      return;
     }
+    onUserMenuClick?.(menuItem);
   };
 
   // 获取用户头像
@@ -49,13 +60,20 @@ const HeaderMenu: React.FC<HeaderMenuProp> = ({
   };
 
   // 下拉菜单项
-  const menuItems = [
-    {
-      label: '退出',
-      key: 'logout',
-      icon: <LogoutOutlined />,
-    },
-  ];
+  const logoutMenuItem: HeaderUserMenuItem = {
+    label: '退出',
+    key: 'logout',
+    icon: <LogoutOutlined />,
+  };
+  const menuItems: MenuProps['items'] = userMenuItems && userMenuItems.length > 0
+    ? [
+      ...userMenuItems,
+      { type: 'divider' },
+      logoutMenuItem,
+    ]
+    : [
+      logoutMenuItem,
+    ];
 
   return (
     <div className='admin_layout_header_box'>
