@@ -1,4 +1,12 @@
 .admin_layout_box {
+  height: 100vh;
+  overflow: hidden;
+
+  > .ant-layout {
+    height: 100%;
+    min-height: 0;
+  }
+
   .admin_layout_logo_txt {
     margin-left: 10px;
     vertical-align: text-bottom;
@@ -19,6 +27,17 @@
   .admin_layout_sider_normal {
     box-shadow: 0 0 28px 0 rgba(24, 144, 255, .1);
     z-index: 10;
+  }
+
+  .admin_layout_sider_normal,
+  .admin_layout_sider_open_broken,
+  .admin_layout_sider_collapsed_broken {
+    .ant-layout-sider-children {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      min-height: 0;
+    }
   }
 
   .admin_layout_sider_open {
@@ -68,10 +87,10 @@
   }
 
   .admin_layout_menu_container {
-    height: calc(100vh - 112px);
     overflow-x: hidden;
-    -ms-flex: 1 1;
-    flex: 1 1;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    min-height: 0;
     padding: 24px 0;
 
     .admin_layout_scrollbar_container {
@@ -114,21 +133,34 @@
   .admin_layout_container {
     padding-top: 64px;
     height: 100vh;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
     -ms-flex: 1 1;
     flex: 1 1;
-    overflow-y: scroll;
+    min-width: 0;
+    min-height: 0;
+    overflow-y: hidden;
     overflow-x: hidden;
     background-color: #f8fafc;
 
     .ant-layout-content {
-      height: calc(100vh - 69px) !important;
+      display: flex;
+      flex: 1 1 auto;
+      flex-direction: column;
+      min-height: 0;
+      overflow: hidden;
       position: relative;
 
       .admin_layout_content_children {
         position: relative;
+        flex: 1 1 auto;
         height: 100%;
+        min-height: 0;
         width: 100%;
+        box-sizing: border-box;
         padding: 10px 15px 0 15px;
+        overflow: auto;
       }
     }
 
@@ -178,21 +210,21 @@
   }
 
   /** 滚动条整体样式*/
-  .admin_layout_container::-webkit-scrollbar {
+  .admin_layout_content_children::-webkit-scrollbar {
     width: 10px;
     /*高宽分别对应横竖滚动条的尺寸*/
     height: 5px;
   }
 
   /** 滚动条里面滑块*/
-  .admin_layout_container::-webkit-scrollbar-thumb {
+  .admin_layout_content_children::-webkit-scrollbar-thumb {
     border-radius: 10px;
     -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
     background: #c5c5c5;
   }
 
   /** 滚动条里面轨道*/
-  .admin_layout_container::-webkit-scrollbar-track {
+  .admin_layout_content_children::-webkit-scrollbar-track {
     -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
     border-radius: 10px;
     background: #FFFFFF;
