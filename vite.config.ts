@@ -10,6 +10,7 @@ const externalPackages = [
   'react-dom',
   'redux',
   'antd',
+  '@ant-design/icons',
   'react-redux',
   'react-router',
   '@fortawesome/fontawesome-svg-core',
