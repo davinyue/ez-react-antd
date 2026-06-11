@@ -176,6 +176,9 @@ const SiderMenu: React.FC<SiderMenuProp> = ({
 
     return constructMenu(menus);
   }, [menus, checkMenuPermission]);
+  const menuClassName = theme === 'dark'
+    ? 'admin_sider_menu admin_dark_sider_menu'
+    : 'admin_sider_menu admin_light_sider_menu';
 
   // 点击菜单项
   const handleMenuClick = (item: { key: string }) => {
@@ -196,7 +199,7 @@ const SiderMenu: React.FC<SiderMenuProp> = ({
   return (
     <Menu
       theme={theme}
-      className={theme === 'dark' ? 'admin_dark_sider_menu' : ''}
+      className={menuClassName}
       mode='inline'
       onClick={handleMenuClick}
       onOpenChange={handleOpenChange}

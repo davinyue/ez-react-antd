@@ -1,3 +1,11 @@
+.admin_sider_menu {
+
+  /** 选中左侧装饰 */
+  .ant-menu-item-selected {
+    box-shadow: inset 3px 0 0 rgba(148, 163, 184, 0.78);
+  }
+}
+
 .admin_dark_sider_menu {
 
   /** 选中 */
@@ -8,5 +16,54 @@
   /** 鼠标经过 */
   .ant-menu-item-active {
     background-color: #162633 !important;
+  }
+}
+
+.admin_light_sider_menu {
+
+  /** 选中 */
+  .ant-menu-item-selected {
+    background-color: #e6f4ff !important;
+  }
+}
+
+.admin_layout_mobile {
+  .admin_sider_menu {
+    padding: 0 8px;
+
+    &.ant-menu-inline {
+      border-inline-end: 0;
+    }
+
+    .ant-menu-item,
+    .ant-menu-submenu-title {
+      width: 100%;
+      height: 44px;
+      margin: 4px 0;
+      border-radius: 12px;
+      line-height: 44px;
+    }
+
+    .ant-menu-item-selected {
+      box-shadow: inset 3px 0 0 rgba(148, 163, 184, 0.78);
+    }
+  }
+
+  .admin_dark_sider_menu {
+    .ant-menu-item-selected {
+      background-color: #223583 !important;
+    }
+
+    .ant-menu-item-active,
+    .ant-menu-submenu-title:hover {
+      background-color: rgba(255, 255, 255, 0.08) !important;
+    }
+  }
+
+  .admin_light_sider_menu {
+    .ant-menu-item-active,
+    .ant-menu-submenu-title:hover {
+      background-color: rgba(22, 119, 255, 0.08) !important;
+    }
   }
 }

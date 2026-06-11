@@ -67,10 +67,10 @@ const AdminLayout: React.FC<AdminLayoutProp> = ({
   onUserMenuClick
 }) => {
   // 响应式状态
-  const { isMobile } = useResponsive();
+  const { isMobile, isTablet } = useResponsive();
 
   // 组件状态
-  const [collapsed, setCollapsed] = useState(isMobile);
+  const [collapsed, setCollapsed] = useState(isMobile || isTablet);
   const [theme, setTheme] = useState<ThemeType>(THEME.DARK);
 
   // iframe 中不显示布局
@@ -159,7 +159,7 @@ const AdminLayout: React.FC<AdminLayoutProp> = ({
           collapsed={collapsed}
           className={getSiderClass()}
           theme={theme}
-          breakpoint='md'
+          breakpoint='lg'
           collapsedWidth={collapsedWidth}
           onBreakpoint={(broken) => {
             if (!broken) {
@@ -239,7 +239,6 @@ const AdminLayout: React.FC<AdminLayoutProp> = ({
                   left: 0,
                   right: 0,
                   bottom: 0,
-                  backgroundColor: 'rgba(0, 0, 0, 0.45)',
                   zIndex: 9,
                 }}
               />
