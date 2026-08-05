@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Modal, message } from 'antd';
+import { Button, ConfigProvider as AntdConfigProvider, Modal, message } from 'antd';
 import RemoteTable, { RemoteTableProp } from '../RemoteTable';
 import compare from '../utils/compare';
 import { v1 as uuidV1 } from '../utils/uuid';
@@ -24,7 +24,7 @@ export interface RemoteTableSelectProp extends RemoteTableProp {
     labelRender?: (item: any) => string,
     /** 是否显示排序按钮，默认 false */
     showSort?: boolean,
-    /** 是否禁用，默认 false */
+    /** 是否禁用，未设置时继承 Ant Design 表单禁用状态 */
     disabled?: boolean,
     /**
      * 选中值改变事件
@@ -61,7 +61,7 @@ export interface RemoteTableSelectState {
  *   onChange={(selected) => console.log(selected)}
  * />
  */
-class RemoteTableSelect extends React.Component<RemoteTableSelectProp, RemoteTableSelectState> {
+class RemoteTableSelectInner extends React.Component<RemoteTableSelectProp, RemoteTableSelectState> {
     bgc: Array<string>;
     optionColor: { [key: string]: string };
     keyMapRow: { [key: string]: any };
@@ -76,8 +76,7 @@ class RemoteTableSelect extends React.Component<RemoteTableSelectProp, RemoteTab
         ////////
         limit: Number.MAX_VALUE,
         labelKey: 'name',
-        showSort: false,
-        disabled: false
+        showSort: false
     };
 
     constructor(props: RemoteTableSelectProp) {
@@ -112,6 +111,9 @@ class RemoteTableSelect extends React.Component<RemoteTableSelectProp, RemoteTab
     }
 
     _handleChange(selected: boolean, changeRows: any[]) {
+        if (this.props.disabled) {
+            return;
+        }
         const selectedRowTempKeys = JSON.parse(JSON.stringify(this.state.selectedRowTempKeys));
         for (let i = 0; i < changeRows.length; i++) {
             const changeRow = changeRows[i];
@@ -171,6 +173,9 @@ class RemoteTableSelect extends React.Component<RemoteTableSelectProp, RemoteTab
     }
 
     handleSelectChangeOk() {
+        if (this.props.disabled) {
+            return;
+        }
         if (this.state.selectedRowTempKeys.length > this.props.limit!) {
             message.error(`最多只能选择${this.props.limit}条`);
             return;
@@ -185,6 +190,9 @@ class RemoteTableSelect extends React.Component<RemoteTableSelectProp, RemoteTab
     }
 
     handleUp(e: any) {
+        if (this.props.disabled) {
+            return;
+        }
         const id = e.target.getAttribute('id');
         const selectedRowKeys = this.state.selectedRowKeys;
         for (let i = 0; i < selectedRowKeys.length; i++) {
@@ -203,6 +211,9 @@ class RemoteTableSelect extends React.Component<RemoteTableSelectProp, RemoteTab
     }
 
     handleDown(e: any) {
+        if (this.props.disabled) {
+            return;
+        }
         const id = e.target.getAttribute('id');
         const selectedRowKeys = this.state.selectedRowKeys;
         for (let i = 0; i < selectedRowKeys.length; i++) {
@@ -221,6 +232,9 @@ class RemoteTableSelect extends React.Component<RemoteTableSelectProp, RemoteTab
     }
 
     handleDelete(e: any) {
+        if (this.props.disabled) {
+            return;
+        }
         const id = e.target.getAttribute('id');
         const selectedRowKeys = this.state.selectedRowKeys;
         for (let i = 0; i < selectedRowKeys.length; i++) {
@@ -339,7 +353,7 @@ class RemoteTableSelect extends React.Component<RemoteTableSelectProp, RemoteTab
                 </div>
                 {!disabled && selectedRowKeys.length < this.props.limit! && (
                     <div className='davinyu_RemoteTableSelect_add_menu'>
-                        <Button type='primary' onClick={() => this.setState({ showTable: true })}>添加</Button>
+                        <Button disabled={disabled} type='primary' onClick={() => this.setState({ showTable: true })}>添加</Button>
                     </div>
                 )}
                 <Modal
@@ -351,6 +365,7 @@ class RemoteTableSelect extends React.Component<RemoteTableSelectProp, RemoteTab
                     style={{ height: '100%' }}
                     cancelText='取消'
                     okText='确定'
+                    okButtonProps={{ disabled }}
                     onOk={this.handleSelectChangeOk}
                     onCancel={() => this.setState({ showTable: false, selectedRowTempKeys: selectedRowKeys })}
                 >
@@ -365,6 +380,7 @@ class RemoteTableSelect extends React.Component<RemoteTableSelectProp, RemoteTab
                             fixed: true,
                             type: limit === 1 ? 'radio' : 'checkbox',
                             selectedRowKeys: selectedRowTempKeys,
+                            getCheckboxProps: () => ({ disabled }),
                             onSelect: this.handleSelectChange,
                             onSelectAll: this.handleSelectAllChange
                         }} />
@@ -372,6 +388,22 @@ class RemoteTableSelect extends React.Component<RemoteTableSelectProp, RemoteTab
             </div>
         );
     }
+}
+
+/**
+ * 远程表格选择组件入口，合并组件属性与 Ant Design 表单禁用状态
+ * @param props 远程表格选择组件属性
+ * @returns 远程表格选择组件
+ */
+function RemoteTableSelect(props: RemoteTableSelectProp) {
+    const { componentDisabled } = AntdConfigProvider.useConfig();
+    const disabled = props.disabled ?? componentDisabled;
+
+    return (
+        <AntdConfigProvider componentDisabled={disabled}>
+            <RemoteTableSelectInner {...props} disabled={disabled} />
+        </AntdConfigProvider>
+    );
 }
 
 export default RemoteTableSelect;

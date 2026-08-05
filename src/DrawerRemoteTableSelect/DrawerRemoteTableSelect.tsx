@@ -1,5 +1,5 @@
 import React from 'react';
-import { message } from 'antd';
+import { ConfigProvider as AntdConfigProvider, message } from 'antd';
 import RemoteTable, { RemoteTableProp } from '../RemoteTable';
 import compare from '../utils/compare';
 import SearchBar from '../SearchBar';
@@ -21,6 +21,8 @@ export interface RemoteTableSelectProp extends RemoteTableProp {
   value?: any,
   /** 是否打开抽屉 */
   open?: boolean,
+  /** 是否禁用，未设置时继承 Ant Design 表单禁用状态 */
+  disabled?: boolean,
   /** 抽屉关闭时的回调函数 */
   onClose?: () => void;
   /** 抽屉宽度 */
@@ -51,7 +53,7 @@ export interface RemoteTableSelectState {
  * 抽屉式远程表格选择组件
  * 在抽屉中展示可选择的远程数据表格，支持单选/多选、搜索、分页等功能
  */
-class RemoteTableSelect extends React.Component<RemoteTableSelectProp, RemoteTableSelectState> {
+class RemoteTableSelectInner extends React.Component<RemoteTableSelectProp, RemoteTableSelectState> {
   /** 主键到行数据的映射表，用于快速查找完整行数据 */
   keyMapRow: { [key: string]: any };
 
@@ -84,6 +86,9 @@ class RemoteTableSelect extends React.Component<RemoteTableSelectProp, RemoteTab
    * @param changeRows 变化的行数据数组
    */
   _handleChange(selected: boolean, changeRows: any[]) {
+    if (this.props.disabled) {
+      return;
+    }
     const selectedRowTempKeys = JSON.parse(JSON.stringify(this.state.selectedRowTempKeys));
     for (let i = 0; i < changeRows.length; i++) {
       const changeRow = changeRows[i];
@@ -152,6 +157,9 @@ class RemoteTableSelect extends React.Component<RemoteTableSelectProp, RemoteTab
    * 验证选择数量并关闭抽屉
    */
   handleSelectChangeOk() {
+    if (this.props.disabled) {
+      return;
+    }
     if (this.state.selectedRowTempKeys.length > this.props.limit!) {
       message.error(`最多只能选择${this.props.limit}条`);
       return;
@@ -206,7 +214,7 @@ class RemoteTableSelect extends React.Component<RemoteTableSelectProp, RemoteTab
   render() {
     const selectedRowKeys = this.state.selectedRowKeys;
     const selectedRowTempKeys = this.state.selectedRowTempKeys;
-    const { limit } = this.props;
+    const { disabled, limit } = this.props;
     const tableProps = { ...this.props };
     delete tableProps.children;
     return (
@@ -226,6 +234,7 @@ class RemoteTableSelect extends React.Component<RemoteTableSelectProp, RemoteTab
           modelName={this.props.modelName}
           paramName={this.props.paramName}
           queryMethod={this.props.queryMethod}
+          disabled={disabled}
           onSearch={this.props.onSearch}
           onClickAdd={this.handleSelectChangeOk}>
           {this.props.children}
@@ -236,12 +245,29 @@ class RemoteTableSelect extends React.Component<RemoteTableSelectProp, RemoteTab
             fixed: true,
             type: limit === 1 ? 'radio' : 'checkbox',
             selectedRowKeys: selectedRowTempKeys,
+            getCheckboxProps: () => ({ disabled }),
             onSelect: this.handleSelectChange,
             onSelectAll: this.handleSelectAllChange
           }} />
       </Drawer>
     );
   }
+}
+
+/**
+ * 抽屉式远程表格选择组件入口，合并组件属性与 Ant Design 表单禁用状态
+ * @param props 抽屉式远程表格选择组件属性
+ * @returns 抽屉式远程表格选择组件
+ */
+function RemoteTableSelect(props: RemoteTableSelectProp) {
+  const { componentDisabled } = AntdConfigProvider.useConfig();
+  const disabled = props.disabled ?? componentDisabled;
+
+  return (
+    <AntdConfigProvider componentDisabled={disabled}>
+      <RemoteTableSelectInner {...props} disabled={disabled} />
+    </AntdConfigProvider>
+  );
 }
 
 export default RemoteTableSelect;

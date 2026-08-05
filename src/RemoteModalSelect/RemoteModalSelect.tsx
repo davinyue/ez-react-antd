@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Modal, message } from 'antd';
+import { Button, ConfigProvider as AntdConfigProvider, Modal, message } from 'antd';
 import RemoteTable, { RemoteTableProp } from '../RemoteTable';
 import compare from '../utils/compare';
 import './index.less';
@@ -8,6 +8,7 @@ export interface RemoteModalSelectProp {
     /** 行标识 */
     primaryKey?: string;
     limit?: number;
+    /** 是否禁用，未设置时继承 Ant Design 表单禁用状态 */
     disabled?: boolean;
     /** 选中变更时 */
     onSubmit?: (value: Array<any>) => void,
@@ -30,11 +31,10 @@ interface RemoteModalSelectState {
     showTable: boolean;
 }
 
-class RemoteModalSelect extends React.Component<RemoteModalSelectProp, RemoteModalSelectState> {
+class RemoteModalSelectInner extends React.Component<RemoteModalSelectProp, RemoteModalSelectState> {
     static defaultProps = {
         primaryKey: 'id',
         limit: Number.MAX_VALUE,
-        disabled: false,
         queryParam: {},
         paramName: 'queryParam',
         dataStore: 'pageData'
@@ -83,6 +83,9 @@ class RemoteModalSelect extends React.Component<RemoteModalSelectProp, RemoteMod
     }
 
     _handleChange(selected: boolean, changeRows: any[]) {
+        if (this.props.disabled) {
+            return;
+        }
         const selectedRowTempKeys = JSON.parse(JSON.stringify(this.state.selectedRowTempKeys));
         for (let i = 0; i < changeRows.length; i++) {
             const changeRow = changeRows[i];
@@ -145,6 +148,9 @@ class RemoteModalSelect extends React.Component<RemoteModalSelectProp, RemoteMod
     }
 
     handleSelectChangeOk() {
+        if (this.props.disabled) {
+            return;
+        }
         if (this.state.selectedRowTempKeys.length > this.props.limit!) {
             message.error(`最多只能选择${this.props.limit}条`);
             return;
@@ -159,6 +165,9 @@ class RemoteModalSelect extends React.Component<RemoteModalSelectProp, RemoteMod
     }
 
     handleDelete(e: any) {
+        if (this.props.disabled) {
+            return;
+        }
         const id = e.target.getAttribute('id');
         const selectedRowKeys = this.state.selectedRowKeys;
         for (let i = 0; i < selectedRowKeys.length; i++) {
@@ -230,6 +239,7 @@ class RemoteModalSelect extends React.Component<RemoteModalSelectProp, RemoteMod
                         open={this.state.showTable}
                         width='100%'
                         style={{ height: '100%' }}
+                        okButtonProps={{ disabled }}
                         onOk={this.handleSelectChangeOk}
                         onCancel={() => this.setState({ showTable: false, selectedRowTempKeys: selectedRowKeys })}
                     >
@@ -240,6 +250,7 @@ class RemoteModalSelect extends React.Component<RemoteModalSelectProp, RemoteMod
                                 fixed: true,
                                 type: limit === 1 ? 'radio' : 'checkbox',
                                 selectedRowKeys: selectedRowTempKeys,
+                                getCheckboxProps: () => ({ disabled }),
                                 onSelect: this.handleSelectChange,
                                 onSelectAll: this.handleSelectAllChange
                             }
@@ -247,11 +258,27 @@ class RemoteModalSelect extends React.Component<RemoteModalSelectProp, RemoteMod
                     </Modal>
                 </div>
                 {!disabled && selectedRowKeys.length < this.props.limit! && (
-                    <Button type='primary' onClick={() => this.setState({ showTable: true })}>添加</Button>
+                    <Button disabled={disabled} type='primary' onClick={() => this.setState({ showTable: true })}>添加</Button>
                 )}
             </>
         );
     }
+}
+
+/**
+ * 远程弹窗选择组件入口，合并组件属性与 Ant Design 表单禁用状态
+ * @param props 远程弹窗选择组件属性
+ * @returns 远程弹窗选择组件
+ */
+function RemoteModalSelect(props: RemoteModalSelectProp) {
+    const { componentDisabled } = AntdConfigProvider.useConfig();
+    const disabled = props.disabled ?? componentDisabled;
+
+    return (
+        <AntdConfigProvider componentDisabled={disabled}>
+            <RemoteModalSelectInner {...props} disabled={disabled} />
+        </AntdConfigProvider>
+    );
 }
 
 export default RemoteModalSelect;

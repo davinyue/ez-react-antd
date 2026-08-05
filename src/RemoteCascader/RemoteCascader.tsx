@@ -35,6 +35,8 @@ export interface RemoteCascaderProp {
   placeholder?: React.ReactNode;
   /** 是否允许清除 */
   allowClear?: boolean;
+  /** 是否禁用，未设置时继承 Ant Design 表单禁用状态 */
+  disabled?: boolean;
   /**
    * 选中值改变事件
    * @param value 选中的值数组
@@ -266,6 +268,7 @@ class RemoteCascader extends React.Component<RemoteCascaderProp, RemoteCascaderS
           onChange={this.props.onChange}
           value={value}
           changeOnSelect
+          disabled={this.props.disabled}
           allowClear={this.props.allowClear}
           loadData={this.loadSonData} />
       );

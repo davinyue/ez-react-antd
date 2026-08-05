@@ -1,5 +1,5 @@
 import React from 'react';
-import { Upload, type UploadFile } from 'antd';
+import { ConfigProvider as AntdConfigProvider, Upload, type UploadFile } from 'antd';
 import ImgCrop from 'antd-img-crop';
 import { v1 as uuidV1 } from '../utils/uuid';
 import { getTimestampStr } from '../utils/date';
@@ -34,7 +34,7 @@ export interface ImageUploadProp {
   onChange?: (value: string) => void;
   /** 启用图片上传到服务器，false 则使用 base64，默认 true */
   enabledUpload?: boolean;
-  /** 禁用组件，默认 false */
+  /** 是否禁用，未设置时继承 Ant Design 表单禁用状态 */
   disabled?: boolean;
   /** 是否需要裁剪，默认 true */
   needCrop?: boolean;
@@ -108,7 +108,6 @@ class ImageUpload extends React.Component<ImageUploadProp, ImageUploadState> {
     quality: 1,
     cropShape: 'rect',
     enabledUpload: true,
-    disabled: false,
     needCrop: true
   };
 
@@ -319,27 +318,31 @@ class ImageUpload extends React.Component<ImageUploadProp, ImageUploadState> {
 
     if (this.props.needCrop) {
       return (
-        <ImgCrop cropShape={this.props.cropShape}
-          showReset
-          rotationSlider={this.props.rotationSlider}
-          modalCancel='取消' modalOk='确定'
-          modalTitle='编辑图片' quality={this.props.quality}
-          showGrid={this.props.showGrid}
-          aspect={this.props.aspect}>
+        <AntdConfigProvider componentDisabled={this.props.disabled}>
+          <ImgCrop cropShape={this.props.cropShape}
+            showReset
+            rotationSlider={this.props.rotationSlider}
+            modalCancel='取消' modalOk='确定'
+            modalTitle='编辑图片' quality={this.props.quality}
+            showGrid={this.props.showGrid}
+            aspect={this.props.aspect}>
+            <Upload {...uploadProps}>
+              {this.state.fileList.length < this.props.limit! && (
+                <span>+ 选择图片</span>
+              )}
+            </Upload>
+          </ImgCrop>
+        </AntdConfigProvider>
+      );
+    } else {
+      return (
+        <AntdConfigProvider componentDisabled={this.props.disabled}>
           <Upload {...uploadProps}>
             {this.state.fileList.length < this.props.limit! && (
               <span>+ 选择图片</span>
             )}
           </Upload>
-        </ImgCrop>
-      );
-    } else {
-      return (
-        <Upload {...uploadProps}>
-          {this.state.fileList.length < this.props.limit! && (
-            <span>+ 选择图片</span>
-          )}
-        </Upload>
+        </AntdConfigProvider>
       );
     }
   }

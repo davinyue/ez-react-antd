@@ -21,6 +21,8 @@ interface Option {
 }
 
 export interface IconSelectProps {
+  /** 是否禁用，未设置时继承 Ant Design 表单禁用状态 */
+  disabled?: boolean;
   value?: string;
   onChange?: (value: string | undefined) => void;
 }
@@ -212,6 +214,7 @@ class IconSelect extends React.Component<IconSelectProps, IconSelectState> {
             ),
             SingleValue: CustomSingleValue
           }}
+          isDisabled={this.props.disabled}
           isClearable
           placeholder='请选择图标'
           styles={{

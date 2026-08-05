@@ -54,7 +54,7 @@ export interface RemoteSelectProp {
   onSearch?: (value: string) => void;
   /** 选择模式：多选或标签 */
   mode?: 'multiple' | 'tags' | undefined;
-  /** 是否禁用，默认 false */
+  /** 是否禁用，未设置时继承 Ant Design 表单禁用状态 */
   disabled?: boolean | undefined;
   /**
    * 自定义label构建函数
@@ -127,7 +127,6 @@ class RemoteSelect extends React.Component<RemoteSelectProp, RemoteSelectState> 
     optionFilterProp: 'label',
     selectedFirst: false,
     metaDataInValue: false,
-    disabled: false,
   };
 
   constructor(props: RemoteSelectProp) {
