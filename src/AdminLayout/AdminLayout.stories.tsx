@@ -105,6 +105,28 @@ export const Basic: Story = {
 };
 
 /**
+ * 带顶部扩展内容
+ */
+export const WithHeaderExtra: Story = {
+  args: {
+    menus: simpleMenus,
+    appName: '管理系统',
+    userInfo: mockUserInfo,
+    headerExtra: (
+      <div style={{
+        border: '1px solid #d9d9d9',
+        borderRadius: 8,
+        padding: '6px 12px',
+      }}>
+        工作范围 · 2026年度
+      </div>
+    ),
+    onLogout: () => alert('退出登录'),
+    children: <SimpleContent />,
+  },
+};
+
+/**
  * 自定义品牌
  */
 export const CustomBranding: Story = {

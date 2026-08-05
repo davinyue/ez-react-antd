@@ -31,6 +31,17 @@ describe('HeaderMenu', () => {
     expect(dropdownProps).not.toHaveProperty('overlayClassName');
   });
 
+  it('renders custom header content before user information', () => {
+    const { getByTestId } = render(
+      <HeaderMenu
+        userInfo={{ userName: 'admin' }}
+        headerExtra={<div data-testid="header-extra">工作范围</div>}
+      />
+    );
+
+    expect(getByTestId('header-extra')).toHaveTextContent('工作范围');
+  });
+
   it.each([
     ['https://cdn.example.com/avatar.png'],
     ['http://cdn.example.com/avatar.png'],

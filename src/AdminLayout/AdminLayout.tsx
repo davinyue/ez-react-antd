@@ -64,7 +64,8 @@ const AdminLayout: React.FC<AdminLayoutProp> = ({
   fileDownloadUrl,
   onModifyPassword,
   userMenuItems,
-  onUserMenuClick
+  onUserMenuClick,
+  headerExtra,
 }) => {
   // 响应式状态
   const { isMobile, isTablet } = useResponsive();
@@ -224,6 +225,7 @@ const AdminLayout: React.FC<AdminLayoutProp> = ({
               onModifyPassword={onModifyPassword}
               userMenuItems={userMenuItems}
               onUserMenuClick={onUserMenuClick}
+              headerExtra={headerExtra}
             />
           </Header>
 

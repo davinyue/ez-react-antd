@@ -17,6 +17,8 @@ export interface HeaderMenuProp {
   userMenuItems?: MenuProps['items'];
   /** 自定义用户下拉菜单点击事件 */
   onUserMenuClick?: MenuProps['onClick'];
+  /** 用户信息左侧的自定义顶部内容 */
+  headerExtra?: React.ReactNode;
 }
 
 /**
@@ -27,7 +29,8 @@ const HeaderMenu: React.FC<HeaderMenuProp> = ({
   onLogout,
   fileDownloadUrl,
   userMenuItems,
-  onUserMenuClick
+  onUserMenuClick,
+  headerExtra,
 }) => {
   const { isMobile } = useResponsive();
 
@@ -77,7 +80,11 @@ const HeaderMenu: React.FC<HeaderMenuProp> = ({
 
   return (
     <div className='admin_layout_header_box'>
-      <div className='admin_layout_header_menu'></div>
+      <div className='admin_layout_header_menu'>
+        {headerExtra && (
+          <div className='admin_layout_header_extra'>{headerExtra}</div>
+        )}
+      </div>
       <div className='admin_layout_header_userinfo'>
         {!isMobile && (
           <div className='admin_layout_header_userinfo_name' style={{ marginLeft: '10px' }}>

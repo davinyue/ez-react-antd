@@ -2,6 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render } from '@testing-library/react';
 import type { CSSProperties, ReactNode } from 'react';
 import type { ThemeType } from './constants';
+import type { HeaderMenuProp } from './HeaderMenu';
 import AdminLayout from './AdminLayout';
 
 interface SiderMockProps {
@@ -21,6 +22,7 @@ interface LayoutMockProps {
 }
 
 let siderProps: SiderMockProps | undefined;
+let headerMenuProps: HeaderMenuProp | undefined;
 
 const responsiveState = vi.hoisted(() => ({
   value: {
@@ -68,7 +70,10 @@ vi.mock('@ant-design/icons', () => ({
 }));
 
 vi.mock('./HeaderMenu', () => ({
-  default: () => <div />,
+  default: (props: HeaderMenuProp) => {
+    headerMenuProps = props;
+    return <div />;
+  },
 }));
 
 vi.mock('./SiderMenu', () => ({
@@ -82,6 +87,7 @@ vi.mock('../Grid', () => ({
 describe('AdminLayout', () => {
   beforeEach(() => {
     siderProps = undefined;
+    headerMenuProps = undefined;
     responsiveState.value = {
       isMobile: false,
       isTablet: false,
@@ -106,5 +112,13 @@ describe('AdminLayout', () => {
 
     expect(siderProps?.collapsed).toBe(false);
     expect(siderProps?.breakpoint).toBe('lg');
+  });
+
+  it('forwards custom header content to HeaderMenu', () => {
+    const headerExtra = <div>工作范围</div>;
+
+    render(<AdminLayout menus={[]} headerExtra={headerExtra} />);
+
+    expect(headerMenuProps?.headerExtra).toBe(headerExtra);
   });
 });
