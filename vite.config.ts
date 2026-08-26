@@ -57,7 +57,7 @@ export default defineConfig({
   ],
   build: {
     lib: {
-      entry: resolve(__dirname, 'src/index.ts'),
+      entry: resolve(import.meta.dirname, 'src/index.ts'),
       name: 'EzReactAntd',
       formats: ['es'], // 只构建 ES 模块，移除 UMD
       fileName: (format) => `ez-react-antd.${format}.js`,

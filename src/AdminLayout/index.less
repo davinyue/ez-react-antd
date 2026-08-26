@@ -2,7 +2,7 @@
   height: 100vh;
   overflow: hidden;
 
-  > .ant-layout {
+  >.ant-layout {
     height: 100%;
     min-height: 0;
   }
@@ -91,7 +91,7 @@
     -ms-flex: 1 1 auto;
     flex: 1 1 auto;
     min-height: 0;
-    padding: 24px 0;
+    padding: 6px 0;
 
     .admin_layout_scrollbar_container {
       position: relative;
@@ -232,6 +232,13 @@
     background: #FFFFFF;
   }
 
+  .ant-layout-sider-dark {
+    .admin_layout_logo {
+      background-color: #001d39;
+    }
+  }
+
+
   // 移动端样式优化
   &.admin_layout_mobile {
     .admin_layout_sider_open_broken {
@@ -250,7 +257,7 @@
     }
 
     .admin_layout_menu_container {
-      padding: 16px 10px;
+      padding: 6px 0px;
     }
 
     .admin_layout_switch_theme {
